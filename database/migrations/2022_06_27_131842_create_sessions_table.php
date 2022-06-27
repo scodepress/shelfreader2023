@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index('sessions_user_id_index');
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->text('payload');
-            $table->integer('last_activity')->index();
+            $table->integer('last_activity')->index('sessions_last_activity_index');
         });
     }
 
@@ -32,4 +32,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('sessions');
     }
-};
+}
