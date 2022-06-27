@@ -1,0 +1,695 @@
+<template>
+    <div>
+        <layout></layout>
+    </div>
+    <br />
+
+    <jet-confirmation-modal
+        :show="confirmingUserDeletion"
+        @close="confirmingUserDeletion = false"
+    >
+        <template #title>
+            <h3><b>Item Information</b></h3>
+        </template>
+
+        <template #content>
+            <div><b>Title:</b> {{ currentItem.title }}</div>
+            <div><b>Barcode:</b> {{ currentItem.barcode }}</div>
+            <div><b>Call Number:</b> {{ currentItem.callnumber }}</div>
+            <div>
+                <b>Effective Shelving Order:</b>
+                {{ currentItem.effective_shelving_order }}
+            </div>
+            <div>
+                <b>Shelving Location:</b> {{ shelf[0].effective_location_name }}
+            </div>
+
+            <div
+                class="mt-4 text-indigo-900"
+                v-if="
+                    currentShelf.length === currentItemNumber &&
+                    corrections === 0
+                "
+            >
+                <button @click="deleteItem(currentItem.barcode)" type="button">
+                    Remove this Item From the Shelf
+                </button>
+            </div>
+        </template>
+
+        <template #footer>
+            <jet-secondary-button
+                @click.native="confirmingUserDeletion = false"
+            >
+                Close
+            </jet-secondary-button>
+        </template>
+    </jet-confirmation-modal>
+
+    <jet-confirmation-modal
+        :show="$page.props.flash.message"
+        @close="$page.props.flash.message = false"
+    >
+        <template #title>
+            <h3></h3>
+        </template>
+
+        <template #content>
+            <div
+                class="text-2xl"
+                v-if="$page.props.flash.message === 'Choose Location'"
+            >
+                Is {{ initialLocationName }} the correct location? Choose
+                Location
+
+                <div class="mt-4">
+                    <button @click="confirmLocation" type="button">
+                        <span class="text-xl text-green-700"
+                            >Yes - Place the item on the shelf.</span
+                        >
+                    </button>
+                </div>
+                <div class="mt-4 text-indigo-900">
+                    <button @click="cancelLocation" type="button">
+                        <span class="text-xl text-red-800"
+                            >No - The location is incorrect.</span
+                        >
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="text-2xl"
+                v-if="$page.props.flash.message === 'Wrong Location'"
+            >
+                {{ candidate[0].effective_location_name }} is not the correct
+                location.
+                <div class="mt-4">
+                    <button @click="saveCandidateToShelf" type="button">
+                        <span class="text-xl text-green-700"
+                            >Ignore this - Place the item on the shelf.</span
+                        >
+                    </button>
+                </div>
+                <div class="mt-4 text-indigo-900">
+                    <button
+                        @click="$page.props.flash.message = false"
+                        type="button"
+                    >
+                        <span class="text-xl text-red-800"
+                            >No - The location is incorrect.</span
+                        >
+                    </button>
+                </div>
+            </div>
+		<div
+                class="text-2xl"
+                v-if="$page.props.flash.message === 'The server returned an empty response.'"
+            >
+			    <span class="text-red-800">The API returned an empty response.</span>
+                            </div>
+        </template>
+
+        <template #footer>
+            <jet-secondary-button
+                @click.native="$page.props.flash.message = false"
+            >
+                Cancel
+            </jet-secondary-button>
+        </template>
+    </jet-confirmation-modal>
+
+    <div style="width: 100%; height: 100%">
+        <header class="ml-2 mr-2 bg-gray-800 rounded-lg">
+            <div class="items-center px-4 py-3 md:flex md:justify-between">
+                <div class="text-xl text-white">{{ sortSchemeName }}</div>
+                <div class="text-xl text-white">
+                    Location: {{ initialLocationName }}
+                </div>
+                <div class="block px-2 text-xl text-white text-semibold">
+                    <a href="#" @click="emptyTables">Clear Shelf</a>
+                </div>
+                <div class="block px-2 text-xl text-white text-semibold">
+                    Corrections: {{ corrections }}
+                </div>
+                <div v-if="$page.props.user.privs === 1">
+		    <div v-if="apiServiceId === 3">
+                    <form @change="postBarcode">
+                        <div class="block px-2 text-semibold">
+                            <select
+                                class="block w-40 mt-1 form-input rounded-md shadow-sm"
+                                v-model="form.barcode"
+                            >
+			    	<option value="" selected>
+					Demo 	
+			    	</option>
+                                <option
+                                    v-for="(demo, index) in skidmoreCloud"
+                                    :key="index"
+                                    :value="demo.barcode"
+                                >
+                                    {{ demo.title }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+		    </div>
+		<div v-if="apiServiceId === 1">
+                    <form @change="postBarcode">
+                        <div class="block px-2 text-semibold">
+                            <select
+                                class="block w-40 mt-1 form-input rounded-md shadow-sm"
+                                v-model="form.barcode"
+                            >
+			    	<option value="" selected>
+					Demo 	
+			    	</option>
+                                <option
+                                    v-for="(demo, index) in grinnellItems"
+                                    :key="index"
+                                    :value="demo.barcode"
+                                >
+                                    {{ demo.title }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+		    </div>
+                </div>
+                <div class="block px-2 mb-3 text-semibold">
+                    <form @submit.prevent="postBarcode">
+                        <div>
+                            <input
+                                class="block w-40 pl-1 mt-1 border-2 form-input rounded-md shadow-sm"
+                                v-model="form.barcode"
+                                autofocus
+                                placeholder="Scan Barcode"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form @change="chooseSort">
+                        <div class="block px-2 text-semibold">
+                            <select
+                                class="block w-full mt-1 form-input rounded-md shadow-sm"
+                                v-model="form.sort"
+                            >
+			    	<option value="" selected disabled>
+					Sort Scheme
+			    	</option>
+                                <option
+                                    v-for="(sort, index) in libraryApiServices"
+                                    :key="index"
+                                    :value="sort.sort_scheme_id"
+                                >
+                                    Sort Method: {{ sort.sort_scheme_name }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <div
+            v-if="apiServiceId === 1 && status === 'Item not in place'"
+            key="av_2"
+            style="
+                font-size: 2em;
+                background: red;
+                color: white;
+                padding: 5px;
+                text-align: center;
+            "
+        >
+            {{ status }}
+        </div>
+        <div
+            v-if="apiServiceId === 3 && status !== 'Available'"
+            key="av_2"
+            style="
+                font-size: 2em;
+                background: red;
+                color: white;
+                padding: 5px;
+                text-align: center;
+            "
+        >
+            {{ status }}
+        </div>
+    </div>
+
+    <div
+        id="sbar"
+        style="
+            width: 100%;
+            height: 750px;
+            overflow: auto;
+            margin-left: 20px;
+            margin-right: 0px;
+            margin-top: 15px;
+        "
+        ref="shelfdig"
+    >
+        <div style="width: 100%">
+            <div
+                class="corntainer"
+                style="overflow-x: scroll; height: 675px; width: 100%"
+            >
+                <ul class="flex w-full pt-6 h-max">
+                    <li
+                        class="text-center"
+                        v-if="mpos > mover"
+                        v-for="(book, index) in shelf"
+                        :key="1"
+                    >
+                        <div>{{ index + 1 }}</div>
+                        <div
+                            v-if="mover === book.shelf_position"
+                            class="font-bold text-blue-800 turn"
+                        >
+                            {{ book.title.slice(0, 25) }}
+                        </div>
+                        <div v-else class="turn">
+                            {{ book.title.slice(0, 25) }}
+                        </div>
+                        <div
+                            v-if="index + 1 === mpos"
+                            class="h-2 bg-green-700 turn"
+                            style="background-image: none; width: 7px"
+                        ></div>
+                    </li>
+                    <li
+                        class="flex"
+                        v-if="mpos < mover"
+                        v-for="(book, index) in shelf"
+                        :key="1"
+                    >
+                        <div
+                            v-if="index + 1 === mpos"
+                            class="h-2 bg-green-800 turn"
+                            style="background-image: none; width: 7px"
+                        ></div>
+                        <div
+                            v-if="mover === book.shelf_position"
+                            class="font-bold text-blue-800 turn"
+                        >
+                            <a @click="bookInfo(index)" href="#">{{
+                                book.title.slice(0, 25)
+                            }}</a>
+                        </div>
+                        <div v-else class="flex turn">
+                            <a @click="bookInfo(index)" href="#">{{
+                                book.title.slice(0, 25)
+                            }}</a>
+                            <span class="text-green-800 border-1">{{
+                                index + 1
+                            }}</span>
+                        </div>
+                    </li>
+                    <li
+                        v-if="mpos === 0"
+                        v-for="(book, index) in shelf"
+                        :key="1"
+                    >
+                        <div style="width: 60px" class="text-center">
+                            {{ index + 1 }}
+                        </div>
+                        <div class="turn">
+                            <a @click="bookInfo(index)" href="#">{{
+                                book.title.slice(0, 25)
+                            }}</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="flex w-full h-max">
+                    <li v-for="(book, index) in shelf" :key="index">
+                        <div class="callnum">{{ book.callnumber }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import Layout from "@/Layouts/Layout";
+import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
+export default {
+    components: {
+        Layout,
+        JetConfirmationModal,
+    },
+    props: [
+        "shelf",
+        "offshelf",
+        "offset",
+        "lis",
+        "movers",
+        "mpos",
+        "mover",
+        "shelf_errors",
+        "shelf_count",
+        "sort",
+        "loaded_service",
+        "onshelf",
+        "skidmoreStack",
+        "status",
+        "services",
+        "corrections",
+        "api_services",
+        "sort_schemes",
+        "sortSchemeId",
+        "apiServiceId",
+        "sortSchemeName",
+        "libraryApiServices",
+    ],
+
+    data() {
+        return {
+            barcode: "",
+            confirmingUserDeletion: false,
+            confirmingCorrectLocation: false,
+            currentItem: "",
+            currentItemNumber: "",
+            form: this.$inertia.form({
+                barcode: "",
+                demo_barcode: "",
+                sort: "",
+            }),
+            isOpen: false,
+            items: [],
+        };
+    },
+
+    mounted() {
+        let book_count = this.shelf.length;
+
+        // if (book_count > 18) {
+        //     this.pageLoadScroll();
+        // }
+
+        //this.nowFocusInput();
+        this.scrollToEnd();
+    },
+
+    methods: {
+        postBarcode() {
+            this.$inertia.post("process-barcode", {
+                barcode: this.form.barcode,
+                service: this.loaded_service,
+                sortSchemeId: this.sortSchemeId,
+                ignoreLocation: 0,
+                onSuccess: (this.form.barcode = ""),
+            });
+        },
+        saveShelfCandidate() {
+            this.$inertia.post("process-barcode", {
+                barcode: this.candidate[0].barcode,
+                service: this.loaded_service,
+                ignoreLocation: 1,
+                sortSchemeId: this.sortSchemeId,
+            });
+        },
+        saveCandidateToShelf() {
+            this.$inertia.post("save.candidate.to.shelf", {
+                barcode: this.candidate[0].barcode,
+                service: this.loaded_service,
+                ignoreLocation: 1,
+                sortSchemeId: this.sortSchemeId,
+            });
+        },
+        confirmLocation() {
+            this.$inertia.post("process-barcode", {
+                barcode: this.initialLocationBarcode,
+                service: this.loaded_service,
+                ignoreLocation: 0,
+                sortSchemeId: this.sortSchemeId,
+            });
+        },
+        cancelLocation() {
+            this.$inertia.delete("delete.first.scan", {});
+        },
+        deleteItem(barcode) {
+            this.$inertia.post("delete.item", {
+                barcode: barcode,
+            });
+        },
+
+        chooseService(service) {
+            this.$inertia.post("set-service", {
+                service: service,
+            });
+        },
+
+        bookInfo(index) {
+            this.confirmingUserDeletion = true;
+            this.currentItem = this.shelf[index];
+            this.currentItemNumber = index + 1;
+        },
+
+        chooseSort() {
+            this.$inertia.post("choose-sort", {
+                sort: this.form.sort,
+            });
+        },
+        focusInput() {
+            this.nextTick(() => {
+                this.$refs.barcode.focus();
+            });
+        },
+
+        nowFocusInput() {
+            this.$refs.barcode.focus();
+        },
+
+        scrollRight() {
+            // Scroll right when shelf is full
+
+            let content = this.$refs.shelfDig;
+
+            content.scrollLeft += 59;
+        },
+
+        pageLoadScroll() {
+            // Scroll right when shelf is loaded
+
+            let shelfLength = this.currentShelfCount;
+
+            let content = this.$refs.shelfDig;
+
+            // Check for accuracy as shelf gets larger
+            let scroll_distance = 58 * shelfLength - 18 * 58;
+
+            content.scrollLeft += scroll_distance;
+        },
+
+        emptyTables() {
+            this.$inertia.post("empty_tables");
+        },
+
+        addItem: function () {
+            this.items.push("Item #" + this.items.length);
+            this.scrollToEnd();
+        },
+        scrollToEnd: function () {
+            var corntainer = document.querySelector(".corntainer");
+            corntainer.scrollLeft = corntainer.scrollWidth;
+        },
+        populate: function () {
+            for (var i = 0; i < 100; i++) {
+                this.items.push("Item #" + i);
+            }
+        },
+    },
+
+    computed: {
+        currentShelf() {
+            return this.shelf;
+        },
+
+        currentStatus() {
+            return this.status;
+        },
+
+        currentShelfCount() {
+            return this.shelf_count;
+        },
+
+        currentService() {
+            return this.loaded_service;
+        },
+    },
+
+    watch: {
+        currentShelfCount(to, from) {
+            let book_count = this.shelf.length;
+            this.scrollToEnd();
+        },
+
+        currentShelf(to, from) {
+            this.$refs.shelfDig;
+        },
+
+        currentService(to, from) {
+            this.nowFocusInput();
+        },
+        currentSkidmoreStack(to, from) {
+            this.skidmoreStack();
+        },
+    },
+};
+</script>
+
+<style>
+.up {
+    transform: /* Magic Numbers */ translate(25px, 51px)
+        /* 45 is really 360 - 45 */ rotate(45deg);
+}
+
+td.rotate {
+    /* Something you can count on */
+    height: 140px;
+    white-space: nowrap;
+}
+
+td.rotate > div {
+    transform: /* Magic Numbers */ translate(25px, 51px)
+        /* 45 is really 360 - 45 */ rotate(90deg);
+    width: 20px;
+}
+
+td.rotate > div > span {
+    text-align: center;
+}
+
+td.rotate45 {
+    /* Something you can count on */
+    height: 140px;
+    white-space: nowrap;
+}
+
+td.rotate45 > div {
+    transform: /* Magic Numbers */ translate(25px, 51px)
+        /* 45 is really 360 - 45 */ rotate(40deg);
+    width: 20px;
+}
+
+td.rotate45 > div > span {
+}
+
+.blink {
+    text-decoration: none;
+    color: maroon;
+}
+
+.shelf {
+    display: flex;
+    height: 520px;
+    width: 100%;
+}
+
+.shelf-book {
+    display: flex;
+
+    min-width: 0;
+}
+
+.shelf-book span {
+    display: flex-inline-block;
+    width: 70px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    min-height: 10em;
+    line-height: 2em;
+    height: 480px;
+    font-size: 2.1em;
+    border: 1px solid;
+    -ms-writing-mode: bt-rl;
+    writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    -moz-writing-mode: vertical-rl;
+    white-space: nowrap;
+    padding: 5px;
+}
+
+.call {
+    height: 45px;
+    width: 100%;
+}
+
+.call-book {
+    display: flex;
+
+    min-width: 0;
+}
+
+.call-book span {
+    transform: /* Magic Numbers */ translate(25px, 51px)
+        /* 45 is really 360 - 45 */ rotate(30deg);
+    display: flex-inline-block;
+    width: 70px;
+    font-size: 1.5em;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.turn {
+    display: inline-block;
+    width: 60px;
+    line-height: 55px;
+    -ms-writing-mode: bt-rl;
+    writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    -moz-writing-mode: vertical-rl;
+    white-space: nowrap;
+    background-image: url("/assets/images/jspine.jpeg");
+    text-align: left;
+    height: 395px;
+    font-size: 1.7em;
+    padding-top: 20px;
+}
+
+.callnum {
+    display: inline-block;
+    transform: /* Magic Numbers */ translate(25px, 51px)
+        /* 45 is really 360 - 45 */ rotate(30deg);
+    white-space: nowrap;
+    text-align: left;
+    font-size: 1.5em;
+    width: 60px;
+    line-height: 60px;
+    font-weight: bold;
+}
+
+.qanda {
+    margin-left: 100px;
+    min-height: 20px;
+    font-size: 1.3em;
+    width: 65%;
+}
+
+.qanda span {
+    min-height: 25px;
+    font-size: 1.1em;
+    width: 100%;
+    color: maroon;
+}
+
+.ask {
+}
+
+.response {
+    margin-left: 150px;
+}
+
+#sbar::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+</style>
