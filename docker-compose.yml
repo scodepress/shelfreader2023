@@ -87,7 +87,7 @@ services:
     phpmyadmin:
         image: 'phpmyadmin:latest'
         ports:
-            - 8095:80
+            - 8091:80
         networks:
             - sail
         depends_on:
