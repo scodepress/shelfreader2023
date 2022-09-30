@@ -62,7 +62,7 @@
 
 <div v-if="beginningDate || beginningCallNumber" class="flex">
 
-<div v-if="beginningDate" class="ml-4 font-semibold">
+<div v-if="beginningDate" class="ml-6 font-semibold">
 	Date Range: &nbsp;{{beginningDate}} &nbsp; to &nbsp; {{endingDate}}.
 </div>
 
@@ -70,33 +70,37 @@
 	Call Number Range:&nbsp; {{beginningCallNumber}} &nbsp; to &nbsp;{{endingCallNumber}}.
 </div>
 	<div class="ml-4 mr-2 font-semibold">Download Results:</div> 
-			<div v-if="beginningCallNumber && !beginningDate" class="ml-4 mr-2"> 
-			<a :href="'/export.callnumbers/' + beginningDate + '/' + endingDate + '/' + beginningCallNumber + '/' + endingCallNumber + '/' + 'excel'">
+			<div v-if="beginningCallNumber || beginningDate" class="ml-4 mr-2"> 
+				<a :href="'/export/' + 'excel'">
 
 			<span class="text-blue-800">Excel file</span></a>
 			</div>
 
-			  <div v-if="beginningCallNumber" class="ml-4 mr-2">
-			  <a :href="'/export.callnumbers/' + beginningDate + '/' + endingDate + '/' + beginningCallNumber + '/' + endingCallNumber + '/' + 'csv'">
+			  <div v-if="beginningCallNumber || beginningDate" class="ml-4 mr-2">
+			  <a :href="'/export/' + 'csv'">
 
 			  <span class="text-blue-800">CSV file</span></a>
 			
 			  </div>
 
-			<div v-if="beginningDate" class="ml-4 mr-2"> 
-			<a :href="'/export/' + beginningDate + '/' + endingDate + '/' + 'excel'">
-
-			<span class="text-blue-800">Excel file</span></a>
-			</div>
-
-			  <div v-if="beginningDate && !beginningCallNumber" class="ml-4 mr-2">
-			  <a :href="'/export/' + beginningDate + '/' + endingDate + '/' + 'csv'">
-
-			  <span class="text-blue-800">CSV file</span></a>
-			  </div>
+			 
 			  <div class="ml-4">
-			  <a :href="'clear.search'"><span class="text-red-800">Clear Search</span></a>
+			  <a :href="'/clear.search'"><span class="text-red-800">Clear Search</span></a>
 			  </div>
+</div>
+<div v-else class="flex">
+<div class="ml-6 mr-2 font-semibold">Download Results:</div> 
+ <div v-if="!beginningCallNumber && !beginningDate" class="ml-4 mr-2">
+			   	<a :href="'/export.master/' + 'excel' + '/' + sortSchemeId">
+				<span class="text-blue-800">Excel file</span></a>
+
+			  </div>
+
+			  <div v-if="!beginningCallNumber && !beginningDate" class="ml-4 mr-2">
+			   	<a :href="'/export.master/' + 'csv' + '/' + sortSchemeId">
+				<span class="text-blue-800">CSV file</span></a>
+			  </div>
+
 </div>
 
 <table class="w-11/12 mt-4">
@@ -108,35 +112,35 @@
 <td class="w-48">Date</td>
 </tr>
 </table>
-<div v-for="(shelf, index) in masterShelf">
+<div v-for="(shelf, index) in masterShelf.data">
 <table v-if="shelf.onShelf === 0" class="w-11/12">
-<tr  class="bg-red-200 border border-1" :key="shelf.id">
-	<td class="w-12">{{shelf.position}}.</td>
+<tr  class="bg-red-200 border border-1">
+	<td class="w-12">{{ index + 1 }}.</td>
 
 <td class="w-96">{{ shelf.title.slice(0,30) }}</td>
 <td class="w-48">{{ shelf.barcode }}</td>
-<td class="w-64">{{ shelf.callno }}</td>
+<td class="w-64">{{ shelf.call_number }}</td>
 <td class="w-48">{{ shelf.date }} </td>
 </tr>
 </table>
 
 <table v-else class="w-11/12">
 <tr class="bg-green-200 border border-1">
-	<td class="w-12">{{shelf.position}}.</td>
+	<td class="w-12">{{ index + 1 }}.</td>
 
 <td class="w-96">{{ shelf.title.slice(0,30) }}</td>
 <td class="w-48">{{ shelf.barcode }}</td>
-<td class="w-64">{{ shelf.callno }}</td>
+<td class="w-64">{{ shelf.call_number }}</td>
 <td class="w-48">{{ shelf.date }} </td>
 </tr>
 </table>
 </div>
 <div class="md:hidden">
 	<table class="w-11/12">
-            <tr v-for="(shelf, index) in masterShelf">
+            <tr v-for="(shelf, index) in masterShelf.data">
                <tr> <td>{{ index + 1 }}.</td></tr>
                <tr> <td>{{ shelf.title.slice(0, 50) }}</td></tr>
-               <tr> <td>{{ shelf.callno }}</td></tr>
+               <tr> <td>{{ shelf.call_number }}</td></tr>
                <tr> <td>{{ shelf.barcode }}</td></tr>
                <tr> <td>{{ shelf.status }}</td></tr>
             </tr>
@@ -148,7 +152,6 @@
 <script>
 import Layout from "@/Layouts/Layout";
 import Datepicker from 'vue3-datepicker';
-import { ref } from 'vue';
 export default {
 components: { 
 		    Layout,
@@ -162,6 +165,7 @@ props: {
 	beginningCallNumber: Object,
 	endingCallNumber: Object,
 	allDates: Array,
+	sortSchemeId: Number,
        },
        data() {
 	       return { 
@@ -182,12 +186,12 @@ props: {
 	      methods: {
 
         inventorySearch() {
-            this.$inertia.post("inventory.search", {
+            this.$inertia.post("/result.search", {
                 beginningDate: this.form.beginningDate,
                 endingDate: this.form.endingDate,
-                dateDownload: this.form.dateDownload,
                 beginningCallNumber: this.form.beginningCallNumber,
                 endingCallNumber: this.form.endingCallNumber,
+                sortSchemeId: this.sortSchemeId,
                 showAlerts: this.form.showAlerts,
             });
 		      },

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\Api\ApiServicesInterface;
 use App\Contracts\Services\SortKey\SortKeysInterface;
+use App\Contracts\Services\MasterShelf\MasterShelfInterface;
 use Illuminate\Http\Request;
 use App\Traits\BookShelfTrait;
 use App\Traits\InstitutionTrait;
@@ -37,7 +38,10 @@ class ShelvesController extends Controller
 	use InstitutionTrait;
 	use UserTrait;
 
-
+public function __construct(MasterShelfInterface $msi)
+	{
+		$this->msi = $msi;
+	}
 	public function show()
 	{
 
@@ -224,12 +228,12 @@ class ShelvesController extends Controller
 
 		if(Shelf::where('user_id',$user_id)->first())
 		{
-			MasterShelfService::insertShelfContents($user_id,$libraryId);
+			$this->msi->insertNewItems($user_id,$libraryId);
 		}
-
+		
 		$this->clearShelf($user_id);
 
-		if($request->sortSchemeId === 3)
+		if($request->sortSchemeId === 2)
 		{
 
 			return Redirect::route('maps');

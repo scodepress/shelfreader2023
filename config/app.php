@@ -201,6 +201,7 @@ return [
         App\Providers\MapsCallnumberProvider::class,
 	App\Services\RequestHandling\FolioRequestsHandlingServiceProvider::class,
 	App\Services\MasterShelf\MasterShelfServiceProvider::class,
+	App\Providers\MasterShelvesServiceProvider::class,
     ],
 
     /*

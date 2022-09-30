@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\MasterShelf\MasterShelfInterface;
 use App\Models\MasterShelf;
 use App\Models\FirstScan;
 use Auth;
@@ -11,9 +12,12 @@ use Inertia\Inertia;
 use MasterShelfService;
 use App\Exports\MasterShelfExport;
 use App\Exports\MasterShelfExportByCallNumber;
+use App\Exports\MasterShelfFullExport;
+use App\Models\MasterShelfResult;
 use App\Models\OnlineInventoryItem;
 use App\Models\SearchParameter;
 use App\Models\Shelf;
+use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Calculation\TextData\Search;
 use Redirect;
@@ -21,11 +25,11 @@ use OnlineInventoryService;
 
 class MasterShelfController extends Controller
 {
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+	public function __construct(MasterShelfInterface $msi)
+	{
+		$this->msi = $msi;
+	}
+
 	public function index()
 	{
 		//
@@ -41,28 +45,26 @@ class MasterShelfController extends Controller
 		//
 	}
 
-	public function export($beginningDate,$endingDate,$dateFileFormat) 
+	public function export($dateFileFormat) 
 	{
 		if($dateFileFormat === 'csv')
 		{
-			return Excel::download(new MasterShelfExport($beginningDate,$endingDate), 'inventory.csv');
+			return Excel::download(new MasterShelfExport(), 'inventory.csv');
 		} else {
 
-			return Excel::download(new MasterShelfExport($beginningDate,$endingDate), 'inventory.xlsx');
+			return Excel::download(new MasterShelfExport(), 'inventory.xlsx');
 		}
 
 	}
 
-	public function exportByCallNumber($beginningDate,$endingDate,$beginningCallNumber,$endingCallNumber,$callNumberFileFormat) 
+	public function exportMasterShelf($fileFormat,$sortSchemeId) 
 	{
-		if($callNumberFileFormat === 'csv')
+		if($fileFormat === 'csv')
 		{
-			return Excel::download(new MasterShelfExportByCallNumber($beginningDate,$endingDate,$beginningCallNumber,
-				$endingCallNumber), 'inventory.csv');
+			return Excel::download(new MasterShelfFullExport($sortSchemeId), 'inventory.csv');
 		} else {
 
-			return Excel::download(new MasterShelfExportByCallNumber($beginningDate,$endingDate,$beginningCallNumber,
-				$endingCallNumber), 'inventory.xlsx');
+			return Excel::download(new MasterShelfFullExport($sortSchemeId), 'inventory.xlsx');
 		}
 
 	}
@@ -84,126 +86,31 @@ class MasterShelfController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show()
+	public function show($sortSchemeId)
 	{
 		$user_id = Auth::user()->id;
-
+		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
 		$param = SearchParameter::where('user_id',$user_id)->get();
+		$allDates = $this->msi->getAllDates($libraryId);
 
-		
-		$allDates = MasterShelf::where('user_id',$user_id)
-			->groupBy('date')
-			->orderByDesc('date')
-			->pluck('date');
+		$masterShelf = MasterShelfResult::where('user_id',$user_id)->where('library_id',$libraryId)->paginate(20);
 
-		if(!$param->first())
-		{
-			$masterShelf = MasterShelfService::orderedMasterShelf();
-
-			$beginningDate = null;
-			$endingDate = null;
-			$beginningCallNumber = null;
-			$endingCallNumber = null;
-		}
-
-		elseif($param[0]->beginningDate && $param[0]->beginningCallNumber)
-		{
+		if($param->first()) {
 			$beginningDate = $param[0]->beginningDate;
 			$endingDate = $param[0]->endingDate;
 			$beginningCallNumber = $param[0]->beginningCallNumber;
 			$endingCallNumber = $param[0]->endingCallNumber;
-			$masterShelf = MasterShelfService::orderedMasterShelfByCallNumberAndDate($beginningCallNumber,$endingCallNumber,
-				$beginningDate,$endingDate);
+		} else {
 
-			return Inertia::render('MasterShelf/Index', [
+			$masterShelf = $this->msi->getSortedItemsFromMasterShelf($user_id);
 
-			'masterShelf' => $masterShelf,	    
-			'beginningDate' => $beginningDate,	    
-			'endingDate' => $endingDate,	    
-			'beginningCallNumber' => $beginningCallNumber,	    
-			'endingCallNumber' => $endingCallNumber,	    
-			'allDates' => $allDates,
-		]);
-
-		} elseif($param[0]->beginningCallNumber && !$param[0]->beginningDate)
-
-		{
 			$beginningDate = null;
 			$endingDate = null;
-			$beginningCallNumber = $param[0]->beginningCallNumber;
-			$endingCallNumber = $param[0]->endingCallNumber;
-			$showAlerts = SearchParameter::where('user_id',$user_id)->pluck('alerts')[0];
-
-			if($showAlerts === 0)
-			{
-				$masterShelf = MasterShelfService::orderedMasterShelfByCallNumber($beginningCallNumber,$endingCallNumber);
-			}
-			else 
-			{	
-				$leftMostNormalizedCallNumber = MasterShelf::where('user_id',Auth::id())
-				->where('call_number',$beginningCallNumber)								     
-				->pluck('effective_shelving_order')[0];
-
-				$rightMostNormalizedCallNumber = MasterShelf::where('user_id',Auth::id())
-				->where('call_number',$endingCallNumber)
-				->pluck('effective_shelving_order')[0];
-
-				OnlineInventoryService::createResponseArray($leftMostNormalizedCallNumber,$rightMostNormalizedCallNumber,$effectiveLocationId);
-
-				$masterShelf = OnlineInventoryItem::where('user_id',$user_id)->get();
-
-			}
-		} elseif($param[0]->beginningDate && !$param[0]->beginningCallNumber) 
-		{
-			$beginningDate = $param[0]->beginningDate;
-			$endingDate = $param[0]->endingDate;
 			$beginningCallNumber = null;
 			$endingCallNumber = null;
-			$showAlerts = SearchParameter::where('user_id',$user_id)->pluck('alerts')[0];
-
-			if($showAlerts == 0)
-			{
-				$masterShelf = MasterShelfService::orderedMasterShelfByDate($beginningDate,$endingDate);
-			}
-			else 
-			{	
-				// Get ESI of first and last call numbers for missing item list creation
-				
-				$masterShelfList = MasterShelfService::orderedMasterShelfByDate($beginningDate,$endingDate);
-				$num = count($masterShelfList);
-				$scannedBarcodes = MasterShelf::where('user_id',$user_id)
-					->where('date','>=',$beginningDate)
-					->where('date','<=',$endingDate)
-					->pluck('barcode');
-
-				$leftMostNormalizedCallNumber = $masterShelfList->where('position',1)[0]['effective_shelving_order']; 
-				$effectiveLocationId = $masterShelfList->where('position',1)[0]['effective_location_id']; 
-				$rightMostNormalizedCallNumber = $masterShelfList
-					->where('position',$num)[$num-1]['effective_shelving_order'];
-
-				
-				OnlineInventoryService::createResponseArray($leftMostNormalizedCallNumber,$rightMostNormalizedCallNumber,
-					$effectiveLocationId);
-				
-				$masterShelfUnprocessed = OnlineInventoryItem::where('user_id',$user_id)
-					->orderBy('effective_shelving_order')
-					->get();
-				$masterShelf = MasterShelfService::mixedInventoryReport($masterShelfUnprocessed,$scannedBarcodes);
-
-			}
 		}
+
 		
-		if(!isset($masterShelf))
-		{
-			$masterShelf = MasterShelfService::orderedMasterShelf();
-
-			$beginningDate = null;
-			$endingDate = null;
-			$beginningCallNumber = null;
-			$endingCallNumber = null;
-		}
-
-
 		return Inertia::render('MasterShelf/Index', [
 
 			'masterShelf' => $masterShelf,	    
@@ -212,6 +119,7 @@ class MasterShelfController extends Controller
 			'beginningCallNumber' => $beginningCallNumber,	    
 			'endingCallNumber' => $endingCallNumber,	    
 			'allDates' => $allDates,
+			'sortSchemeId' => $sortSchemeId,
 		]);
 	}
 
@@ -220,8 +128,10 @@ class MasterShelfController extends Controller
 
 		$beginningDate = $request->beginningDate;
 		$endingDate = $request->endingDate;
-
+		$sortSchemeId = $request->sortSchemeId;
 		$user_id = Auth::user()->id;
+		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
+
 		if($request->showAlerts === true)
 		{
 			$showAlerts = 1;
@@ -235,6 +145,7 @@ class MasterShelfController extends Controller
 
 		$sparam = new SearchParameter;
 		$sparam->user_id = $user_id;
+		$sparam->sort_scheme_id = $request->sortSchemeId;
 		$sparam->beginningDate = $beginningDate;
 		$sparam->endingDate = $endingDate;
 		$sparam->beginningCallNumber = $request->beginningCallNumber;
@@ -242,29 +153,36 @@ class MasterShelfController extends Controller
 		$sparam->alerts = $showAlerts;
 		$sparam->save();
 
-		return Redirect::route('master.shelf');
+		MasterShelfResult::where('user_id',$user_id)->delete();
+
+		$books = $this->msi->insertSearchResultsForDisplay($user_id, $libraryId);
+
+		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId]);
 	}
 
 	public function searchCallNumbers(Request $request)
 	{
 		$user_id = Auth::user()->id;
+		$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
 
 		SearchParameter::where('user_id',$user_id)->delete();
 
 		$sparam = new SearchParameter;
 		$sparam->user_id = $user_id;
-				$sparam->save();
+		$sparam->save();
 
-		return Redirect::route('master.shelf');
+		return Redirect::route('master.shelf',['sortSchemeId' => 1]);
 
 	}
 
 	public function clearSearch()
 	{
 		$user_id = Auth::user()->id;
+		$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
+
 		SearchParameter::where('user_id',$user_id)->delete();
 
-		return Redirect::route('master.shelf');
+		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId]);
 	}
 
 	public function edit($id)

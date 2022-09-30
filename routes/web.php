@@ -23,9 +23,11 @@ Route::get('/', function () {
 		'phpVersion' => PHP_VERSION,
 	]);
 });
-
-Route::get('membership-request', 'MembershipRequestController@show')->name('membership-request');
-Route::post('membership-request', 'MembershipRequestController@store')->name('membership-request');
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+//Route::get('membership-request', 'MembershipRequestController@show')->name('membership-request');
+//Route::post('membership-request', 'MembershipRequestController@store')->name('membership-request');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 	return Inertia::render('Dashboard');
@@ -42,13 +44,13 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 
 		Route::group(['middleware'=>['is_super_user']], function() {
 
-			Route::get('admin/{user?}/{institution?}','AdminController@show')->name('admin');
+			Route::get('super.admin/{user?}/{institution?}','AdminController@show')->name('super.admin');
 			Route::put('approve-members', 'AdminController@approveMembers')->middleware('auth:sanctum')->name('approve-members');
 			Route::put('approve-users', 'ApproveUserController@store')->middleware('auth:sanctum')->name('approve-users');
 			Route::delete('delete-user', 'AdminController@destroy')->middleware('auth:sanctum')->name('delete-user');
-			Route::get('admin/impersonate', 'Admin\ImpersonateController@index')->name('admin.impersonate');
-			Route::post('admin/impersonate', 'Admin\ImpersonateController@store');
-			Route::get('admin/impersonate/destroy', 'Admin\ImpersonateController@destroy');
+			Route::get('super.admin/impersonate', 'Admin\ImpersonateController@index')->name('admin.impersonate');
+			Route::post('super.admin/impersonate', 'Admin\ImpersonateController@store');
+			Route::get('super.admin/impersonate/destroy', 'Admin\ImpersonateController@destroy');
 			Route::post('/users.impersonate', 'UsersController@impersonate')->name('users.impersonate');
 
 		});
@@ -64,7 +66,7 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 		Route::post('save.candidate.to.shelf','ShelfCandidateController@saveCandidateToShelf')->name('save.candidate.to.shelf');
 		Route::get('/check_book/{barcode}/{user_id}/{service}', 'ShelvesController@checkBook')->middleware('auth:sanctum')
 											->name('check_book');
-		Route::get('master.shelf', 'MasterShelfController@show')->middleware('auth:sanctum')->name('master.shelf');
+		Route::get('master.shelf/{sortSchemeId}', 'MasterShelfController@show')->middleware('auth:sanctum')->name('master.shelf');
 		Route::post('delete.item', 'ShelvesController@delete')->middleware('auth:sanctum')->name('delete.item');
 		Route::delete('first.scan', 'FirstScanController@delete')->middleware('auth:sanctum')->name('first.scan');
 		Route::delete('shelf.candidate/{barcode}', 'ShelfCandidateController@destroy')
@@ -92,11 +94,12 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 		Route::get('inventory-report','LocalInventoryReportController@show')->name('inventory-report');
 		Route::get('mdewey','MissouriDeweySortKeyController@show')->name('mdewey');
 		Route::get('maps','MapController@show')->name('maps');
-		Route::post('inventory.search', 'MasterShelfController@searchInventory')->name('inventory.search');
+		//Route::post('inventory.search', 'MasterShelfController@searchInventory')->name('inventory.search');
+		Route::post('result.search', 'MasterShelfController@searchInventory')->name('result.search');
 		Route::post('inventory.callnumbers', 'MasterShelfController@searchCallNumbers')->name('inventory.callnumbers');
-		Route::get('export/{beginningDate}/{endingDate}/{dateFileFormat}', 'MasterShelfController@export')->name('export');
-		Route::get('export.callnumbers/{beginningDate}/{endingDate}/{beginningCallNumber}/{endingCallNumber}/{callNumberFileFormat}', 
-			'MasterShelfController@exportByCallNumber')
+		Route::get('export/{dateFileFormat}', 'MasterShelfController@export')->name('export');
+		Route::get('export.master/{fileFormat}/{sortSchemeId}', 
+			'MasterShelfController@exportMasterShelf')
 			->name('export.callnumbers');
 		Route::get('clear.search', 'MasterShelfController@clearSearch')->name('clear.search');
 		Route::get('instructions', 'InstructionController@show')->name('instructions');
@@ -104,3 +107,5 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 
 	});
 });
+
+

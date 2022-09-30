@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Lab404\Impersonate\Models\Impersonate;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
 	use HasApiTokens;
 	use HasFactory;
