@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+Availablenamespace App\Http\Controllers;
 
 use App\Contracts\Services\Api\ApiServicesInterface;
 use App\Contracts\Services\SortKey\SortKeysInterface;
@@ -30,6 +30,7 @@ use Inertia\Inertia;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use MasterShelfService;
+use DB;
 
 
 class ShelvesController extends Controller
@@ -85,9 +86,17 @@ public function __construct(MasterShelfInterface $msi)
 			$initialLocationName = '';
 		}
 
-		$status = Shelf::where('user_id',$user_id)->orderByDesc('id')->get();
+		$locationStatus = Shelf::where('user_id',$user_id)->orderByDesc('id')->get();
 
-		if($status->first()) {$status = $status[0]->status; } else {$status = 'None';}
+		if($locationStatus->first()) {
+			$status = $locationStatus[0]->status;
+		       	$statusAlert = $locationStatus[0]->effective_location_id;
+		} else {
+
+			$status = 'None';
+			$statusAlert = '';
+		}
+
 		$offshelf = 0;
 
 		if( $shelf_count <= 18 ) { $offset = 0; }
@@ -124,7 +133,7 @@ public function __construct(MasterShelfInterface $msi)
 
 		$corrections = Move::where('user_id',Auth::user()->id)->count();
 
-
+		$mains = DB::table('mains')->select('barcode','title')->get()->unique('title');
 
 		return Inertia::render('Shelf/ShelfDisplay', [
 
@@ -147,6 +156,8 @@ public function __construct(MasterShelfInterface $msi)
 			'status'=>$status,
 			'sort_schemes' => $sort_schemes,
 			'libraryApiServices' => $libraryApiServices,
+			'statusAlert' => $statusAlert,
+			'mains' => $mains,
 		]);
 
 

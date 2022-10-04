@@ -46,78 +46,7 @@
         </template>
     </jet-confirmation-modal>
 
-    <jet-confirmation-modal
-        :show="$page.props.flash.message"
-        @close="$page.props.flash.message = false"
-    >
-        <template #title>
-            <h3></h3>
-        </template>
-
-        <template #content>
-            <div
-                class="text-2xl"
-                v-if="$page.props.flash.message === 'Choose Location'"
-            >
-                Is {{ initialLocationName }} the correct location? Choose
-                Location
-
-                <div class="mt-4">
-                    <button @click="confirmLocation" type="button">
-                        <span class="text-xl text-green-700"
-                            >Yes - Place the item on the shelf.</span
-                        >
-                    </button>
-                </div>
-                <div class="mt-4 text-indigo-900">
-                    <button @click="cancelLocation" type="button">
-                        <span class="text-xl text-red-800"
-                            >No - The location is incorrect.</span
-                        >
-                    </button>
-                </div>
-            </div>
-
-            <div
-                class="text-2xl"
-                v-if="$page.props.flash.message === 'Wrong Location'"
-            >
-                {{ candidate[0].effective_location_name }} is not the correct
-                location.
-                <div class="mt-4">
-                    <button @click="saveCandidateToShelf" type="button">
-                        <span class="text-xl text-green-700"
-                            >Ignore this - Place the item on the shelf.</span
-                        >
-                    </button>
-                </div>
-                <div class="mt-4 text-indigo-900">
-                    <button
-                        @click="$page.props.flash.message = false"
-                        type="button"
-                    >
-                        <span class="text-xl text-red-800"
-                            >No - The location is incorrect.</span
-                        >
-                    </button>
-                </div>
-            </div>
-		<div
-                class="text-2xl"
-                v-if="$page.props.flash.message === 'The server returned an empty response.'"
-            >
-			    <span class="text-red-800">The API returned an empty response.</span>
-                            </div>
-        </template>
-
-        <template #footer>
-            <jet-secondary-button
-                @click.native="$page.props.flash.message = false"
-            >
-                Cancel
-            </jet-secondary-button>
-        </template>
-    </jet-confirmation-modal>
+    
 
     <div style="width: 100%; height: 100%">
         <header class="ml-2 mr-2 bg-gray-800 rounded-lg">
@@ -133,18 +62,14 @@
                     Corrections: {{ corrections }}
                 </div>
                 <div v-if="$page.props.user.privs === 1">
-		    <div v-if="apiServiceId === 3">
                     <form @change="postBarcode">
                         <div class="block px-2 text-semibold">
                             <select
                                 class="block w-40 mt-1 form-input rounded-md shadow-sm"
                                 v-model="form.barcode"
                             >
-			    	<option value="" selected>
-					Demo 	
-			    	</option>
                                 <option
-                                    v-for="(demo, index) in skidmoreCloud"
+                                    v-for="(demo, index) in mains"
                                     :key="index"
                                     :value="demo.barcode"
                                 >
@@ -153,28 +78,7 @@
                             </select>
                         </div>
                     </form>
-		    </div>
-		<div v-if="apiServiceId === 1">
-                    <form @change="postBarcode">
-                        <div class="block px-2 text-semibold">
-                            <select
-                                class="block w-40 mt-1 form-input rounded-md shadow-sm"
-                                v-model="form.barcode"
-                            >
-			    	<option value="" selected>
-					Demo 	
-			    	</option>
-                                <option
-                                    v-for="(demo, index) in grinnellItems"
-                                    :key="index"
-                                    :value="demo.barcode"
-                                >
-                                    {{ demo.title }}
-                                </option>
-                            </select>
-                        </div>
-                    </form>
-		    </div>
+		
                 </div>
                 <div class="block px-2 mb-3 text-semibold">
                     <form @submit.prevent="postBarcode">
@@ -212,34 +116,17 @@
             </div>
         </header>
 
-        <div
-            v-if="apiServiceId === 1 && status === 'Item not in place'"
-            key="av_2"
-            style="
-                font-size: 2em;
-                background: red;
-                color: white;
-                padding: 5px;
-                text-align: center;
-            "
-        >
-            {{ status }}
-        </div>
-        <div
-            v-if="apiServiceId === 3 && status !== 'Available'"
-            key="av_2"
-            style="
-                font-size: 2em;
-                background: red;
-                color: white;
-                padding: 5px;
-                text-align: center;
-            "
-        >
-            {{ status }}
-        </div>
+        
+        
     </div>
-
+	<div class="flex justify-center mt-6" v-if="status != 'Available'">
+		
+		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
+		
+	</div>
+	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
+	</div>
     <div
         id="sbar"
         style="
@@ -364,6 +251,8 @@ export default {
         "apiServiceId",
         "sortSchemeName",
         "libraryApiServices",
+        "statusAlert",
+        "mains",
     ],
 
     data() {

@@ -213,6 +213,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 			MasterShelfResult::where('user_id',$userId)->delete();
 			DB::table('master_shelf_results')->insert($items);
+
 			return;
 		}
 
@@ -315,7 +316,9 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 					];
 
 				}
+
 				MasterShelfResult::where('user_id',$userId)->delete();
+
 				DB::table('master_shelf_results')->insert($items);
 				return;
 			}

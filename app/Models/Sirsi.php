@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SirsiCredential;
+use Illuminate\Support\Facades\Redirect;
 
 class Sirsi extends Model
 {
@@ -22,7 +23,7 @@ class Sirsi extends Model
             $response = $response->getBody()->getContents();
 
             $response = collect(json_decode($response, true));
-  
+
             return $response;
 
     }
@@ -63,8 +64,16 @@ class Sirsi extends Model
 	public static function itemParameters($barcode)
 	{
 		$response = self::sirsiResponse($barcode);
+
+	    if($response['TitleInfo'][0]['title'] === null)
+	    {
+		    return;
+	    }
 		$title = $response['TitleInfo'][0]['title'];
 		$num = $response['TitleInfo'][0]['numberOfCallNumbers']-1;
+		$ids = array();
+		$ids = array('LOST-ASSUM','CHECKEDOUT','MISSING','LOST','LOST-CLAIM','Z-MISSING','WITHDRAWN','CANCELED',
+			'Z-REMOVED','INTRANSIT','DISCARD','PALCI','SHADOW');
 
 		foreach ($response as $key => $r)
 		{
@@ -79,6 +88,23 @@ class Sirsi extends Model
 					{
 						//$alt_info[] = $title;
 						$call_number = $r[0]['CallInfo'][$i]['callNumber'];
+						$current_location_id = $r[0]['CallInfo'][$i]['ItemInfo'][$v]['currentLocationID'];
+						if(in_array($current_location_id,$ids) === true)
+						{ 
+							$status = 'Unavailable';
+							$effectiveLocationId = $current_location_id;
+						} else {
+
+							$status = 'Available';
+							$effectiveLocationId = $current_location_id;
+						}
+
+						if(substr($current_location_id, 0, 7) == 'ONHOLD-')
+						{
+							$status = 'Unavailable';
+							$effectiveLocationId = 'On Hold';
+
+						}
 
 
 					}
@@ -89,7 +115,7 @@ class Sirsi extends Model
 
 		}
 
-		return ['callNumber'=>$call_number, 'title'=>$title, 'status' =>'Available' ,'effectiveShelvingOrder'=>0, 
-			'effectiveLocationId'=>0,'effectiveLocationName'=>0];
+		return ['callNumber'=>$call_number, 'title'=>$title, 'status' =>$status,'effectiveShelvingOrder'=>0, 
+			'effectiveLocationId'=>$effectiveLocationId,'effectiveLocationName'=>0];
 	}
 }

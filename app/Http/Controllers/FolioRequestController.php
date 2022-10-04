@@ -49,7 +49,7 @@ class FolioRequestController extends Controller
 		$apiResponse = Sirsi::itemParameters($barcode);
 		if(!$apiResponse)
 		{
-			return Redirect::route('shelf')->with(['message'=>"The server returned an empty response." ]);
+			return Redirect::route('shelf')->with(['message'=>"The item was not found." ]);
 		}
 		$callNumber = $apiResponse['callNumber'];
 		$title = $apiResponse['title'];
@@ -82,7 +82,8 @@ class FolioRequestController extends Controller
 
 			} else {
 
-				return "You Re-Scanned the Wrong Books";
+				return Redirect::route('shelf')->with('message','You re-scanned a book but there are no errors in the 
+					shelf.');
 			} 
 		}
 

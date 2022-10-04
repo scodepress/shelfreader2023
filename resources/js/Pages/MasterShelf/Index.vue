@@ -103,6 +103,9 @@
 
 </div>
 
+<div class="ml-4 text-xl">
+	Showing Items	{{ masterShelf.from }} to {{ masterShelf.to }}.
+</div>
 <table class="w-11/12 mt-4">
 <tr class="text-xl font-semibold">
 <td class="w-12"></td>
@@ -147,26 +150,42 @@
         </table>	
 	</div>
 </div>
+<div class="mt-4 ml-6">
+	<template v-for="link in masterShelf.links"> 
+	<Link
+		v-if="link.url"
+		:href="link.url"
+		v-html="link.label"
+		class="px-1"
+
+			/>
+				<span class="text-gray-500" v-else v-html="link.label"></span>
+			
+			</template>
+</div>
 </template>
 
 <script>
 import Layout from "@/Layouts/Layout";
 import Datepicker from 'vue3-datepicker';
+import { Link } from '@inertiajs/inertia-vue3';
+
 export default {
 components: { 
-		    Layout,
-		    Datepicker,
-	    },
+	    Layout,
+	    Datepicker,
+	    Link,
+    },
 
 props: {
-	masterShelf: Object,
-	beginningDate: String,
-	endingDate: String,
-	beginningCallNumber: Object,
-	endingCallNumber: Object,
-	allDates: Array,
-	sortSchemeId: Number,
-       },
+masterShelf: Object,
+beginningDate: String,
+endingDate: String,
+beginningCallNumber: Object,
+endingCallNumber: Object,
+allDates: Array,
+sortSchemeId: Number,
+},
        data() {
 	       return { 
 		form: this.$inertia.form({

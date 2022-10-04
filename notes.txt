@@ -1,0 +1,8 @@
+To  Do
+
+1. Make a page for scans that returns erorrs. Base it on the Master Shelf page. 
+2. Fix error messaging. 
+3. Add status to shelves and master shelf table
+4. Add Form Requests to all forms
+5. Capture all scans
+6. Add status to master shelfs tables and master reults table 
