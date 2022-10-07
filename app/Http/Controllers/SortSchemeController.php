@@ -29,7 +29,7 @@ class SortSchemeController extends Controller
 
 		User::where('id',$request->user()->id)->update(['scheme_id'=>$request->sort]);
 
-		if($request->sort === 3)
+		if($request->sort === 2)
 		{
 			return Redirect::route('maps');
 

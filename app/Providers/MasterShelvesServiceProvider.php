@@ -20,7 +20,7 @@ class MasterShelvesServiceProvider extends ServiceProvider
 
 			$request = app(\Illuminate\Http\Request::class);
 
-			if($request->sortSchemeId === 2) {
+			if($request->sortSchemeId == 2) {
 
 				return new MasterShelfMaps();
 

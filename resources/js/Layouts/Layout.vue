@@ -30,25 +30,25 @@
                             </div>
 
                             <div
-                                v-if="$page.props.user.scheme_id !== 3"
+                                v-if="$page.props.user.scheme_id == 1"
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
                                 <jet-nav-link
                                     :href="route('shelf')"
                                     :active="route().current('shelf')"
                                 >
-                                    My Shelf
+                                    Scan Books
                                 </jet-nav-link>
                             </div>
                             <div
-                                v-if="$page.props.user.scheme_id === 3"
+                                v-if="$page.props.user.scheme_id === 2"
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
                                 <jet-nav-link
                                     :href="route('maps')"
                                     :active="route().current('maps')"
                                 >
-                                    My Maps
+                                   Scan Maps 
                                 </jet-nav-link>
                             </div>
                             <div
@@ -99,15 +99,7 @@
                                 </jet-nav-link>
                             </div>
 
-                            <div
-                                class="pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex"
-                            >
-                                <form @submit.prevent="emptyTables">
-                                    <jet-dropdown-link as="button">
-                                        Clear Tables
-                                    </jet-dropdown-link>
-                                </form>
-                            </div>
+                            
 
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"

@@ -29,15 +29,9 @@ class SortKeyServiceProvider extends ServiceProvider
 			} elseif($request->sortSchemeId === 2)
 
 			{
-				return new DeweyStoreSortKeyService();
-				
-			} elseif($request->sortSchemeId === 3)
-			{
 				return new MapsStoreSortKeyService();
-			}
-
-
-
+				
+			} 
 
 		}); 
     }

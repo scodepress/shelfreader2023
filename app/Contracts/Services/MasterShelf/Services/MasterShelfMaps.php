@@ -168,7 +168,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 	{
 		$sp = SearchParameter::where('user_id',$userId)->get();
 
-		if($ci[0]->format === 0 && !$sp->first()) {
+		if(!$sp->first()) {
 
 			// Insert all results
 
@@ -186,89 +186,89 @@ class MasterShelfMaps implements MasterShelfInterface {
 				];
 
 			}
-				MasterShelfResult::where('user_id',$userId)->delete();
-				DB::table('master_shelf_results')->insert($items);
+			MasterShelfResult::where('user_id',$userId)->delete();
+			DB::table('master_shelf_results')->insert($items);
 
 		}
 
 		if($sp->first()) {
-		if($sp[0]->beginningDate && !$sp[0]->beginningCallNumber) 		{
+			if($sp[0]->beginningDate && !$sp[0]->beginningCallNumber) 		{
 
-			// Insert all results in a given date range
+				// Insert all results in a given date range
 
-			$shelf = $this->getSortedItemsByDateRange($userId,$sp[0]->beginningDate,$sp[0]->endingDate);
+				$shelf = $this->getSortedItemsByDateRange($userId,$sp[0]->beginningDate,$sp[0]->endingDate);
 
-			foreach($shelf as $s)
-			{
-				$items[] = [
-					'user_id' => $userId,
-					'library_id' => $libraryId,
-					'barcode' => $s->barcode,
-					'title' => $s->title,
-					'call_number' => $s->call_number,
-					'date' => $s->date,
-				];
+				foreach($shelf as $s)
+				{
+					$items[] = [
+						'user_id' => $userId,
+						'library_id' => $libraryId,
+						'barcode' => $s->barcode,
+						'title' => $s->title,
+						'call_number' => $s->call_number,
+						'date' => $s->date,
+					];
 
-			}
+				}
 				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 
-		}
-
-		if(!$sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		{
-
-			// Insert all results in the given call number range
-
-			$shelf = $this->getSortedItemsByCallNumber($userId,$sp[0]->beginningCallNumber,$sp[0]->endingCallNumber);
-
-			foreach($shelf as $s)
-			{
-				$items[] = [
-					'user_id' => $userId,
-					'library_id' => $libraryId,
-					'barcode' => $s->barcode,
-					'title' => $s->title,
-					'call_number' => $s->call_number,
-					'date' => $s->date,
-				];
-
 			}
+
+			if(!$sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		{
+
+				// Insert all results in the given call number range
+
+				$shelf = $this->getSortedItemsByCallNumber($userId,$sp[0]->beginningCallNumber,$sp[0]->endingCallNumber);
+
+				foreach($shelf as $s)
+				{
+					$items[] = [
+						'user_id' => $userId,
+						'library_id' => $libraryId,
+						'barcode' => $s->barcode,
+						'title' => $s->title,
+						'call_number' => $s->call_number,
+						'date' => $s->date,
+					];
+
+				}
 				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 
-		}
-
-		if($sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		{
-
-			// Insert all results in date and call number range
-
-			$shelf = $this->getSortedItemsByCallNumberAndDateRange(
-				$libraryId,
-				$sp[0]->beginningCallNumber,
-				$sp[0]->endingCallNumber,
-				$sp[0]->beginningDate,
-				$sp[0]->endingDate);
-
-			foreach($shelf as $s)
-			{
-				$items[] = [
-					'user_id' => $userId,
-					'library_id' => $libraryId,
-					'barcode' => $s->barcode,
-					'title' => $s->title,
-					'call_number' => $s->call_number,
-					'date' => $s->date,
-				];
-
 			}
+
+			if($sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		{
+
+				// Insert all results in date and call number range
+
+				$shelf = $this->getSortedItemsByCallNumberAndDateRange(
+					$libraryId,
+					$sp[0]->beginningCallNumber,
+					$sp[0]->endingCallNumber,
+					$sp[0]->beginningDate,
+					$sp[0]->endingDate);
+
+				foreach($shelf as $s)
+				{
+					$items[] = [
+						'user_id' => $userId,
+						'library_id' => $libraryId,
+						'barcode' => $s->barcode,
+						'title' => $s->title,
+						'call_number' => $s->call_number,
+						'date' => $s->date,
+					];
+
+				}
 				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 
-		}
+			}
 		}
 	}
-	
-	
+
+
 	public function getDefaultBeginningCallNumber($libraryId)
 	{
 
@@ -293,7 +293,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 			->where('library_id',$libraryId)
 			->pluck('call_number')[0];
 	}
-	
+
 	public function getDefaultEndingCallNumber($libraryId)
 	{
 
@@ -318,7 +318,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 			->where('library_id',$libraryId)
 			->pluck('call_number')[0];
 	}
-	
+
 	function getDefaultBeginningDate($libraryId)
 	{
 		return DB::table('master_shelf_maps')
@@ -341,5 +341,15 @@ class MasterShelfMaps implements MasterShelfInterface {
 
 	}
 
+	public function getAllDates($libraryId)
+	{
+
+		return DB::table('master_shelf_lcc')
+			->select('date')
+			->where('library_id',$libraryId)
+			->groupBy('date')
+			->orderByDesc('date')
+			->pluck('date');	
+	}
 }
 

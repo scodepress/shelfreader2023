@@ -73,7 +73,6 @@ class MapsCallnumberService {
 
 	public function getCallnumberKey($callNumber)
 	{
-		dd($callNumber);
 		return ($this->getToplineKeyArray($callNumber) + $this->getNextLineKeyArray($callNumber));
 	}
 

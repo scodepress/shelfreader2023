@@ -20,14 +20,13 @@ class MapsStoreSortKeyService implements SortKeysInterface  {
 		$this->storeSortKey($mapKeys,$callNumber,$barcode);
 
 		$user_id = Auth::user()->id;
-		return $this->correctMapsShelfPosition($barcode,$user_id);
+		return $this->correctShelfPosition($barcode,$user_id);
 
 	}
 
 	public function storeSortKey($keys,$callNumber,$barcode)
 	{
 		$skey = new MapKey;
-		//dd($keys);
 		$skey->user_id = Auth::user()->id;
 		$skey->barcode = $barcode;
 		$skey->callnumber = $callNumber;
@@ -51,7 +50,7 @@ class MapsStoreSortKeyService implements SortKeysInterface  {
 
 	}
 
-	public function correctMapsShelfPosition($barcode,$user_id)
+	public function correctShelfPosition($barcode,$user_id)
 	{
 		if(MapKey::where('user_id',Auth::user()->id)->count() < 2) { return 1;}
 		

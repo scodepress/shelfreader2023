@@ -38,6 +38,13 @@ class FolioRequestController extends Controller
 	use SkidmoreTrait;
 	use BookShelfTrait;
 
+	public $sortKeysInterface;
+
+	public function __construct(SortKeysInterface $sortKey)
+	{
+		$this->sortKey = $sortKey;
+	}
+
 
 
 	public function processFolio(Request $request) {
@@ -51,6 +58,7 @@ class FolioRequestController extends Controller
 		{
 			return Redirect::route('shelf')->with(['message'=>"The item was not found." ]);
 		}
+
 		$callNumber = $apiResponse['callNumber'];
 		$title = $apiResponse['title'];
 		$status = $apiResponse['status'];
@@ -62,6 +70,37 @@ class FolioRequestController extends Controller
 		$nextMoverBarcode = $this->nextMoverBarcode($user_id);
 
 		//Checks
+		if($sortSchemeId === 2) { //Maps
+
+			if(FolioService::checkBook($barcode,$user_id) === 0) 
+			{
+				$cposition = $this->sortKey->index($callNumber,$barcode);
+				FolioService::bookNotOnShelf($cposition,$sortSchemeId,$user_id,$callNumber,$barcode,$title,$status,
+					$effectiveLocationName,$effectiveLocationId,$effectiveShelvingOrder);
+
+				FolioService::bookJustShelved($user_id,$sortSchemeId);
+
+			} else {
+
+				$nextMoverBarcode = $this->nextMoverBarcode($user_id);
+
+				if($nextMoverBarcode->first() && $nextMoverBarcode[0]->barcode === $barcode)
+				{
+
+					return Redirect::route('correction',['user_id'=>$user_id,'barcode'=>$barcode]);
+
+				} else {
+
+					return "You Re-Scanned the Wrong Book";
+				} 
+
+
+			}
+
+
+			return Redirect::route('maps');
+
+		}
 
 		if(FolioService::checkBook($barcode,$user_id) === 0) 
 		{

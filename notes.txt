@@ -6,3 +6,5 @@ To  Do
 4. Add Form Requests to all forms
 5. Capture all scans
 6. Add status to master shelfs tables and master reults table 
+7. Make Maps work
+8. Fix focus in barcode form on shelf page

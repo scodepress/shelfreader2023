@@ -1,6 +1,6 @@
 <?php
 
-Availablenamespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Contracts\Services\Api\ApiServicesInterface;
 use App\Contracts\Services\SortKey\SortKeysInterface;
@@ -189,7 +189,7 @@ public function __construct(MasterShelfInterface $msi)
 
 	} else {
 
-	return "Rescanned wrong book";
+		return Redirect::route('shelf')->with(['message','You re-scanned the wrong item.']);	
 	}
 	}
 

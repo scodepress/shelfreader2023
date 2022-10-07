@@ -195,7 +195,7 @@ trait BookShelfTrait {
 	public function lis($user_id)
 	{
 		$cpos_array = $this->cpositionArray($user_id);
-		//dd($cpos_array);
+
 		$n = count($cpos_array);
 
 		return Lis::LongestIncreasingSubsequence($cpos_array, $n);

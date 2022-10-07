@@ -20,7 +20,6 @@
                                     autofocus
                                     placeholder="Scan Barcode"
                                 />
-
                             </div>
                         </form>
                     </div>
@@ -146,10 +145,12 @@
 
 <script>
 import Layout from "@/Layouts/Layout";
+import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
     components: {
         Layout,
+	Link,
     },
     props: {
         drawer: Object,

@@ -108,13 +108,7 @@ class FolioRequests
 				$this->placeBookOnShelf($user_id,$barcode,$callNumber,$title,$status,$effectiveShelvingOrder,
 					$effectiveLocationId,$effectiveLocationName,$cposition);
 
-			} elseif($sortSchemeId === 2) {
-				// Dewey
-
-				$this->placeBookOnShelf($user_id,$barcode,$callNumber,$title,$status,
-					$effectiveShelvingOrder,$effectiveLocationId,$effectiveLocationName,$cposition);
-
-			} elseif($sortSchemeId === 3) {
+			}  elseif($sortSchemeId === 2) {
 				// Maps
 
 				$this->placeBookOnShelf($user_id,$barcode,$callNumber,$title,$status,
@@ -122,10 +116,9 @@ class FolioRequests
 
 			}
 
-			Shelf::resetCpositions($barcode,$cposition,$user_id);
+
 
 		} catch (\Illuminate\Database\QueryException $ex) {
-			//dd($ex->getMessage());
 
 			$upc = new UnprocessedCallNumber;
 			$upc->user_id = $user_id;
@@ -165,7 +158,7 @@ class FolioRequests
 			$this->fillMoves($user_id);
 		}
 
-		if($sortSchemeId === 3)
+		if($sortSchemeId === 2)
 
 		{
 

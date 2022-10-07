@@ -202,6 +202,7 @@ return [
 	App\Services\RequestHandling\FolioRequestsHandlingServiceProvider::class,
 	App\Services\MasterShelf\MasterShelfServiceProvider::class,
 	App\Providers\MasterShelvesServiceProvider::class,
+	App\Providers\SortKeyServiceProvider::class,
     ],
 
     /*
