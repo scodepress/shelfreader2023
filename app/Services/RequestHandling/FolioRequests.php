@@ -116,6 +116,7 @@ class FolioRequests
 
 			}
 
+			Shelf::resetCpositions($barcode,$cposition,$user_id);
 
 
 		} catch (\Illuminate\Database\QueryException $ex) {

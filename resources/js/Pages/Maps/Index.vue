@@ -44,34 +44,18 @@
                 </div>
             </header>
 
-            <div
-                v-if="status != 'Available' && status != 'None'"
-                key="av_1"
-                style="
-                    font-size: 2em;
-                    background: red;
-                    color: white;
-                    padding: 5px;
-                    text-align: center;
-                "
-            >
-                {{ status }}
-            </div>
-            <div
-                v-if="drawer[0] && drawer[0].status != 'Available'"
-                key="av_2"
-                style="
-                    font-size: 2em;
-                    background: red;
-                    color: white;
-                    padding: 5px;
-                    text-align: center;
-                "
-            >
-                {{ drawer[0].status }}
-            </div>
+            
+            
         </div>
 
+	<div class="flex justify-center mt-6" v-if="status != 'Available'">
+		
+		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
+		
+	</div>
+	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
+	</div>
         <div
 	    id="container"
 	    ref="scrollToMe"

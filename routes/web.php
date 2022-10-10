@@ -103,6 +103,7 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 			->name('export.callnumbers');
 		Route::get('clear.search', 'MasterShelfController@clearSearch')->name('clear.search');
 		Route::get('instructions', 'InstructionController@show')->name('instructions');
+		Route::get('alerts', 'AlertController@show')->name('alerts');
 
 
 	});

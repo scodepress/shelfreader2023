@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\Services\SortKey\SortKeysInterface;
 use App\Facades\Services\MapsCallnumberService;
+use App\Models\Alert;
 use App\Models\FirstScan;
 use App\Models\MapKey;
 use App\Models\MissouriDeweySortKey;
 use App\Models\ShelfCandidate;
 use App\Models\Sirsi;
+use App\Models\User;
 use App\Services\Api\Sirsi\SirsiApiService;
 use App\Services\RequestHandling\FolioRequests;
 use MapsCallnumber;
@@ -40,9 +42,9 @@ class FolioRequestController extends Controller
 
 	public $sortKeysInterface;
 
-	public function __construct(SortKeysInterface $sortKey)
+	public function __construct(SortKeysInterface $sortKeysInterface)
 	{
-		$this->sortKey = $sortKey;
+		$this->sortKeysInterface = $sortKeysInterface;
 	}
 
 
@@ -50,33 +52,72 @@ class FolioRequestController extends Controller
 	public function processFolio(Request $request) {
 
 		$user_id = $request->user()->id;
+		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
 		$apiServiceId = $request->service;
 		$barcode = $request->barcode;
 		$sortSchemeId = $request->sortSchemeId;
 		$apiResponse = Sirsi::itemParameters($barcode);
 		if(!$apiResponse)
 		{
-			return Redirect::route('shelf')->with(['message'=>"The item was not found." ]);
+			// Insert barcode in alerts table
+			$alert = new Alert;
+			$alert->user_id = $user_id;
+			$alert->library_id = $libraryId;
+			$alert->barcode = $barcode;
+			$alert->call_number = 'None returned';
+			$alert->title = 'None returned';
+			$alert->alert = 'Empty Response';
+			$alert->save();
+
+			if($sortSchemeId == 1) {
+
+				return Redirect::route('shelf')->with(['message'=>"The item with barcode $barcode was not found." ]);
+
+			} else {
+
+				return Redirect::route('maps')->with(['message'=>"The item with barcode $barcode was not found." ]);
+			 }
 		}
 
 		$callNumber = $apiResponse['callNumber'];
 		$title = $apiResponse['title'];
 		$status = $apiResponse['status'];
 		$effectiveShelvingOrder = $apiResponse['effectiveShelvingOrder'];
-		$effectiveLocationId = $apiResponse['effectiveLocationId'];
+		$alertStatus = $apiResponse['effectiveLocationId'];
 		$effectiveLocationName = $apiResponse['effectiveLocationName'];
 		$institution_id = Auth::user()->institution_id;
 
-		$nextMoverBarcode = $this->nextMoverBarcode($user_id);
 
+		if($status !== 'Available') 
+		{
+			$alert = new Alert;
+			$alert->user_id = $user_id;
+			$alert->library_id = $libraryId;
+			$alert->barcode = $barcode;
+			$alert->call_number = $callNumber;
+			$alert->title = $title;
+			$alert->alert = $alertStatus;
+			$alert->save();
+
+			if($sortSchemeId == 1) {
+
+				return Redirect::route('shelf')->with(['message'=>"The item entitled \"$title\" 
+					has a status of $alertStatus." ]);
+
+			} else {
+
+				return Redirect::route('maps')->with(['message'=>"The item entitled \"$title\" 
+					has a status of $alertStatus." ]);
+			 }
+		}
 		//Checks
 		if($sortSchemeId === 2) { //Maps
 
 			if(FolioService::checkBook($barcode,$user_id) === 0) 
 			{
-				$cposition = $this->sortKey->index($callNumber,$barcode);
+				$cposition = $this->sortKeysInterface->index($callNumber,$barcode);
 				FolioService::bookNotOnShelf($cposition,$sortSchemeId,$user_id,$callNumber,$barcode,$title,$status,
-					$effectiveLocationName,$effectiveLocationId,$effectiveShelvingOrder);
+					$effectiveLocationName,$alertStatus,$effectiveShelvingOrder);
 
 				FolioService::bookJustShelved($user_id,$sortSchemeId);
 
@@ -91,7 +132,7 @@ class FolioRequestController extends Controller
 
 				} else {
 
-					return "You Re-Scanned the Wrong Book";
+					return Redirect::route('maps')->with('message','You re-scanned the wrong item.');
 				} 
 
 
@@ -100,13 +141,13 @@ class FolioRequestController extends Controller
 
 			return Redirect::route('maps');
 
-		}
+		} else {
 
 		if(FolioService::checkBook($barcode,$user_id) === 0) 
 		{
-			$cposition = SortKey::index($callNumber,$barcode);
+			$cposition = $this->sortKeysInterface->index($callNumber,$barcode);
 			FolioService::bookNotOnShelf($cposition,$sortSchemeId,$user_id,$callNumber,$barcode,$title,$status,
-				$effectiveLocationName,$effectiveLocationId,$effectiveShelvingOrder);
+				$effectiveLocationName,$alertStatus,$effectiveShelvingOrder);
 
 			FolioService::bookJustShelved($user_id,$sortSchemeId);
 
@@ -121,13 +162,14 @@ class FolioRequestController extends Controller
 
 			} else {
 
-				return Redirect::route('shelf')->with('message','You re-scanned a book but there are no errors in the 
+				return Redirect::route('shelf')->with('message','You re-scanned an item but there are no errors in the 
 					shelf.');
 			} 
 		}
 
 
 		return Redirect::route('shelf');
-	} 
+		} 
+	}
 }
 

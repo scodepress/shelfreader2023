@@ -22,8 +22,7 @@ use App\Models\Setting;
 use App\Models\ShelfCandidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
+use DB;
 trait BookShelfTrait {
 
 	public function placeBookOnShelf($user_id,$barcode,$callnumber,$title,$status,$effectiveShelvingOrder,
@@ -240,14 +239,14 @@ trait BookShelfTrait {
 			{
 
 				//Get current position of book with cposition of $l
-				$cup = \DB::table('shelves')
+				$cup = DB::table('shelves')
 					->where('correct_position', $l)
 					->where('user_id',$user_id)
 					->pluck('shelf_position')[0];
 
 				//dd($cup);
 
-				$mp = \DB::table('shelves')
+				$mp = DB::table('shelves')
 					->where('correct_position', $move)
 					->where('user_id',$user_id)
 					->pluck('shelf_position')[0];
@@ -278,7 +277,7 @@ trait BookShelfTrait {
 
 				{   
 
-					$cup = \DB::table('shelves')
+					$cup = DB::table('shelves')
 						->where('correct_position', $l)
 						->where('user_id',$user_id)
 						->pluck('shelf_position')[0];
@@ -296,7 +295,7 @@ trait BookShelfTrait {
 	public function moverCposition($user_id)
 	{
 		// Get correct position of next book to be moved
-		return \DB::table('moves')
+		return DB::table('moves')
 			->select('correct_position')
 			->where('user_id', $user_id)
 			->orderBy('correct_position')
@@ -306,7 +305,7 @@ trait BookShelfTrait {
 	public function nextMoverItem($user_id)
 	{
 		// Get correct position of next book to be moved
-		return \DB::table('moves as m')
+		return DB::table('moves as m')
 			->join('shelves as s','s.barcode','=','m.barcode')
 			->select('m.barcode','s.title')
 			->where('m.user_id', $user_id)
@@ -318,7 +317,7 @@ trait BookShelfTrait {
 	public function nextMoverBarcode($user_id)
 	{
 		// Get correct position of next book to be moved
-		return \DB::table('moves')
+		return DB::table('moves')
 			->select('barcode')
 			->where('user_id', $user_id)
 			->orderBy('correct_position')
@@ -328,7 +327,7 @@ trait BookShelfTrait {
 	public function moverPosition($user_id)
 	{
 		// Get shelf position of current book to be moved
-		return \DB::table('moves')
+		return DB::table('moves')
 			->select('shelf_position')
 			->where('user_id', $user_id)
 			->orderBy('correct_position')
@@ -349,19 +348,19 @@ trait BookShelfTrait {
 		//dd($shelf_position);
 
 		// Increment positions of books on shelf when book is moving right
-		\DB::table('shelves')
+		DB::table('shelves')
 			->where('shelf_position', '>', $shelf_position)
 			->where('user_id', $user_id)
 			->where('shelf_position', '<=', $mpos)
 			->decrement('shelf_position', 1);
 
 		// Change the position of the moved book to it's new position
-		\DB::table('shelves')
+		DB::table('shelves')
 			->where('user_id', $user_id)
 			->where('barcode', $dbar)
 			->update(['shelf_position' => $mpos]);
 
-		$query = \DB::statement("Update moves m 
+		$query = DB::statement("Update moves m 
 			inner join shelves s 
 			on s.barcode = m.barcode 
 			set m.shelf_position = s.shelf_position 
@@ -392,7 +391,7 @@ trait BookShelfTrait {
 			->where('barcode', $dbar)
 			->update(['shelf_position' => $mpos]);
 
-		$query = \DB::statement("Update moves m 
+		$query = DB::statement("Update moves m 
 			inner join shelves s 
 			on s.barcode = m.barcode 
 			set m.shelf_position = s.shelf_position 
@@ -426,7 +425,7 @@ trait BookShelfTrait {
 
 	public function currentMovers($user_id)
 	{
-		return \DB::table('moves as m')
+		return DB::table('moves as m')
 			->join('shelves as s','m.barcode','=','s.barcode')
 			->select('m.barcode','m.shelf_position','m.correct_position','s.title','s.callnumber')
 			->where('m.user_id', $user_id)
@@ -439,7 +438,7 @@ trait BookShelfTrait {
 		Subsequence::where('user_id', $user_id)->delete();
 		$lis = $this->lis($user_id);
 
-		$binfo = \DB::table('shelves')
+		$binfo = DB::table('shelves')
 			->select('user_id','barcode','shelf_position','correct_position')
 			->whereIn('correct_position', $lis)
 			->where('user_id', Auth::id())
@@ -450,7 +449,7 @@ trait BookShelfTrait {
 				'correct_position' => $b->correct_position];
 		}
 
-		\DB::table('subsequences')->insert($book_info);
+		DB::table('subsequences')->insert($book_info);
 	}
 
 	public static function countShelfErrors($user_id)
@@ -470,14 +469,14 @@ trait BookShelfTrait {
 
 	public function countCorrections($user_id)
 	{
-		return \DB::table('moves')
+		return DB::table('moves')
 			->where('user_id', $user_id)
 			->count();
 	} 
 
 	public function onShelf($barcode,$user_id)
 	{
-		return \DB::table('shelves')
+		return DB::table('shelves')
 			->where('barcode', $barcode)
 			->where('user_id', $user_id)
 			->count();

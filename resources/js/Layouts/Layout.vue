@@ -5,16 +5,13 @@
         <div>
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="px-4 max-w-7xl sm:px-6 lg:px-8">
                     <div class="flex justify-start h-16 w-max">
                         <div class="flex justify-start text-2xl">
                             <!-- Logo -->
                             <div class="flex items-center flex-shrink-0">
-                                <inertia-link :href="route('dashboard')">
-                                    <jet-application-mark
-                                        class="block w-auto h-9"
-                                    />
-                                </inertia-link>
+			    	<img src="/assets/images/Penn_State.png" />
+
                             </div>
 
                             <!-- Navigation Links -->
@@ -70,7 +67,16 @@
                                     </jet-dropdown-link>
                                 </form>
                             </div>
-
+				<div
+                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                            >
+                                <jet-nav-link
+                                    :href="route('alerts')"
+                                    :active="route().current('alerts')"
+                                >
+                                  View Alerts 
+                                </jet-nav-link>
+                            </div>
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >

@@ -115,20 +115,10 @@
 <td class="w-48">Date</td>
 </tr>
 </table>
-<div v-for="(shelf, index) in masterShelf.data">
-<table v-if="shelf.onShelf === 0" class="w-11/12">
-<tr  class="bg-red-200 border border-1">
-	<td class="w-12">{{ index + 1 }}.</td>
+<div>
 
-<td class="w-96">{{ shelf.title.slice(0,30) }}</td>
-<td class="w-48">{{ shelf.barcode }}</td>
-<td class="w-64">{{ shelf.call_number }}</td>
-<td class="w-48">{{ shelf.date }} </td>
-</tr>
-</table>
-
-<table v-else class="w-11/12">
-<tr class="bg-green-200 border border-1">
+<table class="w-11/12">
+<tr v-for="(shelf, index) in masterShelf.data" class="even:bg-white odd:bg-blue-100">
 	<td class="w-12">{{ index + 1 }}.</td>
 
 <td class="w-96">{{ shelf.title.slice(0,30) }}</td>
@@ -140,7 +130,9 @@
 </div>
 <div class="md:hidden">
 	<table class="w-11/12">
-            <tr v-for="(shelf, index) in masterShelf.data">
+            <tr v-for="(shelf, index) in masterShelf.data"
+                        class="even:bg-white odd:bg-blue-100"
+	    >
                <tr> <td>{{ index + 1 }}.</td></tr>
                <tr> <td>{{ shelf.title.slice(0, 50) }}</td></tr>
                <tr> <td>{{ shelf.call_number }}</td></tr>

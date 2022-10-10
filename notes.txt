@@ -1,6 +1,6 @@
 To  Do
 
-1. Make a page for scans that returns erorrs. Base it on the Master Shelf page. 
+1. Make a page for scans that return erorrs. Base it on the Master Shelf page. 
 2. Fix error messaging. 
 3. Add status to shelves and master shelf table
 4. Add Form Requests to all forms
@@ -8,3 +8,9 @@ To  Do
 6. Add status to master shelfs tables and master reults table 
 7. Make Maps work
 8. Fix focus in barcode form on shelf page
+9. Scans that return empty results and any item that has a status of Unavailable will be recorded in the alerts table with info
+   available including "location id".
+10. Add form to change Collection on Inventory and Alert page.
+11. Put summary on admin page.
+12. Shelve alerts on FolioRequestController page.
+13. Make margins the same on all pages (except maybe shelf).
