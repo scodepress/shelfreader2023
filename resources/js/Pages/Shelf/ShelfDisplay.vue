@@ -119,6 +119,12 @@
         
         
     </div>
+    	<div class="flex justify-center mt-6" v-if="errors.barcode">
+		
+		<div v-for="error in errors">
+			<span class="text-3xl text-red-700">{{ error }}</span>
+		</div>
+	</div>
 	<div class="flex justify-center mt-6" v-if="status != 'Available'">
 		
 		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
@@ -253,6 +259,7 @@ export default {
         "libraryApiServices",
         "statusAlert",
         "mains",
+        "errors",
     ],
 
     data() {

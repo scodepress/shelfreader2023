@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\Services\SortKey\SortKeysInterface;
 use App\Facades\Services\MapsCallnumberService;
+use App\Http\Requests\BarcodeRequest;
 use App\Models\Alert;
 use App\Models\FirstScan;
 use App\Models\MapKey;
@@ -49,7 +50,7 @@ class FolioRequestController extends Controller
 
 
 
-	public function processFolio(Request $request) {
+	public function processFolio(BarcodeRequest $request) {
 
 		$user_id = $request->user()->id;
 		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
@@ -57,6 +58,7 @@ class FolioRequestController extends Controller
 		$barcode = $request->barcode;
 		$sortSchemeId = $request->sortSchemeId;
 		$apiResponse = Sirsi::itemParameters($barcode);
+
 		if(!$apiResponse)
 		{
 			// Insert barcode in alerts table
