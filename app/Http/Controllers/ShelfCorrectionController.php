@@ -6,8 +6,10 @@ use App\Models\InstitutionApiService;
 use Illuminate\Http\Request;
 use App\Traits\BookShelfTrait;
 use App\Models\Shelf;
+use App\Models\Correction;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Move;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ShelfCorrectionController extends Controller
@@ -18,6 +20,11 @@ class ShelfCorrectionController extends Controller
     {
     	
         $mpos = $this->mpos($user_id);
+	$itemInfo = Shelf::where('user_id',$user_id)->where('barcode',$barcode)->get();
+	$call_number = $itemInfo[0]->call_number;
+	$title = $itemInfo[0]->title;
+	$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
+	$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
 
         $shelf_position = Shelf::where('barcode', $barcode)->where('user_id',$user_id)->pluck('shelf_position')[0];
 
@@ -38,9 +45,18 @@ class ShelfCorrectionController extends Controller
 
         }
 
-     
+	// Insert item into corrections table
 
-	if(InstitutionApiService::where('user_id',Auth::user()->id)->where('loaded',1)->pluck('sort_scheme_id')[0] === 3)
+			$correction = new Correction; 
+			$correction->user_id = $user_id;
+			$correction->library_id = $libraryId;
+			$correction->barcode = $barcode;
+			$correction->call_number = $call_number;
+			$correction->title = $title;
+			$correction->save();
+	
+
+	if($sortSchemeId === 2)
 	{
               return Redirect::route('maps');
 

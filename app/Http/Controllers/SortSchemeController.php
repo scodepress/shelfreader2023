@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Institution;
 use App\Models\User;
 use App\Models\InstitutionApiService;
+use App\Models\SearchParameter;
 use App\Traits\BookShelfTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,7 @@ class SortSchemeController extends Controller
 			->update(['loaded'=>0]);
 
 		User::where('id',$request->user()->id)->update(['scheme_id'=>$request->sort]);
+		SearchParameter::where('user_id',$request->user()->id)->delete();
 
 		if($request->sort === 2)
 		{

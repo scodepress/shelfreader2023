@@ -486,6 +486,7 @@ trait BookShelfTrait {
 	{
 		Shelf::where('user_id',$user_id)->delete();
 		SortKey::where('user_id',$user_id)->delete();
+		MapKey::where('user_id',$user_id)->delete();
 		Subsequence::where('user_id', $user_id)->delete();
 		Move::where('user_id',$user_id)->delete();
 		Status::where('user_id',$user_id)->delete();

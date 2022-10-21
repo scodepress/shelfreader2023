@@ -14,7 +14,7 @@ class CreateMembershipRequestRecordsTable extends Migration
     public function up()
     {
         Schema::create('membership_request_records', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
+            $table->bigIncrements('id');
             $table->string('institution_name');
             $table->string('inquirer_name');
             $table->string('email', 50);

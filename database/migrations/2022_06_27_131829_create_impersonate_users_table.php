@@ -14,7 +14,7 @@ class CreateImpersonateUsersTable extends Migration
     public function up()
     {
         Schema::create('impersonate_users', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

@@ -14,7 +14,7 @@ class CreateMasterShelvesTable extends Migration
     public function up()
     {
         Schema::create('master_shelves', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('library_id');
             $table->string('barcode', 20);

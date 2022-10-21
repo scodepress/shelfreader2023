@@ -24,9 +24,9 @@ trait AdminTrait {
 	{
 		return DB::table('institution_api_services as i')
 			->join('institutions as in','in.id','=','i.institution_id')
-			->select('in.id','in.institution_name','i.api_service_id')
+			->select('in.id','in.institution','i.api_service_id')
 			->where('i.api_service_id','=',3)
-			->groupBy('in.id','in.institution_name','i.api_service_id')
+			->groupBy('in.id','in.institution','i.api_service_id')
 			->get();
 	}
 

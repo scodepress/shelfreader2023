@@ -14,7 +14,7 @@ class CreateLocalInventoryOutsTable extends Migration
     public function up()
     {
         Schema::create('local_inventory_outs', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
+            $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->string('barcode', 30);
             $table->timestamp('created_at')->useCurrent();

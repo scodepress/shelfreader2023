@@ -14,7 +14,7 @@ class CreateFolioAuthenticationTokensTable extends Migration
     public function up()
     {
         Schema::create('folio_authentication_tokens', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->bigInteger('institution_id');
             $table->string('institution_name', 50);
             $table->string('auth_key', 300)->unique('auth_key');

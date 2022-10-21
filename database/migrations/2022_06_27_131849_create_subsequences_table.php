@@ -14,7 +14,7 @@ class CreateSubsequencesTable extends Migration
     public function up()
     {
         Schema::create('subsequences', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('barcode', 20);
             $table->integer('shelf_position');

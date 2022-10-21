@@ -17,6 +17,7 @@ interface MasterShelfInterface  {
 	
 	public function getSortedItemsByCallNumberAndDateRange($userId,$beginningCallNumber,$endingCallNumber,$beginningDate
 		,$endingDate);
+
 	public function insertSearchResultsForDisplay($userId,$libraryId);
 
 	public function getDefaultBeginningCallNumber($libraryId);
@@ -26,4 +27,6 @@ interface MasterShelfInterface  {
 	public function getDefaultBeginningDate($libraryId);
 
 	public function getDefaultEndingDate($libraryId);
+	
+	public function getCallNumberFromBarcode($barcode);
 }

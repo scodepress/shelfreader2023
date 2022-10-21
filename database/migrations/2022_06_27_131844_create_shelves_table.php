@@ -14,7 +14,7 @@ class CreateShelvesTable extends Migration
     public function up()
     {
         Schema::create('shelves', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->bigInteger('scan_order');
             $table->bigInteger('user_id');
             $table->string('callnumber', 250);

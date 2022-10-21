@@ -82,8 +82,9 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 		Route::post('empty_tables', 'ShelvesController@truncate')->middleware('auth:sanctum')->name('empty_tables');
 		Route::post('empty_inventory_tables', 'ShelfreaderInventoryController@truncate')->middleware('auth:sanctum')
 										  ->name('empty_inventory_tables');
-		Route::get('correction/{user_id}/{barcode}', 'ShelfCorrectionController@correction')->middleware('auth:sanctum')
-										      ->name('correction');
+		Route::get('correction/{user_id}/{barcode}', 'ShelfCorrectionController@correction')
+			->middleware('auth:sanctum')->name('correction');
+
 		Route::post('inventory-correction', 'FolioInventoryRequestController@correction')->middleware('auth:sanctum')
 										   ->name('inventory-correction');
 		Route::post('choose-sort', 'SortSchemeController@put')->middleware('auth:sanctum')->name('choose-sort');
@@ -104,6 +105,7 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 		Route::get('clear.search', 'MasterShelfController@clearSearch')->name('clear.search');
 		Route::get('instructions', 'InstructionController@show')->name('instructions');
 		Route::get('alerts', 'AlertController@show')->name('alerts');
+		Route::get('library', 'LibraryController@show')->name('library');
 
 
 	});

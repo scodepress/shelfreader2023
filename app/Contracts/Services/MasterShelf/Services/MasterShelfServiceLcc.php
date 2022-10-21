@@ -400,11 +400,17 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 	{
 
 		return DB::table('master_shelf_lcc')
-			->select('date')
 			->where('library_id',$libraryId)
 			->groupBy('date')
 			->orderByDesc('date')
 			->pluck('date');	
 	}
 
+	public function getCallNumberFromBarcode($barcode)
+	{
+		return DB::table('master_shelf_lcc')
+			->select('call_number')
+			->where('barcode',$barcode)
+			->first()->call_number;
+	}
 }

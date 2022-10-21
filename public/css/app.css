@@ -1317,6 +1317,12 @@ select {
 .mt-7 {
   margin-top: 1.75rem;
 }
+.ml-16 {
+  margin-left: 4rem;
+}
+.ml-32 {
+  margin-left: 8rem;
+}
 .block {
   display: block;
 }
@@ -1431,6 +1437,9 @@ select {
 }
 .w-11\/12 {
   width: 91.666667%;
+}
+.w-2\/3 {
+  width: 66.666667%;
 }
 .w-40 {
   width: 10rem;

@@ -14,7 +14,7 @@ class CreateUnprocessedCallNumbersTable extends Migration
     public function up()
     {
         Schema::create('unprocessed_call_numbers', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
+            $table->bigIncrements('id')->primary();
             $table->bigInteger('user_id');
             $table->string('barcode', 30);
             $table->string('call_number');

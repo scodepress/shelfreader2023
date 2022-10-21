@@ -14,7 +14,7 @@ class CreateOnlineInventoryItemsTable extends Migration
     public function up()
     {
         Schema::create('online_inventory_items', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->bigInteger('user_id')->nullable();
             $table->string('barcode', 250);
             $table->string('call_number', 250);

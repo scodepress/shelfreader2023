@@ -48,9 +48,12 @@ public function __construct(MasterShelfInterface $msi)
 
 		// If there are books in the inventory demo, run the inventory truncate method
 		$user_id = Auth::user()->id;
+		$institution_id = Auth::user()->institution_id;
 		 
 		$sortSchemeId = InstitutionApiService::getLoadedSortSchemeId($user_id);
 		$apiServiceId = InstitutionApiService::getLoadedApiServiceId($user_id);
+		$unloadedService = InstitutionApiService::where('user_id',$user_id)
+			->where('loaded',0)->get();
 
 		$sortSchemeName = InstitutionApiService::where('user_id',$user_id)->where('loaded',1)->pluck('sort_scheme_name')[0];
 
@@ -71,7 +74,7 @@ public function __construct(MasterShelfInterface $msi)
 		$shelf = Shelf::where('user_id', Auth::user()->id)->orderBy('shelf_position')->get();
 
 		$api_services = ApiService::institutionServices(Auth::user()->institution_id);
-		$libraryApiServices = InstitutionApiService::getApiServices($institution[0]->id,$user_id);
+		$libraryApiServices = InstitutionApiService::getApiServices($institution_id,$user_id);
 
 		$shelf_count = count($shelf);
 
@@ -133,7 +136,7 @@ public function __construct(MasterShelfInterface $msi)
 
 		$corrections = Move::where('user_id',Auth::user()->id)->count();
 
-		$mains = DB::table('mains')->select('barcode','title')->get()->unique('title');
+		$mains = DB::table('mains')->select('id','barcode','title')->get();
 
 		return Inertia::render('Shelf/ShelfDisplay', [
 
@@ -158,6 +161,7 @@ public function __construct(MasterShelfInterface $msi)
 			'libraryApiServices' => $libraryApiServices,
 			'statusAlert' => $statusAlert,
 			'mains' => $mains,
+			'unloadedService' => $unloadedService,
 		]);
 
 

@@ -14,7 +14,7 @@ class CreateApiServicesTable extends Migration
     public function up()
     {
         Schema::create('api_services', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
+            $table->bigIncrements('id');
             $table->string('service_name', 50);
             $table->integer('sort_scheme_id');
             $table->timestamp('created_at')->useCurrent();

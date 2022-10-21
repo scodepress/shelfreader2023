@@ -43,6 +43,7 @@ class MapController extends Controller
 		$drawer = Shelf::where('user_id',Auth::user()->id)->orderBy('shelf_position')->get();
 		// If there are books in the inventory demo, run the inventory truncate method
 		$user_id = Auth::user()->id;
+		$institution_id = Auth::user()->institution_id;
 		$institution = Institution::where('id',Auth::user()->institution_id)->get();
 		$user = User::where('id',Auth::user()->id)->get();
 		$hasLoadedService = $this->hasLoadedService();
@@ -51,6 +52,9 @@ class MapController extends Controller
 		$sortSchemeId = InstitutionApiService::getLoadedSortSchemeId($user_id);
 
 		$loaded_service = InstitutionApiService::where('user_id',Auth::user()->id)->where('loaded',1)->pluck('api_service_id')[0];
+		$unloaded_service = InstitutionApiService::where('user_id',Auth::user()->id)
+			->where('loaded',0)
+			->get();
 
 		$sortSchemeName = InstitutionApiService::where('user_id',$user_id)->where('loaded',1)->pluck('sort_scheme_name')[0];
 		$sort_schemes = SortScheme::get();
@@ -64,13 +68,13 @@ class MapController extends Controller
 		$shelf_count = count($shelf);
 
 		$api_services = ApiService::institutionServices(Auth::user()->institution_id);
-		$libraryApiServices = InstitutionApiService::getApiServices($institution[0]->id,$user_id);
+		$libraryApiServices = InstitutionApiService::getApiServices($institution_id,$user_id);
 
 		$status = Status::where('user_id',Auth::user()->id)->pluck('status');
 
 		if($status->first()) {$status = $status[0]; } else {$status = 'None';}
 
-		$libraryApiServices = InstitutionApiService::getApiServices($institution[0]->id,$user_id);
+		$libraryApiServices = InstitutionApiService::getApiServices($institution_id,$user_id);
 
 		$count_corrections = $this->countCorrections(Auth::user()->id);
 		$shelf_errors = $this->countShelfErrors(Auth::user()->id);
@@ -118,6 +122,7 @@ class MapController extends Controller
 			'shelf_errors' => $shelf_errors,
 			'shelf_count' => $shelf_count,
 			'loadedService' => $loaded_service,
+			'unloadedService' => $unloaded_service,
 			'status'=>$status,
 		       	'sortSchemes' => $sort_schemes,
 		       	'sortSchemeId' => $sortSchemeId,

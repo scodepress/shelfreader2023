@@ -14,7 +14,7 @@ class CreateSirsiCredentialsTable extends Migration
     public function up()
     {
         Schema::create('sirsi_credentials', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('url', 50);
             $table->string('client_id', 25);

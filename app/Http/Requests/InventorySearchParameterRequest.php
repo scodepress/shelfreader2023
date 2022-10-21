@@ -13,7 +13,7 @@ class InventorySearchParameterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class InventorySearchParameterRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+		'beginningBarcode' => 'nullable|digits:12|numeric|starts_with:0',
+		'endingBarcode' => 'nullable|digits:12|numeric|starts_with:0',
+		'beginningDate' => 'date|nullable',
+		'endingDate' => 'date|nullable',
         ];
     }
 }

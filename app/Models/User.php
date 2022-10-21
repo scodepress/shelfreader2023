@@ -69,7 +69,7 @@ class User extends \TCG\Voyager\Models\User
 	public static function userInstitution() {
 		return DB::table('users as u')
 			->join('institutions as i','i.id','=','u.institution_id')
-			->select('u.id','u.name','institution_name','street','state','zip','approved','u.email','privs')
+			->select('u.id','u.name','institution','street','state','zip','approved','u.email','privs')
 			->orderByDesc('u.created_at')
 			->whereNull('deleted_at')
 			->get();

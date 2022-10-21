@@ -14,7 +14,7 @@ class CreateSortSchemesTable extends Migration
     public function up()
     {
         Schema::create('sort_schemes', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->bigIncrements('id');
             $table->string('name', 100);
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrent();

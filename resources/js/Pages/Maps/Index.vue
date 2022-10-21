@@ -19,6 +19,7 @@
                                     v-model="form.barcode"
                                     autofocus
                                     placeholder="Scan Barcode"
+				    ref="barcode"
                                 />
                             </div>
                         </form>
@@ -30,11 +31,15 @@
                                     class="block w-full mt-1 form-input rounded-md shadow-sm"
                                     v-model="form.sort"
                                 >
+			    	<option value="" selected disabled>
+					Change Sort
+			    	</option>
                                     <option
-                                        v-for="(sort, index) in libraryApiServices"
+                                        v-for="(sort, index) in unloadedService"
                                         :key="index"
                                         :value="sort.sort_scheme_id"
-                                    >Sort Method: {{ sort.sort_scheme_name }}
+                                    >
+				    Sort Method: {{ sort.sort_scheme_name }}
                                     </option>
 
                                 </select>
@@ -53,9 +58,21 @@
 		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
 		
 	</div>
+    	<div class="flex justify-center mt-6" v-if="errors.barcode">
+		
+		<div v-for="error in errors">
+			<span class="text-3xl text-red-700">{{ error }}</span>
+		</div>
+	</div>
+	<div class="flex justify-center mt-6" v-if="status != 'Available'">
+		
+		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
+		
+	</div>
 	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
 		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
 	</div>
+	
         <div
 	    id="container"
 	    ref="scrollToMe"
@@ -140,7 +157,6 @@ export default {
         drawer: Object,
         mover: Number,
         mpos: Number,
-        sortSchemes: Object,
         sortSchemeId: Number,
         loadedService: Number,
         scannedItem: Object,
@@ -150,6 +166,8 @@ export default {
         status: String,
         nextMoverItem: Object,
         libraryApiServices: Object,
+	errors: Object,
+	unloadedService: Object,
     },
     data() {
         return {
@@ -164,6 +182,8 @@ export default {
     },
 
     mounted() {
+
+        this.nowFocusInput();
         this.scrollToElement();
     },
 

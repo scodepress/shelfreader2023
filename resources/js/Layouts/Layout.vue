@@ -105,21 +105,15 @@
                                 </jet-nav-link>
                             </div>
 
-                            
-
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                                class="pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
-                                <jet-nav-link
-                                    :href="route('inventory-report')"
-                                    :active="
-                                        route().current('inventory-report')
-                                    "
-                                >
-                                    Missing Item Report
-                                </jet-nav-link>
-                            </div>
-                            <div
+                                <form @submit.prevent="library">
+                                    <jet-dropdown-link as="button">
+                                     	 Library Report 
+                                    </jet-dropdown-link>
+                                </form>
+                            </div><div
                                 class="pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
                                 <form @submit.prevent="logout">
@@ -1309,6 +1303,11 @@ export default {
         masterShelf() {
             this.$inertia.get(
                 route("master.shelf", { sortSchemeId: this.sortSchemeId })
+            );
+        },
+        library() {
+            this.$inertia.get(
+                route("library", { sortSchemeId: this.sortSchemeId })
             );
         },
     },

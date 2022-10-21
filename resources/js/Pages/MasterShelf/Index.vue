@@ -15,15 +15,15 @@
                         <div class="mr-6">
 			   <input
                                 class="block pl-1 border-2 w-80 form-input rounded-md shadow-sm"
-				v-model="form.beginningCallNumber"
-				placeholder="Beginning Call Number"
+				v-model="form.beginningBarcode"
+				placeholder="Beginning Barcode"
                             />
                         </div>
                         <div>
 			   <input
                                 class="block pl-2 ml-4 border-2 w-80 form-input rounded-md shadow-sm"
-				v-model="form.endingCallNumber"
-				placeholder="Ending Call Number"
+				v-model="form.endingBarcode"
+				placeholder="Ending Barcode"
                             />
                         </div>
                         <div class="ml-4 mr-4">
@@ -177,14 +177,15 @@ beginningCallNumber: Object,
 endingCallNumber: Object,
 allDates: Array,
 sortSchemeId: Number,
+
 },
        data() {
 	       return { 
 		form: this.$inertia.form({
                 beginningDate: "",
                 endingDate: "",
-                beginningCallnumber: "",
-               	endingCallnumber: "",
+                beginningBarcode: "",
+               	endingBarcode: "",
 		dateFileFormat: "",
 		showAlerts: "",
 		locationName: "",
@@ -200,19 +201,10 @@ sortSchemeId: Number,
             this.$inertia.post("/result.search", {
                 beginningDate: this.form.beginningDate,
                 endingDate: this.form.endingDate,
-                beginningCallNumber: this.form.beginningCallNumber,
-                endingCallNumber: this.form.endingCallNumber,
+                beginningBarcode: this.form.beginningBarcode,
+                endingBarcode: this.form.endingBarcode,
                 sortSchemeId: this.sortSchemeId,
                 showAlerts: this.form.showAlerts,
-            });
-		      },
-        postCallNumbers() {
-
-            this.$inertia.post("inventory.callnumbers", {
-                beginningCallNumber: this.form.beginningCallNumber,
-                endingCallNumber: this.form.endingCallNumber,
-                showAlerts: this.form.showAlerts,
-                onSuccess: (this.form.beginningCallnumber = ""),
             });
 		      },
 

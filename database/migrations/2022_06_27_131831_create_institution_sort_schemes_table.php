@@ -14,7 +14,7 @@ class CreateInstitutionSortSchemesTable extends Migration
     public function up()
     {
         Schema::create('institution_sort_schemes', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('institution_id');
             $table->integer('api_service_id');
             $table->string('sort_scheme_name', 100);

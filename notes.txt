@@ -1,6 +1,6 @@
 To  Do
 
-1. Make a page for scans that return erorrs. Base it on the Master Shelf page. Done
+1. Make a page for scans that returns errors. Base it on the Master Shelf page. Done
 2. Fix error messaging. Done
 3. Add status to shelves and master shelf table. Ignore
 4. Add Form Requests to all forms
@@ -11,7 +11,7 @@ To  Do
 9. Scans that return empty results and any item that has a status of Unavailable will be recorded in the alerts table with info
    available including "location id". Done
 10. Add form to change Collection on Inventory and Alert page.
-11. Put summary on admin page.
+11. Put summary on library page.
 12. Shelve alerts on FolioRequestController page. Done
 13. Make margins the same on all pages (except maybe shelf).
 14. Make all inventory searches based on library id only.
@@ -21,3 +21,16 @@ To  Do
 	c. impersonate form - super admin page
 	d. search parameter form - inventory page
 	
+16. Change call number search in form to barcode search.
+17. Change all id's in migrations tables to BigIncrements.
+18. Make script to transfer data from old tables to new.
+19. Show errors on inventory page.
+20. Error message on Inventory page when no books.
+21. Correction on maps page redirects to shelf page. Done.
+22. subsequences table needs to be emptied on sortScheme change.??? Done.
+23. On first maps scan, correct position is incorrect because map keys not emptying on clear shelf. Done.
+24. Remove option of current sort scheme from choose sort. Done
+25. Fix numbers appearing on books instead of above.
+26. Fix green line appearing below shelf.
+
+Form requests and scripts.

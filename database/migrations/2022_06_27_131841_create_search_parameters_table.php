@@ -14,7 +14,7 @@ class CreateSearchParametersTable extends Migration
     public function up()
     {
         Schema::create('search_parameters', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('beginningDate')->nullable();
             $table->string('endingDate')->nullable();

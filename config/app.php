@@ -203,6 +203,7 @@ return [
 	App\Services\MasterShelf\MasterShelfServiceProvider::class,
 	App\Providers\MasterShelvesServiceProvider::class,
 	App\Providers\SortKeyServiceProvider::class,
+	App\Providers\LibraryServiceProvider::class,
     ],
 
     /*

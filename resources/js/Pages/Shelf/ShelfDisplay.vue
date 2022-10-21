@@ -73,7 +73,7 @@
                                     :key="index"
                                     :value="demo.barcode"
                                 >
-                                    {{ demo.title }}
+                                   {{ demo.id }}.  {{ demo.title }}
                                 </option>
                             </select>
                         </div>
@@ -88,6 +88,7 @@
                                 v-model="form.barcode"
                                 autofocus
                                 placeholder="Scan Barcode"
+				ref="barcode"
                             />
                         </div>
                     </form>
@@ -100,10 +101,10 @@
                                 v-model="form.sort"
                             >
 			    	<option value="" selected disabled>
-					Sort Scheme
+					Change Sort
 			    	</option>
                                 <option
-                                    v-for="(sort, index) in libraryApiServices"
+                                    v-for="(sort, index) in unloadedService"
                                     :key="index"
                                     :value="sort.sort_scheme_id"
                                 >
@@ -148,16 +149,15 @@
         <div style="width: 100%">
             <div
                 class="corntainer"
-                style="overflow-x: scroll; height: 675px; width: 100%"
+                style="overflow-x: scroll; height: 750px; width: 100%"
             >
                 <ul class="flex w-full pt-6 h-max">
                     <li
-                        class="text-center"
+                        class="flex text-center"
                         v-if="mpos > mover"
                         v-for="(book, index) in shelf"
                         :key="1"
                     >
-                        <div>{{ index + 1 }}</div>
                         <div
                             v-if="mover === book.shelf_position"
                             class="font-bold text-blue-800 turn"
@@ -260,6 +260,7 @@ export default {
         "statusAlert",
         "mains",
         "errors",
+	"unloadedService"
     ],
 
     data() {
@@ -282,11 +283,7 @@ export default {
     mounted() {
         let book_count = this.shelf.length;
 
-        // if (book_count > 18) {
-        //     this.pageLoadScroll();
-        // }
-
-        //this.nowFocusInput();
+        this.nowFocusInput();
         this.scrollToEnd();
     },
 
@@ -299,43 +296,12 @@ export default {
                 ignoreLocation: 0,
                 onSuccess: (this.form.barcode = ""),
             });
+                this.nowFocusInput;
         },
-        saveShelfCandidate() {
-            this.$inertia.post("process-barcode", {
-                barcode: this.candidate[0].barcode,
-                service: this.loaded_service,
-                ignoreLocation: 1,
-                sortSchemeId: this.sortSchemeId,
-            });
-        },
-        saveCandidateToShelf() {
-            this.$inertia.post("save.candidate.to.shelf", {
-                barcode: this.candidate[0].barcode,
-                service: this.loaded_service,
-                ignoreLocation: 1,
-                sortSchemeId: this.sortSchemeId,
-            });
-        },
-        confirmLocation() {
-            this.$inertia.post("process-barcode", {
-                barcode: this.initialLocationBarcode,
-                service: this.loaded_service,
-                ignoreLocation: 0,
-                sortSchemeId: this.sortSchemeId,
-            });
-        },
-        cancelLocation() {
-            this.$inertia.delete("delete.first.scan", {});
-        },
+
         deleteItem(barcode) {
             this.$inertia.post("delete.item", {
                 barcode: barcode,
-            });
-        },
-
-        chooseService(service) {
-            this.$inertia.post("set-service", {
-                service: service,
             });
         },
 

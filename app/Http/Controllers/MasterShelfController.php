@@ -13,6 +13,7 @@ use MasterShelfService;
 use App\Exports\MasterShelfExport;
 use App\Exports\MasterShelfExportByCallNumber;
 use App\Exports\MasterShelfFullExport;
+use App\Http\Requests\InventorySearchParameterRequest;
 use App\Models\MasterShelfResult;
 use App\Models\OnlineInventoryItem;
 use App\Models\SearchParameter;
@@ -125,17 +126,28 @@ class MasterShelfController extends Controller
 	}
 
 
-	public function searchInventory(Request $request){
+	public function searchInventory(InventorySearchParameterRequest $request){
 
 		$beginningDate = $request->beginningDate;
 		$endingDate = $request->endingDate;
 		$sortSchemeId = $request->sortSchemeId;
 		$user_id = Auth::user()->id;
 		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
+		$beginningBarcode = $request->beginningBarcode;
+		$endingBarcode = $request->endingBarcode;
+
+		if($beginningBarcode) {
+			$beginningCallNumber = $this->msi->getCallNumberFromBarcode($beginningBarcode);
+			$endingCallNumber = $this->msi->getCallNumberFromBarcode($endingBarcode);
+		} else {
+			$beginningCallNumber = null;
+			$endingCallNumber = null;
+		}
 
 		if($request->showAlerts === true)
 		{
 			$showAlerts = 1;
+
 		} else {
 
 			$showAlerts = 0;
@@ -149,8 +161,8 @@ class MasterShelfController extends Controller
 		$sparam->sort_scheme_id = $request->sortSchemeId;
 		$sparam->beginningDate = $beginningDate;
 		$sparam->endingDate = $endingDate;
-		$sparam->beginningCallNumber = $request->beginningCallNumber;
-		$sparam->endingCallNumber = $request->endingCallNumber;
+		$sparam->beginningCallNumber = $beginningCallNumber;
+		$sparam->endingCallNumber = $endingCallNumber;
 		$sparam->alerts = $showAlerts;
 		$sparam->save();
 

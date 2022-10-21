@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLibrariesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateLibrariesTable extends Migration
      */
     public function up()
     {
-        Schema::create('libraries', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('institution_id');
-            $table->string('library_name', 300);
-            $table->string('city', 100);
-            $table->string('street', 100);
-            $table->char('state', 2);
-            $table->string('zip', 20);
+        Schema::create('corrections', function (Blueprint $table) {
+            $table->bigIncrements('id'); // Auto incrementing primary key
+            $table->bigInteger('user_id');
+            $table->bigInteger('library_id');
+            $table->string('barcode', 30)->nullable();
+            $table->string('call_number')->nullable();
+            $table->text('title')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
@@ -33,6 +32,6 @@ class CreateLibrariesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('libraries');
+        Schema::dropIfExists('corrections');
     }
-}
+};
