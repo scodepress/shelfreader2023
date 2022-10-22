@@ -32,5 +32,8 @@ To  Do
 24. Remove option of current sort scheme from choose sort. Done
 25. Fix numbers appearing on books instead of above.
 26. Fix green line appearing below shelf.
+27. Add sounds.
+28. Update Instructions page.
+29 Add library to registration page.
 
 Form requests and scripts.

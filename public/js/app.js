@@ -32136,10 +32136,16 @@ var _hoisted_35 = {
   "class": "font-bold text-blue-800 turn"
 };
 var _hoisted_36 = {
+  "class": "mb-2 text-sm font-bold unturn"
+};
+var _hoisted_37 = {
   key: 1,
   "class": "turn"
 };
-var _hoisted_37 = {
+var _hoisted_38 = {
+  "class": "mb-2 text-sm font-bold unturn"
+};
+var _hoisted_39 = {
   key: 2,
   "class": "h-2 bg-green-700 turn",
   style: {
@@ -32147,11 +32153,11 @@ var _hoisted_37 = {
     "width": "7px"
   }
 };
-var _hoisted_38 = {
+var _hoisted_40 = {
   "class": "flex",
   key: 1
 };
-var _hoisted_39 = {
+var _hoisted_41 = {
   key: 0,
   "class": "h-2 bg-green-800 turn",
   style: {
@@ -32159,36 +32165,39 @@ var _hoisted_39 = {
     "width": "7px"
   }
 };
-var _hoisted_40 = {
+var _hoisted_42 = {
   key: 1,
   "class": "font-bold text-blue-800 turn"
 };
-var _hoisted_41 = ["onClick"];
-var _hoisted_42 = {
+var _hoisted_43 = {
+  "class": "mb-2 text-sm font-bold unturn"
+};
+var _hoisted_44 = ["onClick"];
+var _hoisted_45 = {
   key: 2,
   "class": "flex turn"
 };
-var _hoisted_43 = ["onClick"];
-var _hoisted_44 = {
+var _hoisted_46 = {
+  "class": "mb-2 text-sm font-bold unturn"
+};
+var _hoisted_47 = ["onClick"];
+var _hoisted_48 = {
   "class": "text-green-800 border-1"
 };
-var _hoisted_45 = {
+var _hoisted_49 = {
   key: 1
 };
-var _hoisted_46 = {
-  style: {
-    "width": "60px"
-  },
-  "class": "text-center"
-};
-var _hoisted_47 = {
+var _hoisted_50 = {
   "class": "turn"
 };
-var _hoisted_48 = ["onClick"];
-var _hoisted_49 = {
+var _hoisted_51 = {
+  "class": "mb-2 text-sm font-bold unturn"
+};
+var _hoisted_52 = ["onClick"];
+var _hoisted_53 = {
   "class": "flex w-full h-max"
 };
-var _hoisted_50 = {
+var _hoisted_54 = {
   "class": "callnum"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -32328,31 +32337,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_33, [$props.mpos > $props.mover ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.shelf, function (book, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_34, [$props.mover === book.shelf_position ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 1
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_34, [$props.mover === book.shelf_position ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
     /* TEXT */
-    )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 1
     /* TEXT */
-    )), index + 1 === $props.mpos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 1
+    /* TEXT */
+    )])), index + 1 === $props.mpos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128
   /* KEYED_FRAGMENT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mpos < $props.mover ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.shelf, function (book, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_38, [index + 1 === $props.mpos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mover === book.shelf_position ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_40, [index + 1 === $props.mpos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mover === book.shelf_position ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: function onClick($event) {
         return $options.bookInfo(index);
       },
       href: "#"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 9
     /* TEXT, PROPS */
-    , _hoisted_41)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    , _hoisted_44)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, "h4" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: function onClick($event) {
         return $options.bookInfo(index);
       },
       href: "#"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 9
     /* TEXT, PROPS */
-    , _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
+    , _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
     /* TEXT */
     )]))]);
   }), 128
@@ -32360,22 +32377,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mpos === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.shelf, function (book, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: function onClick($event) {
         return $options.bookInfo(index);
       },
       href: "#"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title.slice(0, 25)), 9
     /* TEXT, PROPS */
-    , _hoisted_48)])]);
+    , _hoisted_52)])]);
   }), 128
   /* KEYED_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_49, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.shelf, function (book, index) {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.shelf, function (book, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.callnumber), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.callnumber), 1
     /* TEXT */
     )]);
   }), 128
@@ -33102,7 +33119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.up {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(45deg);\n}\ntd.rotate {\n    /* Something you can count on */\n    height: 140px;\n    white-space: nowrap;\n}\ntd.rotate > div {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(90deg);\n    width: 20px;\n}\ntd.rotate > div > span {\n    text-align: center;\n}\ntd.rotate45 {\n    /* Something you can count on */\n    height: 140px;\n    white-space: nowrap;\n}\ntd.rotate45 > div {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(40deg);\n    width: 20px;\n}\ntd.rotate45 > div > span {\n}\n.blink {\n    text-decoration: none;\n    color: maroon;\n}\n.shelf {\n    display: flex;\n    height: 520px;\n    width: 100%;\n}\n.shelf-book {\n    display: flex;\n\n    min-width: 0;\n}\n.shelf-book span {\n    display: flex-inline-block;\n    width: 70px;\n    justify-content: center;\n    align-items: center;\n    flex-direction: row;\n    min-height: 10em;\n    line-height: 2em;\n    height: 480px;\n    font-size: 2.1em;\n    border: 1px solid;\n    -ms-writing-mode: bt-rl;\n    writing-mode: vertical-rl;\n    -webkit-writing-mode: vertical-rl;\n    -moz-writing-mode: vertical-rl;\n    white-space: nowrap;\n    padding: 5px;\n}\n.call {\n    height: 45px;\n    width: 100%;\n}\n.call-book {\n    display: flex;\n\n    min-width: 0;\n}\n.call-book span {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(30deg);\n    display: flex-inline-block;\n    width: 70px;\n    font-size: 1.5em;\n    white-space: nowrap;\n    text-align: left;\n    vertical-align: top;\n    padding: 5px;\n}\n.turn {\n    display: inline-block;\n    width: 60px;\n    line-height: 55px;\n    -ms-writing-mode: bt-rl;\n    writing-mode: vertical-rl;\n    -webkit-writing-mode: vertical-rl;\n    -moz-writing-mode: vertical-rl;\n    white-space: nowrap;\n    background-image: url(\"/assets/images/jspine.jpeg\");\n    text-align: left;\n    height: 395px;\n    font-size: 1.7em;\n    padding-top: 20px;\n}\n.callnum {\n    display: inline-block;\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(30deg);\n    white-space: nowrap;\n    text-align: left;\n    font-size: 1.5em;\n    width: 60px;\n    line-height: 60px;\n    font-weight: bold;\n}\n.qanda {\n    margin-left: 100px;\n    min-height: 20px;\n    font-size: 1.3em;\n    width: 65%;\n}\n.qanda span {\n    min-height: 25px;\n    font-size: 1.1em;\n    width: 100%;\n    color: maroon;\n}\n.ask {\n}\n.response {\n    margin-left: 150px;\n}\n#sbar::-webkit-scrollbar {\n    display: none;\n    -ms-overflow-style: none; /* IE and Edge */\n    scrollbar-width: none; /* Firefox */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.up {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(45deg);\n}\ntd.rotate {\n    /* Something you can count on */\n    height: 140px;\n    white-space: nowrap;\n}\ntd.rotate > div {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(90deg);\n    width: 20px;\n}\ntd.rotate > div > span {\n    text-align: center;\n}\ntd.rotate45 {\n    /* Something you can count on */\n    height: 140px;\n    white-space: nowrap;\n}\ntd.rotate45 > div {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(40deg);\n    width: 20px;\n}\ntd.rotate45 > div > span {\n}\n.blink {\n    text-decoration: none;\n    color: maroon;\n}\n.shelf {\n    display: flex;\n    height: 520px;\n    width: 100%;\n}\n.shelf-book {\n    display: flex;\n\n    min-width: 0;\n}\n.shelf-book span {\n    display: flex-inline-block;\n    width: 70px;\n    justify-content: center;\n    align-items: center;\n    flex-direction: row;\n    min-height: 10em;\n    line-height: 2em;\n    height: 480px;\n    font-size: 2.1em;\n    border: 1px solid;\n    -ms-writing-mode: bt-rl;\n    writing-mode: vertical-rl;\n    -webkit-writing-mode: vertical-rl;\n    -moz-writing-mode: vertical-rl;\n    white-space: nowrap;\n    padding: 5px;\n}\n.call {\n    height: 45px;\n    width: 100%;\n}\n.call-book {\n    display: flex;\n\n    min-width: 0;\n}\n.call-book span {\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(30deg);\n    display: flex-inline-block;\n    width: 70px;\n    font-size: 1.5em;\n    white-space: nowrap;\n    text-align: left;\n    vertical-align: top;\n    padding: 5px;\n}\n.turn {\n    display: inline-block;\n    width: 60px;\n    line-height: 55px;\n    -ms-writing-mode: bt-rl;\n    writing-mode: vertical-rl;\n    -webkit-writing-mode: vertical-rl;\n    -moz-writing-mode: vertical-rl;\n    white-space: nowrap;\n    background-image: url(\"/assets/images/jspine.jpeg\");\n    text-align: left;\n    height: 395px;\n    font-size: 1.7em;\n    padding-top: 20px;\n}\n.unturn {\n    \t\t-ms-writing-mode: lr-tb;\n\t\twriting-mode: horizontal-tb;\n    \t\t-webkit-writing-mode: horizontal-tb;\n   \t\t-moz-writing-mode: horizontal-tb;\n}\n.callnum {\n    display: inline-block;\n    transform: /* Magic Numbers */ translate(25px, 51px)\n        /* 45 is really 360 - 45 */ rotate(30deg);\n    white-space: nowrap;\n    text-align: left;\n    font-size: 1.5em;\n    width: 60px;\n    line-height: 60px;\n    font-weight: bold;\n}\n.qanda {\n    margin-left: 100px;\n    min-height: 20px;\n    font-size: 1.3em;\n    width: 65%;\n}\n.qanda span {\n    min-height: 25px;\n    font-size: 1.1em;\n    width: 100%;\n    color: maroon;\n}\n.ask {\n}\n.response {\n    margin-left: 150px;\n}\n#sbar::-webkit-scrollbar {\n    display: none;\n    -ms-overflow-style: none; /* IE and Edge */\n    scrollbar-width: none; /* Firefox */\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

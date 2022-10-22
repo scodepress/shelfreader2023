@@ -162,10 +162,10 @@
                             v-if="mover === book.shelf_position"
                             class="font-bold text-blue-800 turn"
                         >
-                            {{ book.title.slice(0, 25) }}
+                            <span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>{{ book.title.slice(0, 25) }}
                         </div>
                         <div v-else class="turn">
-                            {{ book.title.slice(0, 25) }}
+                            <span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>{{ book.title.slice(0, 25) }}
                         </div>
                         <div
                             v-if="index + 1 === mpos"
@@ -187,12 +187,12 @@
                         <div
                             v-if="mover === book.shelf_position"
                             class="font-bold text-blue-800 turn"
-                        >
+                        ><span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
                         </div>
-                        <div v-else class="flex turn">
+                        <div v-else class="flex turn"><span class="mb-2 text-sm font-bold unturn">h4{{ index+1 }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
@@ -206,10 +206,7 @@
                         v-for="(book, index) in shelf"
                         :key="1"
                     >
-                        <div style="width: 60px" class="text-center">
-                            {{ index + 1 }}
-                        </div>
-                        <div class="turn">
+                        <div class="turn"><span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
@@ -515,6 +512,13 @@ td.rotate45 > div > span {
     font-size: 1.7em;
     padding-top: 20px;
 }
+
+.unturn {
+    		-ms-writing-mode: lr-tb;
+		writing-mode: horizontal-tb;
+    		-webkit-writing-mode: horizontal-tb;
+   		-moz-writing-mode: horizontal-tb;
+	}
 
 .callnum {
     display: inline-block;
