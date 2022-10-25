@@ -19,7 +19,7 @@ class CheckIsApprovedUser
     {
 	    if($request->user()->privs === 3 && $request->user()->approved === 0)
 	    { 
-		return Inertia::render('Welcome'); 
+		return redirect()->route('register.step2'); 
 
 	    } else {
 

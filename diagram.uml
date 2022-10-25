@@ -1,0 +1,3 @@
+@startuml
+abstract class implements Collection
+@enduml

@@ -15,25 +15,29 @@ use Inertia\Inertia;
 |
  */
 
-Route::get('/', function () {
-	return Inertia::render('Welcome', [
-		'canLogin' => Route::has('login'),
-		'canRegister' => Route::has('register'),
-		'laravelVersion' => Application::VERSION,
-		'phpVersion' => PHP_VERSION,
-	]);
-});
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
-//Route::get('membership-request', 'MembershipRequestController@show')->name('membership-request');
-//Route::post('membership-request', 'MembershipRequestController@store')->name('membership-request');
 
+Route::group(['prefix' => 'admin'], function () {
+	Voyager::routes();
+});
+
+Route::get('register.step2', 'RegisterStep2Controller@show')->name('register.step2');
+Route::post('register.step2', 'RegisterStep2Controller@store')->name('register.step2.store');
+
+Route::get('/', function () {
+		return Inertia::render('Welcome', [
+			'canLogin' => Route::has('login'),
+			'canRegister' => Route::has('register'),
+			'laravelVersion' => Application::VERSION,
+			'phpVersion' => PHP_VERSION,
+		]);
+	});
+
+Route::group(['middleware'=>['is_approved_user']], function() {
+
+	
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 	return Inertia::render('Dashboard');
 })->name('dashboard');
-Route::group(['middleware'=>['is_approved_user']], function() {
-
 	Route::group(['auth:sanctum'], function() {
 
 		Route::group(['middleware'=>['is_local_admin']], function() {
@@ -45,7 +49,8 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 		Route::group(['middleware'=>['is_super_user']], function() {
 
 			Route::get('super.admin/{user?}/{institution?}','AdminController@show')->name('super.admin');
-			Route::put('approve-members', 'AdminController@approveMembers')->middleware('auth:sanctum')->name('approve-members');
+			Route::put('approve-members', 'AdminController@approveMembers')->middleware('auth:sanctum')
+								  ->name('approve-members');
 			Route::put('approve-users', 'ApproveUserController@store')->middleware('auth:sanctum')->name('approve-users');
 			Route::delete('delete-user', 'AdminController@destroy')->middleware('auth:sanctum')->name('delete-user');
 			Route::get('super.admin/impersonate', 'Admin\ImpersonateController@index')->name('admin.impersonate');
@@ -54,10 +59,12 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 			Route::post('/users.impersonate', 'UsersController@impersonate')->name('users.impersonate');
 
 		});
-		
+
 		Route::get('/leave-impersonate', 'UsersController@leaveImpersonate')->name('leave-impersonate');
 
-		Route::middleware(['auth:sanctum', 'verified'])->get('/shelf', [App\Http\Controllers\ShelvesController::class, 'show'])->name('shelf');
+		Route::middleware(['auth:sanctum', 'verified'])
+			->get('/shelf', [App\Http\Controllers\ShelvesController::class, 'show'])->name('shelf');
+
 		Route::middleware(['auth:sanctum', 'verified'])->get('/imp','ApiController@index')->name('imp]');
 		Route::middleware(['auth:sanctum', 'verified'])->get('/shelfreader-inventory','ShelfreaderInventoryController@show')
 						 ->name('shelfreader-inventory');
