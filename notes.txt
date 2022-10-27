@@ -1,39 +1,22 @@
 To  Do
 
-1. Make a page for scans that returns errors. Base it on the Master Shelf page. Done
-2. Fix error messaging. Done
-3. Add status to shelves and master shelf table. Ignore
-4. Add Form Requests to all forms
-5. Capture all scans ???
-6. Add status to master shelfs tables and master reults table ???
-7. Make Maps work. Done
-8. Fix focus in barcode form on shelf page
-9. Scans that return empty results and any item that has a status of Unavailable will be recorded in the alerts table with info
-   available including "location id". Done
-10. Add form to change Collection on Inventory and Alert page.
-11. Put summary on library page.
-12. Shelve alerts on FolioRequestController page. Done
-13. Make margins the same on all pages (except maybe shelf).
-14. Make all inventory searches based on library id only.
-15. List of forms - 
+1. Add Form Requests to all forms
+2. Fix focus in barcode form on shelf page
+3. Add form to change collection on pages.
+4. Shelve alerts on FolioRequestController page. Done
+5. Make margins the same on all pages (except maybe shelf).
+6. Make all inventory searches based on library id only.
+7. List of forms - 
 	a. barcode form - shelf and maps pages
 	b. change sort scheme form - alerts page, inventory page, shelf page, maps page
 	c. impersonate form - super admin page
 	d. search parameter form - inventory page
 	
-16. Change call number search in form to barcode search.
-17. Change all id's in migrations tables to BigIncrements.
-18. Make script to transfer data from old tables to new.
-19. Show errors on inventory page.
-20. Error message on Inventory page when no books.
-21. Correction on maps page redirects to shelf page. Done.
-22. subsequences table needs to be emptied on sortScheme change.??? Done.
-23. On first maps scan, correct position is incorrect because map keys not emptying on clear shelf. Done.
-24. Remove option of current sort scheme from choose sort. Done
-25. Fix numbers appearing on books instead of above.
-26. Fix green line appearing below shelf.
-27. Add sounds.
-28. Update Instructions page.
-29 Add library to registration page.
+8. Make script to transfer data from old tables to new.
+9. Error message on Inventory page when no books.
+10. Remove change collection form if library only has one sort scheme.
+11. Add sounds.
+12. Update Instructions page.
+13. Enter libraries in table.
 
 Form requests and scripts.

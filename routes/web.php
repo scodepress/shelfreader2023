@@ -114,6 +114,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 		Route::get('alerts', 'AlertController@show')->name('alerts');
 		Route::get('library', 'LibraryController@show')->name('library');
 
+		Route::get('update', 'UpdateController@show')->name('update');
+
 
 	});
 });

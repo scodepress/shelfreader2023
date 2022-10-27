@@ -28,7 +28,12 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <template #logo>
-            <JetAuthenticationCardLogo />
+                            <div class="flex items-center flex-shrink-0">
+			    	<img src="/assets/images/Penn_State.png" />
+				<div class="mt-2 ml-2 text-2xl font-bold text-navy-800">
+					<u>ShelfReader</u>
+				</div>
+                            </div>
         </template>
 
         <JetValidationErrors class="mb-4" />
