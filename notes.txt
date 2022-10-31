@@ -1,7 +1,7 @@
 To  Do
 
 1. Add Form Requests to all forms
-2. Fix focus in barcode form on shelf page
+2. Fix focus in barcode form on shelf page - re-focus after all form submissions
 3. Add form to change collection on pages.
 4. Shelve alerts on FolioRequestController page. Done
 5. Make margins the same on all pages (except maybe shelf).
@@ -17,6 +17,13 @@ To  Do
 10. Remove change collection form if library only has one sort scheme.
 11. Add sounds.
 12. Update Instructions page.
-13. Enter libraries in table.
+13. Enter libraries in table. Done
+14. Forgot password. Done
+15. Check in on Aaron's comment in teams about accuracy. See 18
+16. Include user name in inventory list.
+17. All errors handled without halting program.
+18. Map sorting issue: problem with maps with sheet numbers with a "-" ex Sheet 78-198 or Sheet 76-985
+19. Stop impersonating link.
+20. Thoroughly test inventory search and everything else for that matter. Add total items on page
 
 Form requests and scripts.

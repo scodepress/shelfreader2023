@@ -9,18 +9,12 @@
                     <td>Role</td>
                     <td>Email</td>
                     <td>Library</td>
-                    <td>Street</td>
-                    <td>State</td>
-                    <td>Zip</td>
                 </tr>
                 <tr v-for="(user, index) in allUsers">
                     <td>{{ user.name }}</td>
                     <td>{{ user.privs }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.library_name }}</td>
-                    <td>{{ user.street }}</td>
-                    <td>{{ user.state }}</td>
-                    <td>{{ user.zip }}</td>
                 </tr>
             </table>
         </div>

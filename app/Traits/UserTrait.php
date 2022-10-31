@@ -23,7 +23,7 @@ trait UserTrait {
 			return $loaded;
 
 		} else {
-
+			$sort_scheme_id = User::where('id',$user_id)->pluck('scheme_id')[0];
 			//Insert primary service as loaded service
 			$primary_service_id = User::where('id', $user_id)->pluck('service_id')[0];
 			$loaded = new InstitutionApiService;
@@ -31,7 +31,14 @@ trait UserTrait {
 			$loaded->institution_id = Auth::user()->institution_id;
 			$loaded->api_service_id = $primary_service_id;
 			$loaded->loaded =1;
-			$loaded->sort_scheme_id = User::where('id',$user_id)->pluck('scheme_id')[0];
+			$loaded->sort_scheme_id = $sort_scheme_id;
+			if($sort_scheme_id === 1) {
+				
+				$loaded->sort_scheme_name = 'LCC';
+			} else {
+			
+				$loaded->sort_scheme_name = 'Maps';
+			}
 			$loaded->save();	
 
 			return $loaded;

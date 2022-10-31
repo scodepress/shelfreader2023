@@ -15,8 +15,8 @@ class Sirsi extends Model
     public static function sirsiResponse($barcode)
     {
 	    $user_id = Auth::user()->id;
-	    $psurl = SirsiCredential::where('user_id',$user_id)->pluck('url')[0];
-	    $psid = SirsiCredential::where('user_id',$user_id)->pluck('client_id')[0];
+	    $psurl = SirsiCredential::pluck('url')[0];
+	    $psid = SirsiCredential::pluck('client_id')[0];
 
     	$response = Http::post("https://$psurl/symwsbc/rest/standard/lookupTitleInfo?clientID=$psid&itemID=$barcode&includeOPACInfo=true&includeItemInfo=true&json=true");
 

@@ -25,7 +25,8 @@
                     >
                         <td>{{ index + 1 }}.</td>
                         <td class="ml-10">{{ alert.barcode }}</td>
-                        <td class="ml-10">{{ alert.title.slice(0,30) }}</td>
+                        <td v-if="alert.title" class="ml-10">{{ alert.title.slice(0,30) }}</td>
+                        <td v-else class="ml-10">Title Unavailable</td>
                         <td class="ml-10">{{ alert.call_number }}</td>
                         <td class="ml-10">{{ alert.alert }}</td>
                         <td class="ml-10">{{ alert.created_at.slice(0,10) }}</td>
@@ -34,7 +35,7 @@
             </div>
         </div>
 
-        <div class="mt-4 ml-20">
+        <div class="ml-24 mt-14">
             <template v-for="link in alerts.links">
                 <Link
                     v-if="link.url"

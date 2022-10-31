@@ -34,7 +34,7 @@
                                     :href="route('shelf')"
                                     :active="route().current('shelf')"
                                 >
-                                    Scan Books
+                                    Scan Items
                                 </jet-nav-link>
                             </div>
                             <div

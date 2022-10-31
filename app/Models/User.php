@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Lab404\Impersonate\Models\Impersonate;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends \TCG\Voyager\Models\User
 {
@@ -69,7 +70,7 @@ class User extends \TCG\Voyager\Models\User
 	public static function userInstitution() {
 		return DB::table('users as u')
 			->join('institutions as i','i.id','=','u.institution_id')
-			->select('u.id','u.name','institution','street','state','zip','approved','u.email','privs')
+			->select('u.id','u.name','institution','approved','u.email','privs')
 			->orderByDesc('u.created_at')
 			->whereNull('deleted_at')
 			->get();
@@ -80,7 +81,7 @@ class User extends \TCG\Voyager\Models\User
 	{
 		return DB::table('users as u')
 			->join('libraries as l','l.id','=','u.library_id')
-			->select('u.id','u.name','l.library_name','street','state','zip','approved','u.email','privs')
+			->select('u.id','u.name','l.library_name','approved','u.email','privs')
 			->orderByDesc('u.created_at')
 			->whereNull('deleted_at')
 			->get();

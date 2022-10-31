@@ -6,6 +6,8 @@ use App\Contracts\Services\MasterShelf\MasterShelfInterface;
 use App\Models\MasterShelfResult;
 use App\Models\SearchParameter;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class MasterShelfServiceLcc implements MasterShelfInterface {
 
@@ -197,6 +199,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 			// Insert all results
 
 			$shelf = $this->getSortedItemsFromMasterShelf($userId);
+			if($shelf->first()) {
 			$items = null;
 			foreach($shelf as $s)
 			{
@@ -215,6 +218,11 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 			DB::table('master_shelf_results')->insert($items);
 
 			return;
+			} else {
+				$sortSchemeId = Auth::user()->scheme_id;
+				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+					->with('message','There are no records in Inventory.');
+			}
 		}
 
 		if($sp->first()) {

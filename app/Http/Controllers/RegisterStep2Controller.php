@@ -18,7 +18,7 @@ class RegisterStep2Controller extends Controller
 	public function show() 
 	{
 		$user = User::where('id',Auth::user()->id)->get();
-		$libraries = Library::get();
+		$libraries = Library::orderBy('library_name')->get();
 		$sortSchemes = SortScheme::get();
 
 		return Inertia::render('Auth/RegisterStepTwo', 

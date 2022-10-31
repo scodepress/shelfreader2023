@@ -103,7 +103,7 @@ class MasterShelfController extends Controller
 			$beginningCallNumber = $param[0]->beginningCallNumber;
 			$endingCallNumber = $param[0]->endingCallNumber;
 		} else {
-			$r=$this->msi->insertSearchResultsForDisplay($user_id,$libraryId);
+			$this->msi->insertSearchResultsForDisplay($user_id,$libraryId);
 
 			$masterShelf = MasterShelfResult::where('user_id',$user_id)->paginate(20);
 			$beginningDate = null;

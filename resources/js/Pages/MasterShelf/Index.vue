@@ -2,7 +2,7 @@
 <div>
 <layout></layout>
 </div>
-
+<div v-if="masterShelf">
 <h1 class="ml-6 text-3xl font-bold">Inventory List</h1>
 <div style="width: 100%; height: 100%;">
         <header class="ml-2 mr-2 rounded-lg">
@@ -28,7 +28,7 @@
                         </div>
                         <div class="ml-4 mr-4">
 			   <label for=""></label>
-				<select v-model="form.beginningDate">
+				<select class="rounded-md" v-model="form.beginningDate">
 					<option value="" disabled>Beginning Date</option>
 					<option v-for="(date, index) in allDates">
 						{{date}}
@@ -37,7 +37,7 @@
                         </div>
                         <div class="ml-4 mr-4">
 			   <label for=""></label>
-				<select v-model="form.endingDate">
+				<select class="rounded-lg" v-model="form.endingDate">
 					<option value="" disabled>Ending Date</option>
 					<option v-for="(date, index) in allDates">
 						{{date}}
@@ -103,9 +103,24 @@
 
 </div>
 
-<div class="ml-4 text-xl">
+<div class="ml-6 text-xl">
 	Showing Items	{{ masterShelf.from }} to {{ masterShelf.to }}.
 </div>
+    	<div class="flex justify-center mt-6" v-if="errors.barcode">
+		
+		<div v-for="error in errors">
+			<span class="text-3xl text-red-700">{{ error }}</span>
+		</div>
+	</div>
+	<div class="flex justify-center mt-6" v-if="status != 'Available'">
+		
+		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
+		
+	</div>
+	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
+	</div>
+<div v-if="masterShelf">
 <table class="w-11/12 mt-4">
 <tr class="text-xl font-semibold">
 <td class="w-12"></td>
@@ -142,7 +157,8 @@
         </table>	
 	</div>
 </div>
-<div class="mt-4 ml-6">
+</div>
+<div class="mt-4 ml-12">
 	<template v-for="link in masterShelf.links"> 
 	<Link
 		v-if="link.url"
@@ -154,6 +170,12 @@
 				<span class="text-gray-500" v-else v-html="link.label"></span>
 			
 			</template>
+</div>
+</div>
+<div v-else>
+	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
+	</div>
 </div>
 </template>
 
@@ -177,6 +199,7 @@ beginningCallNumber: Object,
 endingCallNumber: Object,
 allDates: Array,
 sortSchemeId: Number,
+errors: Object,
 
 },
        data() {
