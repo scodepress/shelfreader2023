@@ -13,7 +13,7 @@ To  Do
 	d. search parameter form - inventory page
 	
 8. Make script to transfer data from old tables to new.
-9. Error message on Inventory page when no books.
+9. Error message on Inventory page when no books. Done
 10. Remove change collection form if library only has one sort scheme.
 11. Add sounds.
 12. Update Instructions page.
@@ -25,5 +25,8 @@ To  Do
 18. Map sorting issue: problem with maps with sheet numbers with a "-" ex Sheet 78-198 or Sheet 76-985
 19. Stop impersonating link.
 20. Thoroughly test inventory search and everything else for that matter. Add total items on page
+21. Change github name to Scott Wagner if it isn't.
+22. Test registration forms and add validation.
+23. Library Report division by zero error.
 
 Form requests and scripts.

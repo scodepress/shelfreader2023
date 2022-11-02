@@ -12,6 +12,20 @@
     <div class="mt-4">
     	<Link href="/load.alerts">Load Alerts.</Link>
     </div>
+    <div class="mt-4">
+    	<Link href="/load.ems">Load EMS items.</Link>
+    </div>
+
+    <div class="mt-4">
+    	<Link href="/load.engineering">Load Engineering items.</Link>
+    </div>
+    
+    <div class="mt-4">
+    	<Link href="/create.map.user">Add Maps User</Link>
+    </div>
+    <div class="mt-4">
+    	<Link href="/load.shelves.table">Load Shelves Table</Link>
+    </div>
     </div>
 </template>
 

@@ -231,7 +231,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				// Insert all results in a given date range
 
 				$shelf = $this->getSortedItemsByDateRange($userId,$sp[0]->beginningDate,$sp[0]->endingDate);
-
+				if($shelf->first()) {
 				$items = null;
 				foreach($shelf as $s)
 				{
@@ -249,6 +249,13 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 				return;
+				} else {
+					
+					$sortSchemeId = Auth::user()->scheme_id;
+					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+					->with('message','There are no results in the date range you specified.');
+				
+				}
 			}
 
 			if(!$sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		

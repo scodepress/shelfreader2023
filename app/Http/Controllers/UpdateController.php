@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\MasterShelf\Services\MasterShelfMaps;
 use App\Models\InstitutionApiService;
 use App\Models\Library;
 use App\Models\User;
+use App\Models\MasterShelfMap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -66,6 +68,53 @@ class UpdateController extends Controller
 			->get();
 	}
 
+	public function createMapUsers()
+	{
+		$u = new User;
+		$u->name = 'Aaron';
+		$u->privs = 3;
+		$u->email = 'awp3@psu.edu';
+		$u->avatar = 'users/default.png';
+		$u->institution_id = 1;
+		$u->library_id = 10;
+		$u->service_id = 1;
+		$u->scheme_id = 2;
+		$u->approved = 1;
+		$u->password = '$2y$10$YF/XQeLP4FspxpepOgEuZu.VdZd9oFXvj9gxEpNhvAAHXzESNtWiS';
+		$u->save();
+
+		$lid = $u->id;
+
+		// Make entry in IAPI table (LCC and Maps)
+
+				$i = new InstitutionApiService;
+				$i->user_id = $lid;
+				$i->institution_id = 1;
+				$i->library_id = 10;
+				$i->api_service_id = 1;
+				$i->loaded = 1;
+				$i->sort_scheme_id = 2;
+				$i->sort_scheme_name = 'Maps';
+
+				$i->save();
+
+				$i = new InstitutionApiService;
+				$i->user_id = $lid;
+				$i->institution_id = 1;
+				$i->library_id = 10;
+				$i->api_service_id = 1;
+				$i->loaded = 0;
+				$i->sort_scheme_id = 1;
+				$i->sort_scheme_name = 'LCC';
+
+				$i->save();
+ 
+		// Update master_shelf_maps
+		MasterShelfMap::where('library_id',10)->update(['user_id' => $lid]);
+		
+	
+	}
+
 	public function loadAlerts()
 	{
 		$users = User::get();
@@ -85,7 +134,6 @@ class UpdateController extends Controller
 				'alert' => $p->location_id,
 				'created_at' => $p->created_at,
 				];
-
 		}
 		DB::table('alerts')->insert($palerts);
 
@@ -219,69 +267,157 @@ class UpdateController extends Controller
 
 	public function getEngineeringItems()
 	{
-		$rows = null;
-		$rows = DB::table('master_keys')
-			->where('library_id',9)
-			->select('*')
-			->get();
+		$u = new User;
+		$u->name = 'Engineering';
+		$u->privs = 3;
+		$u->email = 'lms27@psu.edu';
+		$u->avatar = 'users/default.png';
+		$u->institution_id = 1;
+		$u->library_id = 7;
+		$u->service_id = 1;
+		$u->scheme_id = 1;
+		$u->approved = 1;
+		$u->password = '$2y$10$OxkdKqkYmVn21FLxiEpziuZzbMohNnt3/MJRQqQHK/30IILMhlOJ.';
+		$u->save();
 
-		foreach($rows as $o) {	
+		$lid = $u->id;
+
+
+		$rows = null;
+		DB::table('master_keys')
+			->where('library_id',9)
+			->select('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')
+			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')
+			->chunk(1000, function($master_keys)
+			{
+		foreach($master_keys as $key=>$o) {	
+
 		$eng[] = [
 
-				'user_id' => $o->id,
-				'institution_id' => $institution_id,
-				'library_id' => $o->library_id,
-				'api_service_id' => 1,
+				'user_id' => $lid,
+				'library_id' => 7,
+				'barcode' => $o->barcode,
+				'title' => $o->title,
+				'call_number' => $o->callno,
+				'date' => substr($o->created_at,0,10),
+				'prefix' => $o->prefix,
+				'tp1' => $o->tp1,
+				'tp2' => $o->tp2,
+				'pre_date' => $o->pre_date,
+				'pvn' => $o->pvn,
+				'pvl' => $o->pvl,
+				'cutter' => $o->cutter,
+				'pcd' => $o->pcd,
+				'cutter_date' => $o->cutter_date,
+				'inline_cutter' => $o->inline_cutter,
+				'inline_cutter_decimal' => $o->inline_cutter_decimal,
+				'cutter_date2' => $o->cutter_date2,
+				'cutter2' => $o->cutter2,
+				'pcd2' => $o->pcd2,
+				'part1' => $o->part1,
 				'created_at' => $o->created_at,
-				'updated_at' => $o->updated_at,
-				'loaded' => 1,
-				'sort_scheme_id' => 1,
-				'sort_scheme_name' => 'LCC',
 		];
+			
 		}
 
 		DB::table('master_shelf_lcc')->insert($eng);
+
+		});
 	}
 
 	public function getEmsItems()
 	{
+		$u = new User;
+		$u->name = 'EMS';
+		$u->privs = 3;
+		$u->email = 'eal17@psu.edu';
+		$u->avatar = 'users/default.png';
+		$u->institution_id = 1;
+		$u->library_id = 5;
+		$u->service_id = 1;
+		$u->scheme_id = 1;
+		$u->approved = 1;
+		$u->password = '$2y$10$2X6IjirOiTWbx3x1wIkz3ezIgfBREwxXMXMCWIDAAj8sqKGoJPW92';
+		$u->save();
+
+		$lid = $u->id;
+
 		$rows = null;
-		$rows = DB::table('master_keys')
-			->where('library_id',10)
-			->select('*')
-			->get();
-
-		foreach($rows as $o) {	
+		DB::table('master_keys')
+			->select('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')->where('library_id',10)
+			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')
+			->chunk(1000, function($master_keys)
+			{
+		foreach($master_keys as $o) {	
 		$ems[] = [
-
-				'user_id' => $o->id,
-				'institution_id' => $institution_id,
-				'library_id' => $o->library_id,
-				'api_service_id' => 1,
+				'user_id' => $lid,
+				'library_id' => 5,
+				'barcode' => $o->barcode,
+				'title' => $o->title,
+				'call_number' => $o->callno,
+				'date' => substr($o->created_at,0,10),
+				'prefix' => $o->prefix,
+				'tp1' => $o->tp1,
+				'tp2' => $o->tp2,
+				'pre_date' => $o->pre_date,
+				'pvn' => $o->pvn,
+				'pvl' => $o->pvl,
+				'cutter' => $o->cutter,
+				'pcd' => $o->pcd,
+				'cutter_date' => $o->cutter_date,
+				'inline_cutter' => $o->inline_cutter,
+				'inline_cutter_decimal' => $o->inline_cutter_decimal,
+				'cutter_date2' => $o->cutter_date2,
+				'cutter2' => $o->cutter2,
+				'pcd2' => $o->pcd2,
+				'part1' => $o->part1,
 				'created_at' => $o->created_at,
-				'updated_at' => $o->updated_at,
-				'loaded' => 1,
-				'sort_scheme_id' => 1,
-				'sort_scheme_name' => 'LCC',
 		];
 		}
 
 		DB::table('master_shelf_lcc')->insert($ems);
+			
+			
+			});
 	}
 
-	public function loadMapsUsers()
+
+	public function fillShelvesTable()
 	{
-		
+		$sorts = DB::connection('mysql2')
+			->table('sorts')
+			->select('id','user_id','barcode','title','callno','position','cposition','created_at','updated_at')
+			->get();
+
+		foreach($sorts as $s)
+		{
+			$shelf[] = [
+			
+				'scan_order' => $s->id,
+				'user_id' => $s->user_id,
+				'callnumber' => $s->callno,
+				'barcode' => $s->barcode,
+				'title' => $s->title,
+				'shelf_position' => $s->position,
+				'correct_position' => $s->cposition,
+				'status' => 'Available',
+				'effective_location_id' => 'Unknown',
+				'created_at' => $s->created_at,
+				'updated_at' => $s->updated_at,
+			];
+		}
+
+
+		DB::table('shelves')->insert($shelf);
+
+
 	}
-
-	public function loadMasterShelfLcc()
-	{
-
-	}
-
-	public function loadMasterShelfMaps()
-	{
-
-	}
-
 }

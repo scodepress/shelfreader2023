@@ -71,7 +71,7 @@ class User extends \TCG\Voyager\Models\User
 		return DB::table('users as u')
 			->join('institutions as i','i.id','=','u.institution_id')
 			->select('u.id','u.name','institution','approved','u.email','privs')
-			->orderByDesc('u.created_at')
+			->orderBy('u.name')
 			->whereNull('deleted_at')
 			->get();
 
@@ -82,7 +82,7 @@ class User extends \TCG\Voyager\Models\User
 		return DB::table('users as u')
 			->join('libraries as l','l.id','=','u.library_id')
 			->select('u.id','u.name','l.library_name','approved','u.email','privs')
-			->orderByDesc('u.created_at')
+			->orderBy('u.name')
 			->whereNull('deleted_at')
 			->get();
 

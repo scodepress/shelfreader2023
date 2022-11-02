@@ -173,7 +173,7 @@ class MasterShelfController extends Controller
 		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId]);
 	}
 
-	public function searchCallNumbers(Request $request)
+	public function searchCallNumbers(InventorySearchParameterRequest $inventorySearchParameterRequest)
 	{
 		$user_id = Auth::user()->id;
 		$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];

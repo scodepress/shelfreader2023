@@ -35,7 +35,7 @@ class UsersController extends Controller
 		$user_id = Auth::user()->id;
 		$loaded = InstitutionApiService::where('user_id',$user_id)->where('loaded',1)->get();
 
-		if($loaded[0]->sort_scheme_id === 3) {
+		if($loaded[0]->sort_scheme_id === 2) {
 
 			return redirect()->route('maps');
 		} else {

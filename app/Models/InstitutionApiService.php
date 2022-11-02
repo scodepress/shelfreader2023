@@ -41,6 +41,7 @@ class InstitutionApiService extends Model
 
 			$api->user_id = $user_id;
 			$api->institution_id = 1;
+			$api->library_id = $user->library_id;
 			$api->api_service_id = 1;
 			$api->loaded = 1;
 			$api->sort_scheme_id = 1;

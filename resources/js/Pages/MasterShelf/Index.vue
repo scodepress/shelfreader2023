@@ -106,17 +106,13 @@
 <div class="ml-6 text-xl">
 	Showing Items	{{ masterShelf.from }} to {{ masterShelf.to }}.
 </div>
-    	<div class="flex justify-center mt-6" v-if="errors.barcode">
+    	<div class="flex justify-center mt-6">
 		
 		<div v-for="error in errors">
 			<span class="text-3xl text-red-700">{{ error }}</span>
 		</div>
 	</div>
-	<div class="flex justify-center mt-6" v-if="status != 'Available'">
-		
-		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
-		
-	</div>
+	
 	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
 		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
 	</div>

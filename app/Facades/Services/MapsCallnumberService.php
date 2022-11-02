@@ -587,28 +587,6 @@ class MapsCallnumberService {
 	}
 
 
-	public function printAllEven8CharacterNumericPalindromes()
-	{
-		//$start = 1000;
-		//$end = 9999;
-
-		for($i=1000; $i<9999; $i++)
-		{
-			if((int)($i/1000) % 2 === 0)
-			{
-			{
-
-				$pals[] = "$i" . strrev($i);
-			}
-
-			}
-		}
-
-		print_r($pals);
-
-	}
-
-
 	public function normalizeSpecificationNumbers($specification)
 	{
 		preg_match_all('!\d+!', $specification, $matches);
@@ -659,6 +637,32 @@ class MapsCallnumberService {
 		return $dateOfReproduction;
 
 	}
+		$dateOfReproduction = null;
+		$specification = null;
+
+		if($pos !== false)
+		{   
+			foreach($nextlineStringArray as $key=>$n)
+			{
+				if($key<= $pos+3) { continue; }
+				{
+					$specification .= $nextlineString[$key];
+				}
+			}
+		}
+
+		if($specification) {
+			$endSpec = substr($specification,-4);
+			if(is_numeric($endSpec) AND $endSpec < date('Y'))
+			{
+				$dateOfReproduction .= $endSpec;
+			}
+		}
+
+		return $dateOfReproduction;
+
+	}
+
 
 	public function getDateOfUse($nextlineStringMask,$nextlineString)
 	{

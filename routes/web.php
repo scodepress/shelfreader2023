@@ -163,6 +163,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 		Route::get('update.users', 'UpdateController@loadUsersTable')->name('update.users');
 		Route::get('load.ias', 'UpdateController@loadLccInstitutionApiServices')->name('load.ias');
 		Route::get('load.alerts', 'UpdateController@loadAlerts')->name('load.alerts');
+		Route::get('load.ems', 'UpdateController@getEmsItems')->name('load.ems');
+		Route::get('load.engineering', 'UpdateController@getEngineeringItems')->name('load.engineering');
+		Route::get('create.map.user', 'UpdateController@createMapUsers')->name('create.map.user');
+		Route::get('load.shelves.table', 'UpdateController@fillShelvesTable')->name('load.shelves.table');
 
 
 	});
