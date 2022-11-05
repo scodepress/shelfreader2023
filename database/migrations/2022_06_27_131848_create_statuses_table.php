@@ -15,7 +15,7 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->integer('user_id');
             $table->string('barcode', 30);
             $table->string('status', 250);
             $table->timestamp('created_at')->useCurrent();

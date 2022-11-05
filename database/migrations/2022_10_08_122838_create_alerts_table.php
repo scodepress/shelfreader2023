@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('alerts', function (Blueprint $table) {
             $table->bigIncrements('id'); // Auto incrementing primary key
-            $table->bigInteger('user_id');
+            $table->integer('user_id');
             $table->bigInteger('library_id');
             $table->string('barcode', 30)->nullable();
             $table->string('call_number')->nullable();

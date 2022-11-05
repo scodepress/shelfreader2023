@@ -15,7 +15,7 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->integer('user_id');
             $table->integer('service');
             $table->string('sort', 20);
             $table->timestamp('created_at')->useCurrent();

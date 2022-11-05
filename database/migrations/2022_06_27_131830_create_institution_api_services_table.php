@@ -15,8 +15,8 @@ class CreateInstitutionApiServicesTable extends Migration
     {
         Schema::create('institution_api_services', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->bigInteger('institution_id')->nullable();
+            $table->integer('user_id');
+            $table->integer('institution_id')->nullable();
             $table->integer('api_service_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

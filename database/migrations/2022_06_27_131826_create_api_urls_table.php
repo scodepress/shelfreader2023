@@ -15,7 +15,7 @@ class CreateApiUrlsTable extends Migration
     {
         Schema::create('api_urls', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->integer('user_id');
             $table->bigInteger('institution_id');
             $table->string('api_url', 100);
             $table->timestamp('created_at')->useCurrent();

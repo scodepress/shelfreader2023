@@ -15,7 +15,7 @@ class CreateLibrariesTable extends Migration
     {
         Schema::create('libraries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('institution_id');
+            $table->integer('institution_id');
             $table->string('library_name', 300);
             $table->string('city', 100);
             $table->string('street', 100);
