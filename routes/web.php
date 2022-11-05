@@ -20,9 +20,6 @@ use Illuminate\Support\Str;
  */
 
 
-Route::group(['prefix' => 'admin'], function () {
-	Voyager::routes();
-});
 
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');

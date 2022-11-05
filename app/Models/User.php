@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Lab404\Impersonate\Models\Impersonate;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
-class User extends \TCG\Voyager\Models\User
+class User extends Authenticatable
 {
 	use HasApiTokens;
 	use HasFactory;
