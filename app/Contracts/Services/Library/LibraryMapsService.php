@@ -11,10 +11,11 @@ class LibraryMapsService implements LibraryInterface {
 	public function getTotalScanCount($libraryId)
 	{
 		return DB::table('corrections as c')
-			->join('alerts as a','library_id','=',$libraryId)
-			->join('master_shelf_maps as m','library_id','=',$libraryId)
-			->select('barcode')
-			->groupBy('barcode')
+			->join('alerts as a','a.library_id','=','c.library_id')
+			->join('master_shelf_maps as m','a.library_id','=','m.library_id')
+			->where('a.library_id',$libraryId)
+			->select('a.barcode')
+			->groupBy('a.barcode')
 			->count();
 	}
 

@@ -24,7 +24,7 @@ class BarcodeRequest extends FormRequest
     public function rules()
     {
         return [
-           'barcode' => 'required|digits:12|numeric|starts_with:0', 
+           'barcode' => 'required|numeric|starts_with:0', 
            'sortSchemeId' => 'required|numeric|max:2|min:1' 
         ];
     }

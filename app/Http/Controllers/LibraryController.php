@@ -21,7 +21,16 @@ class LibraryController extends Controller
 		$libraryId = Auth::user()->library_id;
 		$correctionCount = $this->li->getCorrectionCount($libraryId);
 		$totalScans = $this->li->getTotalScanCount($libraryId);
-		$errorRate = round($correctionCount/$totalScans*100,2);
+
+		if(!$totalScans) {
+
+			$errorRate = 0;
+
+		} else {
+		
+			$errorRate = round($correctionCount/$totalScans*100,2);
+
+		}
 
 
 		return Inertia::render('Library/Index',[

@@ -15,6 +15,7 @@ use App\Exports\MasterShelfExportByCallNumber;
 use App\Exports\MasterShelfFullExport;
 use App\Http\Requests\InventorySearchParameterRequest;
 use App\Models\MasterShelfResult;
+use App\Models\InstitutionApiService;
 use App\Models\OnlineInventoryItem;
 use App\Models\SearchParameter;
 use App\Models\Shelf;
@@ -87,13 +88,21 @@ class MasterShelfController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($sortSchemeId)
+	public function show($sortSchemeId,$clear)
 	{
 		$user_id = Auth::user()->id;
+
 		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
 		$param = SearchParameter::where('user_id',$user_id)->get();
 		$allDates = $this->msi->getAllDates($libraryId);
+		$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
+		$unloadedService = InstitutionApiService::where('user_id',$user_id)
+			->where('loaded',0)->get();
 
+		if($clear == 1)  {
+
+			SearchParameter::where('user_id',$user_id)->delete();
+		}
 
 		if($param->first()) {
 			$this->msi->insertSearchResultsForDisplay($user_id,$libraryId);
@@ -112,6 +121,11 @@ class MasterShelfController extends Controller
 			$endingCallNumber = null;
 		}
 
+		$countOfSortSchemes = DB::table('institution_api_services')
+			->select('sort_scheme_id')
+			->where('user_id',$user_id)
+			->distinct('sort_scheme_id')
+			->count();
 		
 		return Inertia::render('MasterShelf/Index', [
 
@@ -122,6 +136,8 @@ class MasterShelfController extends Controller
 			'endingCallNumber' => $endingCallNumber,	    
 			'allDates' => $allDates,
 			'sortSchemeId' => $sortSchemeId,
+			'countOfSortSchemes' => $countOfSortSchemes,
+			'unloadedService' => $unloadedService,
 		]);
 	}
 
@@ -170,7 +186,7 @@ class MasterShelfController extends Controller
 
 		$books = $this->msi->insertSearchResultsForDisplay($user_id, $libraryId);
 
-		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId]);
+		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId, 'clear' => 0]);
 	}
 
 	public function searchCallNumbers(InventorySearchParameterRequest $inventorySearchParameterRequest)
@@ -184,7 +200,7 @@ class MasterShelfController extends Controller
 		$sparam->user_id = $user_id;
 		$sparam->save();
 
-		return Redirect::route('master.shelf',['sortSchemeId' => 1]);
+		return Redirect::route('master.shelf',['sortSchemeId' => 1, 'clear' => 0]);
 
 	}
 
@@ -195,7 +211,7 @@ class MasterShelfController extends Controller
 
 		SearchParameter::where('user_id',$user_id)->delete();
 
-		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId]);
+		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId, 'clear' => 0]);
 	}
 
 	public function edit($id)

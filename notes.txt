@@ -3,30 +3,23 @@ To  Do
 1. Add Form Requests to all forms
 2. Fix focus in barcode form on shelf page - re-focus after all form submissions
 3. Add form to change collection on pages.
-4. Shelve alerts on FolioRequestController page. Done
-5. Make margins the same on all pages (except maybe shelf).
-6. Make all inventory searches based on library id only.
-7. List of forms - 
+4. Make margins the same on all pages (except maybe shelf).
+5. Make all inventory searches based on library id only.
+6. List of forms - 
 	a. barcode form - shelf and maps pages
 	b. change sort scheme form - alerts page, inventory page, shelf page, maps page
 	c. impersonate form - super admin page
 	d. search parameter form - inventory page
 	
-8. Make script to transfer data from old tables to new.
-9. Error message on Inventory page when no books. Done
-10. Remove change collection form if library only has one sort scheme.
-11. Add sounds.
-12. Update Instructions page.
-13. Enter libraries in table. Done
-14. Forgot password. Done
-15. Check in on Aaron's comment in teams about accuracy. See 18
-16. Include user name in inventory list.
-17. All errors handled without halting program.
-18. Map sorting issue: problem with maps with sheet numbers with a "-" ex Sheet 78-198 or Sheet 76-985
-19. Stop impersonating link.
-20. Thoroughly test inventory search and everything else for that matter. Add total items on page
-21. Change github name to Scott Wagner if it isn't.
-22. Test registration forms and add validation.
-23. Library Report division by zero error.
+7. Make script to transfer data from old tables to new.
+8. Update Instructions page.
+9. Stop impersonating link.
+10. Thoroughly test inventory search and everything else for that matter. Add total items on page
+11. Test registration forms and add validation. (Working, add validation)
+12. Library Report division by zero error. Done but check query.
+13. Something on Dashboard page?
+14. When user clicks on inventory link in nav, clear search_parameters table. Done 
+15. Add direction arrow with moves to main page.
+16. Make sure barcode form clearing is working correctly.
 
 Form requests and scripts.

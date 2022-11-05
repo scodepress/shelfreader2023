@@ -6,6 +6,8 @@ use App\Contracts\Services\MasterShelf\MasterShelfInterface;
 use App\Models\MasterShelfResult;
 use App\Models\SearchParameter;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class MasterShelfMaps implements MasterShelfInterface {
 
@@ -197,6 +199,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 			// Insert all results
 
 			$shelf = $this->getSortedItemsFromMasterShelf($userId);
+			if($shelf->first()) {
 
 			foreach($shelf as $s)
 			{
@@ -213,6 +216,12 @@ class MasterShelfMaps implements MasterShelfInterface {
 			MasterShelfResult::where('user_id',$userId)->delete();
 			DB::table('master_shelf_results')->insert($items);
 
+		} else {
+				$sortSchemeId = Auth::user()->scheme_id;
+				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+					->with('message','There are no records in Inventory.');
+			}
+
 		}
 
 		if($sp->first()) {
@@ -222,6 +231,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 
 				$shelf = $this->getSortedItemsByDateRange($userId,$sp[0]->beginningDate,$sp[0]->endingDate);
 
+			if($shelf->first()) {
 				foreach($shelf as $s)
 				{
 					$items[] = [
@@ -237,7 +247,12 @@ class MasterShelfMaps implements MasterShelfInterface {
 				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 
+			} else {
+				$sortSchemeId = Auth::user()->scheme_id;
+				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+					->with('message','There are no records in the date range specified.');
 			}
+		}
 
 			
 			if(!$sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		

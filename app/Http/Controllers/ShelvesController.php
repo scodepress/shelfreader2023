@@ -31,7 +31,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use MasterShelfService;
 use DB;
-
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class ShelvesController extends Controller
 {
@@ -62,6 +62,7 @@ public function __construct(MasterShelfInterface $msi)
 
 			$this->clearShelf($user_id);
 		}
+
 		$institution = Institution::where('id',Auth::user()->institution_id)->get();
 
 		$skidmoreCloud =0;
@@ -133,6 +134,11 @@ public function __construct(MasterShelfInterface $msi)
 		$onshelf = 0;
 
 
+		$countOfSortSchemes = DB::table('institution_api_services')
+			->select('sort_scheme_id')
+			->where('user_id',$user_id)
+			->distinct('sort_scheme_id')
+			->count();
 
 		$corrections = Move::where('user_id',Auth::user()->id)->count();
 
@@ -162,6 +168,7 @@ public function __construct(MasterShelfInterface $msi)
 			'statusAlert' => $statusAlert,
 			'mains' => $mains,
 			'unloadedService' => $unloadedService,
+			'countOfSortSchemes' => $countOfSortSchemes,
 		]);
 
 
@@ -252,6 +259,7 @@ public function __construct(MasterShelfInterface $msi)
 		{
 
 			return Redirect::route('maps');
+
 		} else {
 
 			return Redirect::route('shelf');

@@ -3,7 +3,6 @@
         <layout></layout>
     </div>
     <br />
-
     <jet-confirmation-modal
         :show="confirmingUserDeletion"
         @close="confirmingUserDeletion = false"
@@ -46,18 +45,12 @@
         </template>
     </jet-confirmation-modal>
 
-    
-
     <div style="width: 100%; height: 100%">
+
         <header class="ml-2 mr-2 bg-gray-800 rounded-lg">
             <div class="items-center px-4 py-3 md:flex md:justify-between">
                 <div class="text-xl text-white">{{ sortSchemeName }}</div>
-                <div class="text-xl text-white">
-                    Location: {{ initialLocationName }}
-                </div>
-                <div class="block px-2 text-xl text-white text-semibold">
-                    <a href="#" @click="emptyTables">Clear Shelf</a>
-                </div>
+
                 <div class="block px-2 text-xl text-white text-semibold">
                     Corrections: {{ corrections }}
                 </div>
@@ -73,14 +66,13 @@
                                     :key="index"
                                     :value="demo.barcode"
                                 >
-                                   {{ demo.id }}.  {{ demo.title }}
+                                    {{ demo.id }}. {{ demo.title }}
                                 </option>
                             </select>
                         </div>
                     </form>
-		
                 </div>
-                <div class="block px-2 mb-3 text-semibold">
+                <div class="block px-2 mt-2 mb-3 text-semibold">
                     <form @submit.prevent="postBarcode">
                         <div>
                             <input
@@ -88,21 +80,21 @@
                                 v-model="form.barcode"
                                 autofocus
                                 placeholder="Scan Barcode"
-				ref="barcode"
+                                ref="barcode"
                             />
                         </div>
                     </form>
                 </div>
-                <div>
+                <div v-if="countOfSortSchemes > 1">
                     <form @change="chooseSort">
                         <div class="block px-2 text-semibold">
                             <select
                                 class="block w-full mt-1 form-input rounded-md shadow-sm"
                                 v-model="form.sort"
                             >
-			    	<option value="" selected disabled>
-					Change Sort
-			    	</option>
+                                <option value="" selected disabled>
+                                    Change Sort
+                                </option>
                                 <option
                                     v-for="(sort, index) in unloadedService"
                                     :key="index"
@@ -114,26 +106,36 @@
                         </div>
                     </form>
                 </div>
+                <div class="block px-2 text-xl text-white text-semibold">
+                    <a href="#" @click="emptyTables"
+                        >Clear Shelf (Saves Items to Inventory)</a
+                    >
+                </div>
             </div>
         </header>
-
-        
-        
     </div>
-    	<div class="flex justify-center mt-6" v-if="errors.barcode">
-		
-		<div v-for="error in errors">
-			<span class="text-3xl text-red-700">{{ error }}</span>
-		</div>
-	</div>
-	<div class="flex justify-center mt-6" v-if="status != 'Available'">
-		
-		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
-		
-	</div>
-	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
-		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
-	</div>
+    <div class="flex justify-center mt-6" v-if="errors">
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
+        <div v-for="error in errors">
+            <span class="text-3xl text-red-700">{{ error }}</span>
+        </div>
+    </div>
+    <div class="flex justify-center mt-6" v-if="status != 'Available'">
+        <span class="text-3xl text-red-700">{{ statusAlert }}</span>
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
+    </div>
+    <div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
+        <span class="text-3xl text-red-700">{{
+            $page.props.flash.message
+        }}</span>
+    </div>
     <div
         id="sbar"
         style="
@@ -162,10 +164,16 @@
                             v-if="mover === book.shelf_position"
                             class="font-bold text-blue-800 turn"
                         >
-                            <span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>{{ book.title.slice(0, 25) }}
+                            <span class="mb-2 text-sm font-bold unturn">{{
+                                index + 1
+                            }}</span
+                            >{{ book.title.slice(0, 25) }}
                         </div>
                         <div v-else class="turn">
-                            <span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>{{ book.title.slice(0, 25) }}
+                            <span class="mb-2 text-sm font-bold unturn">{{
+                                index + 1
+                            }}</span
+                            >{{ book.title.slice(0, 25) }}
                         </div>
                         <div
                             v-if="index + 1 === mpos"
@@ -187,12 +195,18 @@
                         <div
                             v-if="mover === book.shelf_position"
                             class="font-bold text-blue-800 turn"
-                        ><span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>
+                        >
+                            <span class="mb-2 text-sm font-bold unturn">{{
+                                index + 1
+                            }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
                         </div>
-                        <div v-else class="flex turn"><span class="mb-2 text-sm font-bold unturn">h4{{ index+1 }}</span>
+                        <div v-else class="flex turn">
+                            <span class="mb-2 text-sm font-bold unturn"
+                                >h4{{ index + 1 }}</span
+                            >
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
@@ -206,7 +220,10 @@
                         v-for="(book, index) in shelf"
                         :key="1"
                     >
-                        <div class="turn"><span class="mb-2 text-sm font-bold unturn">{{ index + 1 }}</span>
+                        <div class="turn">
+                            <span class="mb-2 text-sm font-bold unturn">{{
+                                index + 1
+                            }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
@@ -257,7 +274,8 @@ export default {
         "statusAlert",
         "mains",
         "errors",
-	"unloadedService"
+        "unloadedService",
+        "countOfSortSchemes",
     ],
 
     data() {
@@ -293,13 +311,14 @@ export default {
                 ignoreLocation: 0,
                 onSuccess: (this.form.barcode = ""),
             });
-                this.nowFocusInput;
+            	this.focusInput;
         },
 
         deleteItem(barcode) {
             this.$inertia.post("delete.item", {
                 barcode: barcode,
             });
+            this.focusInput;
         },
 
         bookInfo(index) {
@@ -312,6 +331,7 @@ export default {
             this.$inertia.post("choose-sort", {
                 sort: this.form.sort,
             });
+            this.nowFocusInput;
         },
         focusInput() {
             this.nextTick(() => {
@@ -346,6 +366,7 @@ export default {
 
         emptyTables() {
             this.$inertia.post("empty_tables");
+            	this.focusInput;
         },
 
         addItem: function () {
@@ -392,7 +413,7 @@ export default {
         },
 
         currentService(to, from) {
-            this.nowFocusInput();
+            this.focusInput();
         },
         currentSkidmoreStack(to, from) {
             this.skidmoreStack();
@@ -514,11 +535,11 @@ td.rotate45 > div > span {
 }
 
 .unturn {
-    		-ms-writing-mode: lr-tb;
-		writing-mode: horizontal-tb;
-    		-webkit-writing-mode: horizontal-tb;
-   		-moz-writing-mode: horizontal-tb;
-	}
+    -ms-writing-mode: lr-tb;
+    writing-mode: horizontal-tb;
+    -webkit-writing-mode: horizontal-tb;
+    -moz-writing-mode: horizontal-tb;
+}
 
 .callnum {
     display: inline-block;

@@ -51,6 +51,7 @@ class RegisterStep2Controller extends Controller
 
 		$ap->user_id = $user_id;
 		$ap->institution_id = 1;
+		$ap->library_id = $libraryId;
 		$ap->api_service_id = 1;
 		$ap->loaded = 1;
 		$ap->sort_scheme_id = 1;
@@ -75,6 +76,7 @@ class RegisterStep2Controller extends Controller
 
 		$ap->user_id = $user_id;
 		$ap->institution_id = 1;
+		$ap->library_id = $libraryId;
 		$ap->api_service_id = 1;
 		$ap->loaded = 1;
 		$ap->sort_scheme_id = 1;
@@ -86,6 +88,7 @@ class RegisterStep2Controller extends Controller
 
 		$ap->user_id = $user_id;
 		$ap->institution_id = 1;
+		$ap->library_id = $libraryId;
 		$ap->api_service_id = 2;
 		$ap->loaded = 0;
 		$ap->sort_scheme_id = 2;
@@ -109,6 +112,7 @@ class RegisterStep2Controller extends Controller
 
 		$ap->user_id = $user_id;
 		$ap->institution_id = 1;
+		$ap->library_id = $libraryId;
 		$ap->api_service_id = 2;
 		$ap->loaded = 1;
 		$ap->sort_scheme_id = 2;

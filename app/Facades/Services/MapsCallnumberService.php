@@ -509,10 +509,7 @@ class MapsCallnumberService {
 
 			if($specification)
 			{
-				if($this->normalizeSpecificationNumbers($specification))
-				{
 					$specification = $this->normalizeSpecificationNumbers($specification);
-				}
 			}
 
 			$toplineArray[] = $specification;
@@ -634,32 +631,13 @@ class MapsCallnumberService {
 			}
 		}
 
-		return $dateOfReproduction;
-
-	}
-		$dateOfReproduction = null;
-		$specification = null;
-
-		if($pos !== false)
-		{   
-			foreach($nextlineStringArray as $key=>$n)
-			{
-				if($key<= $pos+3) { continue; }
-				{
-					$specification .= $nextlineString[$key];
-				}
-			}
+		if(ctype_digit($dateOfReproduction))  {
+		
+			return $dateOfReproduction;
+		} else {
+		
+			return '';
 		}
-
-		if($specification) {
-			$endSpec = substr($specification,-4);
-			if(is_numeric($endSpec) AND $endSpec < date('Y'))
-			{
-				$dateOfReproduction .= $endSpec;
-			}
-		}
-
-		return $dateOfReproduction;
 
 	}
 

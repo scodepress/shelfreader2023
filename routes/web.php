@@ -116,7 +116,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 		Route::post('save.candidate.to.shelf','ShelfCandidateController@saveCandidateToShelf')->name('save.candidate.to.shelf');
 		Route::get('/check_book/{barcode}/{user_id}/{service}', 'ShelvesController@checkBook')->middleware('auth:sanctum')
 											->name('check_book');
-		Route::get('master.shelf/{sortSchemeId}', 'MasterShelfController@show')->middleware('auth:sanctum')->name('master.shelf');
+		Route::get('master.shelf/{sortSchemeId}/{clear}', 'MasterShelfController@show')->middleware('auth:sanctum')
+										 ->name('master.shelf');
 		Route::post('delete.item', 'ShelvesController@delete')->middleware('auth:sanctum')->name('delete.item');
 		Route::delete('first.scan', 'FirstScanController@delete')->middleware('auth:sanctum')->name('first.scan');
 		Route::delete('shelf.candidate/{barcode}', 'ShelfCandidateController@destroy')

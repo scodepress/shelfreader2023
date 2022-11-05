@@ -56,6 +56,12 @@ class MapController extends Controller
 			->where('loaded',0)
 			->get();
 
+		$countOfSortSchemes = DB::table('institution_api_services')
+			->select('sort_scheme_id')
+			->where('user_id',$user_id)
+			->distinct('sort_scheme_id')
+			->count();
+
 		$sortSchemeName = InstitutionApiService::where('user_id',$user_id)->where('loaded',1)->pluck('sort_scheme_name')[0];
 		$sort_schemes = SortScheme::get();
 
@@ -128,6 +134,7 @@ class MapController extends Controller
 		       	'sortSchemeId' => $sortSchemeId,
 		       	'nextMoverItem' => $nextMoverItem,
 		       	'libraryApiServices' => $libraryApiServices,
+		       	'countOfSortSchemes' => $countOfSortSchemes,
 		]);
 
 	}

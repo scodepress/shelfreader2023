@@ -1302,7 +1302,7 @@ export default {
         },
         masterShelf() {
             this.$inertia.get(
-                route("master.shelf", { sortSchemeId: this.sortSchemeId })
+                route("master.shelf", { sortSchemeId: this.sortSchemeId, clear: 1 })
             );
         },
         library() {

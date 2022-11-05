@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InstitutionApiService extends Model
@@ -41,13 +42,13 @@ class InstitutionApiService extends Model
 
 			$api->user_id = $user_id;
 			$api->institution_id = 1;
-			$api->library_id = $user->library_id;
+			$api->library_id = Auth::user()->library_id;
 			$api->api_service_id = 1;
 			$api->loaded = 1;
 			$api->sort_scheme_id = 1;
 			$api->sort_scheme_name = "LCC";
 
-			$api->save()			;
+			$api->save();
 
 			return 1;
 

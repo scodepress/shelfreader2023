@@ -1,17 +1,14 @@
 <template>
     <div><layout></layout></div>
-    <div id="container" style="margin-left: 50px;">
-
+    <div id="container" style="margin-left: 20px;">
         <div style="margin-top: 30px; margin-right: 30px; margin-left: 30px;">
 
             <header class="ml-2 mr-2 bg-gray-800 rounded-lg">
                 <div class="items-center px-4 py-3 md:flex md:justify-between">
                     <div class="text-xl text-white">{{ sortSchemeName }}</div>
-                    <div class="block px-2 text-white text-semibold">
-                        <a href="#" @click="emptyTables">Clear Shelf</a>
-                    </div>
+                    
                     <div class="block px-2 text-white text-semibold">Corrections: {{ corrections }}</div>
-                    <div class="block px-2 mb-3 text-semibold">
+                    <div class="block px-2 mt-2 mb-3 text-semibold">
                         <form @submit.prevent="postBarcode">
                             <div>
                                 <input
@@ -24,7 +21,7 @@
                             </div>
                         </form>
                     </div>
-                    <div>
+                    <div v-if="countOfSortSchemes>1">
                         <form @change="chooseSort">
                             <div class="block px-2 text-semibold">
                                 <select
@@ -46,7 +43,9 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                <div class="block px-2 text-white text-semibold">
+                        <a href="#" @click="emptyTables">Clear Shelf (Saves Items to Inventory)</a>
+                    </div></div>
             </header>
 
             
@@ -58,18 +57,27 @@
 		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
 		
 	</div>
-    	<div class="flex justify-center mt-6" v-if="errors.barcode">
-		
+    	<div class="flex justify-center mt-6" v-if="errors">
+
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
 		<div v-for="error in errors">
 			<span class="text-3xl text-red-700">{{ error }}</span>
 		</div>
 	</div>
 	<div class="flex justify-center mt-6" v-if="status != 'Available'">
 		
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
 		<span class="text-3xl text-red-700">{{ statusAlert }}</span>
 		
 	</div>
 	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
 		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
 	</div>
 	
@@ -168,6 +176,7 @@ export default {
         libraryApiServices: Object,
 	errors: Object,
 	unloadedService: Object,
+	countOfSortSchemes: Number,
     },
     data() {
         return {
@@ -195,6 +204,8 @@ export default {
                 sortSchemeId: this.sortSchemeId,
                 onSuccess: (this.form.barcode = ""),
             });
+            
+	    this.nowFocusInput;
         },
 
         makeCorrection() {
@@ -204,12 +215,15 @@ export default {
                 sortSchemeId: this.sortSchemeId,
                 onSuccess: (this.form.barcode = ""),
             });
+            this.nowFocusInput;
         },
 
         chooseService(service) {
             this.$inertia.post("set-service", {
                 service: service,
             });
+
+            this.nowFocusInput;
         },
 
         bookInfo(index) {
@@ -221,6 +235,8 @@ export default {
             this.$inertia.post("choose-sort", {
                 sort: this.form.sort,
             });
+
+            this.nowFocusInput;
         },
         focusInput() {
             this.nextTick(() => {
@@ -244,6 +260,8 @@ export default {
             this.$inertia.post("empty_tables", {
                 sortSchemeId: this.sortSchemeId,
             });
+
+            this.nowFocusInput;
         },
 
         scrollToElement() {
