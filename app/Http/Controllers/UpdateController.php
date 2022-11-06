@@ -15,7 +15,7 @@ class UpdateController extends Controller
 {
 	public function show() 
 	{
-		$message = 'This is the Update Page';
+		$message = 'This is the Update Page.';
 
 
 		return Inertia::render('Update/Index', [
