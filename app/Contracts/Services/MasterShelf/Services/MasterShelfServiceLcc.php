@@ -220,7 +220,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 			return;
 			} else {
 				$sortSchemeId = Auth::user()->scheme_id;
-				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear' => 1])
 					->with('message','There are no records in Inventory.');
 			}
 		}
@@ -252,7 +252,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				} else {
 					
 					$sortSchemeId = Auth::user()->scheme_id;
-					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId])
+					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>0])
 					->with('message','There are no results in the date range you specified.');
 				
 				}
