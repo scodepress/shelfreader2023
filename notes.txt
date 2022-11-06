@@ -1,22 +1,22 @@
 To  Do
 
 1. Add Form Requests to all forms
-2. Fix focus in barcode form on shelf page - re-focus after all form submissions
-3. Add form to change collection on pages.
-4. Make all inventory searches based on library id only.
-5. List of forms - 
+2. Add form to change collection on pages.
+3. Make all inventory searches based on library id only.
+4. List of forms - 
 	a. barcode form - shelf and maps pages
 	b. change sort scheme form - alerts page, inventory page, shelf page, maps page
 	c. impersonate form - super admin page
 	d. search parameter form - inventory page
 	
-6. Make script to transfer data from old tables to new.
-7. Update Instructions page.
-8. Stop impersonating link.
-9. Thoroughly test inventory search and everything else for that matter. Add total items on page
-10. Test registration forms and add validation. (Working, add validation)
-11. Something on Dashboard page?
-12. Add direction arrow with moves to main page.
-13. Make sure barcode form clearing is working correctly.
+5. Make script to transfer data from old tables to new.
+6. Update Instructions page.
+7. Thoroughly test inventory search and everything else for that matter. Add total items on page
+8. Test registration forms and add validation. (Working, add validation)
+9. Something on Dashboard page?
+10. Add direction arrow with moves to main page.
+12. Admin page server error.
+13. Institution field in users table.
+14. Show barcode on all errors - It may be picking up other barcode.
 
 Form requests and scripts.

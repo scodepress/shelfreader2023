@@ -1,23 +1,7 @@
 <template>
     <div><layout></layout></div>
     <div style="margin: 25px">
-        <div class="mt-5 mb-2 font-bold">Users</div>
-        <div class="min-w-full overflow-auto h-100">
-            <table class="w-full">
-                <tr style="font-weight:bold" >
-                    <td>Name</td>
-                    <td>Role</td>
-                    <td>Email</td>
-                    <td>Library</td>
-                </tr>
-                <tr v-for="(user, index) in allUsers">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.privs }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.library_name }}</td>
-                </tr>
-            </table>
-        </div>
+        
 
         <div>
             <div class="mt-5 text-lg font-bold">Impersonate a User:</div>
@@ -58,29 +42,13 @@ export default {
             form: this.$inertia.form({
                 user_id: null,
             }),
-            form: this.$inertia.form({
-                institution_id: null,
-            }),
-            form: this.$inertia.form({
-                new_institution_id: null,
-                tenant: null,
-                password: null,
-            }),
         };
     },
 
     props: {
-        users: Object,
-        institutions: Object,
-        allUsers: Object,
-        owner: Object,
-        unapprovedRequests: Object,
-        userActionId: Number,
-        newInstitutionId: Boolean,
-        returned_institution_id: null,
-        folioInstitutions: Object,
         impersonatedUserId: Number,
-        aUser: Number,
+        allUsers: Object,
+        impersonatedUserId: Number,
     },
 
     methods: {
@@ -88,20 +56,6 @@ export default {
             this.$inertia.post("/users.impersonate", this.form);
         },
 
-        renewFolioToken() {
-            this.$inertia.post("/update-auth-token", {
-                institution_id: this.form.institution_id,
-                userActionId: this.userActionId,
-            });
-        },
-
-        createFolioToken() {
-            this.$inertia.post("/create-token", {
-                institution_id: this.form.new_institution_id,
-                tenant: this.form.tenant,
-                password: this.form.password,
-            });
-        },
     },
 };
 </script>

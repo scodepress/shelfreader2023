@@ -140,6 +140,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 		Route::post('inventory-correction', 'FolioInventoryRequestController@correction')->middleware('auth:sanctum')
 										   ->name('inventory-correction');
+		Route::post('change.sort.master.shelf', 'MasterShelfController@chooseSort')
+			->middleware('auth:sanctum')
+			->name('change.sort.master.shelf');
+
 		Route::post('choose-sort', 'SortSchemeController@put')->middleware('auth:sanctum')->name('choose-sort');
 		Route::post('store-token', 'FolioAuthenticationTokenController@store')->middleware('auth:sanctum')->name('store-token');
 		Route::post('create-token', 'FolioAuthenticationTokenController@adminCreateToken')->middleware('auth:sanctum')->name('create-token');

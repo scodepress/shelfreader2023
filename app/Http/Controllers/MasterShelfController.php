@@ -214,6 +214,23 @@ class MasterShelfController extends Controller
 		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId, 'clear' => 0]);
 	}
 
+	public function chooseSort(Request $request)
+	{
+		$sortSchemeId = $request->sort;
+		$user_id = Auth::user()->id;
+
+		User::where('id',Auth::user()->id)->update(['scheme_id'=>$sortSchemeId]);
+
+		InstitutionApiService::where('user_id', $user_id)->where('sort_scheme_id',$sortSchemeId)
+			->update(['loaded' => 1]);
+		
+		InstitutionApiService::where('user_id',$user_id)->where('sort_scheme_id','!=',$sortSchemeId)
+							  ->update(['loaded' => 0]);
+		MasterShelfResult::where('user_id',$user_id)->delete();
+
+		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId, 'clear' => 1]);
+	}
+
 	public function edit($id)
 	{
 		//

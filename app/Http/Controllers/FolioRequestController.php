@@ -132,10 +132,18 @@ class FolioRequestController extends Controller
 
 					return Redirect::route('correction',['user_id'=>$user_id,'barcode'=>$barcode]);
 
+				} elseif($nextMoverBarcode->first() && $nextMoverBarcode[0] != $barcode) {
+
+					return Redirect::route('maps')->with('message','You re-scanned the wrong item.
+						Please rescan the item with the blue title.');
 				} else {
 
-					return Redirect::route('maps')->with('message','You re-scanned the wrong item.');
+					return Redirect::route('maps')->with('message','You re-scanned an 
+						item but there are no errors in the shelf.');
+
+
 				} 
+
 
 
 			}
@@ -162,10 +170,16 @@ class FolioRequestController extends Controller
 
 				return Redirect::route('correction',['user_id'=>$user_id,'barcode'=>$barcode]);
 
-			} else {
+			} elseif($nextMoverBarcode->first() && $nextMoverBarcode[0] != $barcode) {
 
-				return Redirect::route('shelf')->with('message','You re-scanned an item but there are no errors in the 
-					shelf.');
+				return Redirect::route('shelf')->with('message','You re-scanned the wrong item.
+					Rescan the item with the blue title');
+			} else {
+				
+				return Redirect::route('shelf')->with('message','You re-scanned an item but there are no
+				errors in the shelf');
+
+
 			} 
 		}
 

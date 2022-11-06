@@ -47,26 +47,11 @@ class AdminController extends Controller
 		}
 
 		//dd($newInstitutionId);
-		$userInstitutions = User::userInstitution();
-		$owner = User::where('id',Auth::user()->id);
-		$unapprovedRequests = $this->getUnapprovedMembershipRequests();
 		$allUsers = User::userLibrary();
-		$institutions = Institution::get();
-		$returned_institution_id = null;
-		$folioInstitutions = $this->folioInstitutions();
 
 		return Inertia::render('SuperAdmin/Index', [
-			'users' => $userInstitutions,
 			'allUsers' => $allUsers,
-			'owner' => $owner,
-			'unapprovedRequests' => $unapprovedRequests,
-			'institutions' => $institutions,
-			'returned_institution_id' => $returned_institution_id,
-			'userActionId' => $userActionId,
-			'newInstitutionId' => $newInstitutionId,
-			'folioInstitutions' => $folioInstitutions,
 			'impersonatedUserId' => $impersonatedUserId,
-			'aUser' => Auth::user()->id,
 		]);
 
 	}

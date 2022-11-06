@@ -9,8 +9,36 @@
             <div class="items-center justify-start px-4 py-3 ml-6 mr-6 md:flex">
                 
                 <div class="text-xl">
-                	<div class="mt-2 mb-2 text-2xl font-semibold">
-                		Set Search Parameters                	</div>
+		<div class="flex">
+			
+                	<div class="mt-2 mb-2 text-2xl font-semibold"> Set Search Parameters           
+				</div>
+				<div class="mt-2 ml-6 text-xl" v-if="countOfSortSchemes>1">
+					
+                <div v-if="countOfSortSchemes > 1">
+                    <form @change="chooseSort">
+                        <div class="block px-2 mb-4 text-semibold">
+                            <select
+                                class="block w-full form-input rounded-md shadow-sm"
+                                v-model="form.sort"
+                            >
+                                <option value="" selected disabled>
+                                    Change Inventory Collection
+                                </option>
+                                <option
+                                    v-for="(sort, index) in unloadedService"
+                                    :key="index"
+                                    :value="sort.sort_scheme_id"
+                                >
+                                    Sort Method: {{ sort.sort_scheme_name }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+				</div>
+		</div>
+
                     <form class="flex" @submit.prevent="inventorySearch">
                         <div class="mr-6">
 			   <input
@@ -196,6 +224,8 @@ endingCallNumber: Object,
 allDates: Array,
 sortSchemeId: Number,
 errors: Object,
+countOfSortSchemes: Number,
+unloadedService: Object,
 
 },
        data() {
@@ -208,6 +238,7 @@ errors: Object,
 		dateFileFormat: "",
 		showAlerts: "",
 		locationName: "",
+		sort: "",
             }),
 	    picked: new Date(),
 			};
@@ -227,6 +258,11 @@ errors: Object,
             });
 		      },
 
+        chooseSort() {
+            this.$inertia.post("/change.sort.master.shelf", {
+                sort: this.form.sort,
+            });
+        },
 		      },
 };
 </script>

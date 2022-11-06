@@ -46,7 +46,6 @@
     </jet-confirmation-modal>
 
     <div style="width: 100%; height: 100%">
-
         <header class="ml-2 mr-2 bg-gray-800 rounded-lg">
             <div class="items-center px-4 py-3 md:flex md:justify-between">
                 <div class="text-xl text-white">{{ sortSchemeName }}</div>
@@ -54,7 +53,7 @@
                 <div class="block px-2 text-xl text-white text-semibold">
                     Corrections: {{ corrections }}
                 </div>
-                
+
                 <div class="block px-2 mt-2 mb-3 text-semibold">
                     <form @submit.prevent="postBarcode">
                         <div>
@@ -150,13 +149,17 @@
                             <span class="mb-2 text-sm font-bold unturn">{{
                                 index + 1
                             }}</span
-                            >{{ book.title.slice(0, 25) }}
+                            ><a @click="bookInfo(index)" href="#">{{
+                                book.title.slice(0, 25)
+                            }}</a>
                         </div>
                         <div v-else class="turn">
                             <span class="mb-2 text-sm font-bold unturn">{{
                                 index + 1
                             }}</span
-                            >{{ book.title.slice(0, 25) }}
+                            ><a @click="bookInfo(index)" href="#">{{
+                                book.title.slice(0, 25)
+                            }}</a>
                         </div>
                         <div
                             v-if="index + 1 === mpos"
@@ -187,15 +190,12 @@
                             }}</a>
                         </div>
                         <div v-else class="flex turn">
-                            <span class="mb-2 text-sm font-bold unturn"
-                                >h4{{ index + 1 }}</span
-                            >
+                            <span class="mb-2 text-sm font-bold unturn">{{
+                                index + 1
+                            }}</span>
                             <a @click="bookInfo(index)" href="#">{{
                                 book.title.slice(0, 25)
                             }}</a>
-                            <span class="text-green-800 border-1">{{
-                                index + 1
-                            }}</span>
                         </div>
                     </li>
                     <li
@@ -293,12 +293,13 @@ export default {
                 ignoreLocation: 0,
                 onSuccess: (this.form.barcode = ""),
             });
-            	this.focusInput;
+            this.focusInput;
         },
 
         deleteItem(barcode) {
             this.$inertia.post("delete.item", {
                 barcode: barcode,
+                onSuccess: (location.reload()),
             });
             this.focusInput;
         },
@@ -312,8 +313,9 @@ export default {
         chooseSort() {
             this.$inertia.post("choose-sort", {
                 sort: this.form.sort,
+                onSuccess: this.$refs.barcode.focus(),
             });
-            this.nowFocusInput;
+            this.$refs.barcode.focus();
         },
         focusInput() {
             this.nextTick(() => {
@@ -348,7 +350,7 @@ export default {
 
         emptyTables() {
             this.$inertia.post("empty_tables");
-            	this.focusInput;
+            this.$refs.barcode.focus();
         },
 
         addItem: function () {
