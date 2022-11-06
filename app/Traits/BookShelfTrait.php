@@ -490,8 +490,6 @@ trait BookShelfTrait {
 		Subsequence::where('user_id', $user_id)->delete();
 		Move::where('user_id',$user_id)->delete();
 		Status::where('user_id',$user_id)->delete();
-		LocalInventoryOut::where('user_id',$user_id)->delete();
-		OnlineInventoryItem::where('user_id',$user_id)->delete();
 	}
 
 

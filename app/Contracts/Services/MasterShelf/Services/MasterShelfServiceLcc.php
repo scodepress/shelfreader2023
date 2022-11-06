@@ -177,7 +177,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 	}
 
 	public function getIdOfFirstCallNumber($libraryId,$beginningCallNumber)
-	{dd($beginningCallNumber);
+	{
 		return MasterShelfResult::where('call_number', $beginningCallNumber)
 			->where('library_id',$libraryId)
 			->pluck('id')[0];

@@ -57,11 +57,6 @@ public function __construct(MasterShelfInterface $msi)
 
 		$sortSchemeName = InstitutionApiService::where('user_id',$user_id)->where('loaded',1)->pluck('sort_scheme_name')[0];
 
-		$inventoryCount = LocalInventoryOut::where('user_id', $user_id)->count();
-		if($inventoryCount >0) {
-
-			$this->clearShelf($user_id);
-		}
 
 		$institution = Institution::where('id',Auth::user()->institution_id)->get();
 

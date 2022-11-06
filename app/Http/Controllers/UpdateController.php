@@ -37,14 +37,13 @@ class UpdateController extends Controller
 
 		foreach($oldUsers as $o)
 		{
+			if($o->id === 1) { continue; }
 			$newUsers[] = [
 
 				'id' => $o->id,
-				'role_id' => 4,
 				'name' => $o->name,
 				'privs' => $o->privs,
 				'email' => $o->email,
-				'avatar' => 'users/default.png',
 				'institution_id' => $o->institution,
 				'library_id' => $o->institution,
 				'service_id' => 1,

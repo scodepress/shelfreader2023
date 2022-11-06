@@ -25,6 +25,11 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->middleware('guest')->name('password.request');
 
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
 Route::post('/forgot-password', function(Request $request) {
 	$request->validate(['email' => 'required|email']);
 $status = Password::sendResetLink(
