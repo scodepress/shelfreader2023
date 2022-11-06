@@ -10,13 +10,17 @@ class LibraryLccService implements LibraryInterface {
 
 	public function getTotalScanCount($libraryId)
 	{
-		return DB::table('master_shelf_lcc as m')
-			->join('alerts as a','a.library_id','=','m.library_id')
-			->join('corrections as c','c.library_id','=','m.library_id')
-			->select('m.barcode')
-			->where('m.library_id',$libraryId)
-			->groupBy('m.barcode')
+		$masterShelfCount = DB::table('masterShelfCount')
+			->where('libraryId',$libraryId)
+			->select('barcode')
 			->count();
+		$alertsCount = DB::table('alerts')
+			->where('libraryId',$libraryId)
+			->select('barcode')
+			->count();
+
+		return $masterShelfCount + $alertsCount;
+
 	}
 
 
