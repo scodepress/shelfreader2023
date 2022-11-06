@@ -11,15 +11,15 @@ class LibraryLccService implements LibraryInterface {
 	public function getTotalScanCount($libraryId)
 	{
 		$masterShelfMapsCount = DB::table('master_shelf_maps')
-			->where('libraryId',$libraryId)
+			->where('library_id',$libraryId)
 			->select('barcode')
 			->count();
 		$alertsCount = DB::table('alerts')
-			->where('libraryId',$libraryId)
+			->where('library_id',$libraryId)
 			->select('barcode')
 			->count();
 		$masterShelfLccCount = DB::table('master_shelf_lcc')
-			->where('libraryId',$libraryId)
+			->where('library_id',$libraryId)
 			->select('barcode')
 			->count();
 
