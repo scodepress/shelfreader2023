@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->integer('privs')->default(3);
             $table->string('email')->unique('users_email_unique');
             $table->integer('institution_id')->default(1);
-            $table->integer('library_id')->default(1);
+            $table->integer('library_id')->default(0);
             $table->integer('service_id')->default(1);
-            $table->integer('scheme_id')->default(1);
-            $table->integer('approved')->default(1);
+            $table->integer('scheme_id')->default(0);
+            $table->integer('approved')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('two_factor_secret')->nullable();

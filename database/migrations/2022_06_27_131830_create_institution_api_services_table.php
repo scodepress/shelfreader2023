@@ -17,6 +17,7 @@ class CreateInstitutionApiServicesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('institution_id')->nullable();
+            $table->integer('library_id')->nullable();
             $table->integer('api_service_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

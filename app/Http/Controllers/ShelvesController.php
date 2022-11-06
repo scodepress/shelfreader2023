@@ -142,7 +142,6 @@ public function __construct(MasterShelfInterface $msi)
 
 		$corrections = Move::where('user_id',Auth::user()->id)->count();
 
-		$mains = DB::table('mains')->select('id','barcode','title')->get();
 
 		return Inertia::render('Shelf/ShelfDisplay', [
 
@@ -166,7 +165,6 @@ public function __construct(MasterShelfInterface $msi)
 			'sort_schemes' => $sort_schemes,
 			'libraryApiServices' => $libraryApiServices,
 			'statusAlert' => $statusAlert,
-			'mains' => $mains,
 			'unloadedService' => $unloadedService,
 			'countOfSortSchemes' => $countOfSortSchemes,
 		]);

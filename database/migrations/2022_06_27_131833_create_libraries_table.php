@@ -16,11 +16,7 @@ class CreateLibrariesTable extends Migration
         Schema::create('libraries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('institution_id');
-            $table->string('library_name', 300);
-            $table->string('city', 100);
-            $table->string('street', 100);
-            $table->char('state', 2);
-            $table->string('zip', 20);
+            $table->string('library_name', 100);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

@@ -54,24 +54,7 @@
                 <div class="block px-2 text-xl text-white text-semibold">
                     Corrections: {{ corrections }}
                 </div>
-                <div v-if="$page.props.user.privs === 1">
-                    <form @change="postBarcode">
-                        <div class="block px-2 text-semibold">
-                            <select
-                                class="block w-40 mt-1 form-input rounded-md shadow-sm"
-                                v-model="form.barcode"
-                            >
-                                <option
-                                    v-for="(demo, index) in mains"
-                                    :key="index"
-                                    :value="demo.barcode"
-                                >
-                                    {{ demo.id }}. {{ demo.title }}
-                                </option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
+                
                 <div class="block px-2 mt-2 mb-3 text-semibold">
                     <form @submit.prevent="postBarcode">
                         <div>
@@ -272,7 +255,6 @@ export default {
         "sortSchemeName",
         "libraryApiServices",
         "statusAlert",
-        "mains",
         "errors",
         "unloadedService",
         "countOfSortSchemes",
