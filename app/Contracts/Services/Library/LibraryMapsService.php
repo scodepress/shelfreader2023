@@ -10,13 +10,20 @@ class LibraryMapsService implements LibraryInterface {
 
 	public function getTotalScanCount($libraryId)
 	{
-		return DB::table('corrections as c')
-			->join('alerts as a','a.library_id','=','c.library_id')
-			->join('master_shelf_maps as m','a.library_id','=','m.library_id')
-			->where('a.library_id',$libraryId)
-			->select('a.barcode')
-			->groupBy('a.barcode')
+		$masterShelfMapsCount = DB::table('master_shelf_maps')
+			->where('libraryId',$libraryId)
+			->select('barcode')
 			->count();
+		$alertsCount = DB::table('alerts')
+			->where('libraryId',$libraryId)
+			->select('barcode')
+			->count();
+		$masterShelfLccCount = DB::table('master_shelf_lcc')
+			->where('libraryId',$libraryId)
+			->select('barcode')
+			->count();
+
+		return $masterShelfMapsCount + $alertsCount + $masterShelfLccCount;
 	}
 
 
