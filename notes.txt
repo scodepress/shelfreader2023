@@ -16,7 +16,5 @@ To  Do
 9. Something on Dashboard page?
 10. Add direction arrow with moves to main page.
 12. Admin page server error.
-13. Institution field in users table.
-14. Show barcode on all errors - It may be picking up other barcode.
 
 Form requests and scripts.

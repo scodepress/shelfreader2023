@@ -41,9 +41,11 @@ class UpdateController extends Controller
 			$newUsers[] = [
 
 				'id' => $o->id,
+				'role_id' => 2,
 				'name' => $o->name,
 				'privs' => $o->privs,
 				'email' => $o->email,
+				'avatar' => 'users/default.png',
 				'institution_id' => $o->institution,
 				'library_id' => $o->institution,
 				'service_id' => 1,
@@ -109,7 +111,7 @@ class UpdateController extends Controller
 				$i->save();
  
 		// Update master_shelf_maps
-		MasterShelfMap::where('library_id',10)->update(['user_id' => $lid]);
+		MasterShelfMap::where('library_id',3)->update(['user_id' => $lid,'library_id' =>10]);
 		
 	
 	}
@@ -266,20 +268,7 @@ class UpdateController extends Controller
 
 	public function getEngineeringItems()
 	{
-		$u = new User;
-		$u->name = 'Engineering';
-		$u->privs = 3;
-		$u->email = 'lms27@psu.edu';
-		$u->avatar = 'users/default.png';
-		$u->institution_id = 1;
-		$u->library_id = 7;
-		$u->service_id = 1;
-		$u->scheme_id = 1;
-		$u->approved = 1;
-		$u->password = '$2y$10$OxkdKqkYmVn21FLxiEpziuZzbMohNnt3/MJRQqQHK/30IILMhlOJ.';
-		$u->save();
-
-		$lid = $u->id;
+	
 
 
 		$rows = null;
@@ -297,7 +286,7 @@ class UpdateController extends Controller
 
 		$eng[] = [
 
-				'user_id' => $lid,
+				'user_id' => 107,
 				'library_id' => 7,
 				'barcode' => $o->barcode,
 				'title' => $o->title,
@@ -343,7 +332,6 @@ class UpdateController extends Controller
 		$u->password = '$2y$10$2X6IjirOiTWbx3x1wIkz3ezIgfBREwxXMXMCWIDAAj8sqKGoJPW92';
 		$u->save();
 
-		$lid = $u->id;
 
 		$rows = null;
 		DB::table('master_keys')
@@ -355,6 +343,7 @@ class UpdateController extends Controller
 			'pcd2','part1','created_at')
 			->chunk(1000, function($master_keys)
 			{
+				$lid = User::orderByDesc('id')->pluck('id')[0];
 		foreach($master_keys as $o) {	
 		$ems[] = [
 				'user_id' => $lid,

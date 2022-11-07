@@ -30819,7 +30819,7 @@ var _hoisted_1 = {
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-  "class": "ml-6 text-3xl font-bold"
+  "class": "ml-16 text-3xl font-bold"
 }, "Inventory List", -1
 /* HOISTED */
 );
@@ -30834,7 +30834,7 @@ var _hoisted_4 = {
   "class": "ml-2 mr-2 rounded-lg"
 };
 var _hoisted_5 = {
-  "class": "items-center justify-start px-4 py-3 ml-6 mr-6 md:flex"
+  "class": "items-center justify-start w-full px-4 py-3 ml-6 mr-6 md:flex"
 };
 var _hoisted_6 = {
   "class": "text-xl"
@@ -30845,26 +30845,29 @@ var _hoisted_7 = {
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "mt-2 mb-2 text-2xl font-semibold"
-}, " Set Search Parameters ", -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Set Search Parameters "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "ml-6 text-xl"
+}, "Change Inventory View:")], -1
 /* HOISTED */
 );
 
 var _hoisted_9 = {
   key: 0,
-  "class": "mt-2 ml-6 text-xl"
+  "class": "w-1/3 mt-2 ml-6 text-xl"
 };
 var _hoisted_10 = {
-  key: 0
+  key: 0,
+  "class": "w-full"
 };
 var _hoisted_11 = {
-  "class": "block px-2 mb-4 text-semibold"
+  "class": "flex w-full px-2 mb-4 text-semibold"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   value: "",
   selected: "",
   disabled: ""
-}, " Change Inventory Collection ", -1
+}, " Change Inventory ", -1
 /* HOISTED */
 );
 
@@ -31088,6 +31091,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout)]), $props.masterShelf ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, $props.countOfSortSchemes > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [$props.countOfSortSchemes > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "w-full",
     onChange: _cache[1] || (_cache[1] = function () {
       return $options.chooseSort && $options.chooseSort.apply($options, arguments);
     })
@@ -31100,7 +31104,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: index,
       value: sort.sort_scheme_id
-    }, " Sort Method: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sort.sort_scheme_name), 9
+    }, " Inventory: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sort.sort_scheme_name), 9
     /* TEXT, PROPS */
     , _hoisted_13);
   }), 128
