@@ -31,9 +31,8 @@ const submit = () => {
     <JetAuthenticationCard>
         <template #logo>
                             <div class="flex items-center flex-shrink-0">
-			    	<img src="/assets/images/Penn_State.png" />
 				<div class="mt-2 ml-2 text-2xl font-bold text-navy-800">
-					<u>ShelfReader</u>
+				We need a little more information...
 				</div>
 
                             </div>

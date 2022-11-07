@@ -4,9 +4,6 @@
     <Link href="/update.users">Load users table.</Link>
   
     <div class="mt-4">
-    	<Link href="/load.ias">Load InstitutionApiService table.</Link>
-    </div>
-    <div class="mt-4">
     	<Link href="/load.alerts">Load Alerts.</Link>
     </div>
     <div class="mt-4">

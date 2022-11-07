@@ -50,7 +50,7 @@ class UpdateController extends Controller
 				'library_id' => $o->institution,
 				'service_id' => 1,
 				'scheme_id' => 1,
-				'approved' => 1,
+				'approved' => 0,
 				'password' => $o->password,
 				'created_at' => $o->created_at,
 				'updated_at' => $o->updated_at,
