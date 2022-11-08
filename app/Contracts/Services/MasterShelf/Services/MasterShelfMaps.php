@@ -412,7 +412,6 @@ class MasterShelfMaps implements MasterShelfInterface {
 
 	public function getAllDates($libraryId)
 	{
-
 		return DB::table('master_shelf_maps')
 			->select('date')
 			->where('library_id',$libraryId)

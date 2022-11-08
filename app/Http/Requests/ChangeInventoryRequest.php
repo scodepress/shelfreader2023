@@ -25,7 +25,7 @@ class ChangeInventoryRequest extends FormRequest
     {
         return [
 
-           'sort' => 'required|numeric|digits:1|max:1|min:1', 
+           'sort' => 'required|numeric|digits:1|max:2|min:1', 
         ];
     }
 }
