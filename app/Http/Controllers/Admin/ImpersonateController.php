@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ShelvesController;
+use App\Http\Requests\ImpersonateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -23,12 +24,9 @@ class impersonatecontroller extends controller
 		return view('admin.impersonate', compact('emails'));
 	}
 
-	public function store(request $request)
+	public function store(ImpersonateRequest $request)
 
 	{
-		//$this->validate($request, [
-		//	'email' => 'required|email|exists:users,email'
-		//	]);
 
 		session()->put('impersonate', $request['user_id']);
 

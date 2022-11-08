@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterStepTwoRequest;
 use App\Models\ApiService;
 use App\Models\Institution;
 use App\Models\InstitutionApiService;
@@ -30,12 +31,17 @@ class RegisterStep2Controller extends Controller
 		);
 	}
 
-	public function store(Request $request)
+	public function store(RegisterStepTwoRequest $request)
 	{
 		$libraryId = $request->libraryId;
 		$lcc = $request->lcc;
 		$maps = $request->maps;
 		$user_id = Auth::user()->id;
+
+		if($lcc === null && $maps === null) {
+		
+			return Redirect::route('register.step2')->with('message','You must choose at least one sorting method.');
+		}
 
 		// Update user table
 		if($lcc === 'on' && $maps != 'on') {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SortSchemeRequest;
 use App\Models\Institution;
 use App\Models\User;
 use App\Models\InstitutionApiService;
@@ -15,8 +16,8 @@ class SortSchemeController extends Controller
 {
 	use BookShelfTrait;
 
-	public function put(Request $request)  {
-		$sortSchemeId = $request->sort;
+	public function put(SortSchemeRequest $request)  {
+
 
 		InstitutionApiService::where('user_id',$request->user()->id)
 			->where('sort_scheme_id',$request->sort)

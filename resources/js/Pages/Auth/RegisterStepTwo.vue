@@ -40,6 +40,22 @@ const submit = () => {
 
         <JetValidationErrors class="mb-4" />
 
+    <div class="flex justify-center mt-6" v-if="errors">
+        
+        <div v-for="error in errors">
+            <span class="text-xl text-red-700">{{ error }}</span>
+        </div>
+    </div>
+    <div class="flex justify-center mt-6" v-if="status != 'Available'">
+        <span class="text-xl text-red-700">{{ statusAlert }}</span>
+        
+    </div>
+    <div class="flex justify-center mt-6" v-if="$page.props.flash.message">
+        
+        <span class="text-xl text-red-700">{{
+            $page.props.flash.message
+        }}</span>
+    </div>
         <form class="" @submit.prevent="submit">
             <div class="w-full mt-4">
                 <JetLabel class="mb-2 text-2xl" for="Library" value="Choose your library" />

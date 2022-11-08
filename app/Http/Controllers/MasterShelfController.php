@@ -13,6 +13,7 @@ use MasterShelfService;
 use App\Exports\MasterShelfExport;
 use App\Exports\MasterShelfExportByCallNumber;
 use App\Exports\MasterShelfFullExport;
+use App\Http\Requests\ChangeInventoryRequest;
 use App\Http\Requests\InventorySearchParameterRequest;
 use App\Models\MasterShelfResult;
 use App\Models\InstitutionApiService;
@@ -174,7 +175,6 @@ class MasterShelfController extends Controller
 
 		$sparam = new SearchParameter;
 		$sparam->user_id = $user_id;
-		$sparam->sort_scheme_id = $request->sortSchemeId;
 		$sparam->beginningDate = $beginningDate;
 		$sparam->endingDate = $endingDate;
 		$sparam->beginningCallNumber = $beginningCallNumber;
@@ -214,7 +214,7 @@ class MasterShelfController extends Controller
 		return Redirect::route('master.shelf',['sortSchemeId' => $sortSchemeId, 'clear' => 0]);
 	}
 
-	public function chooseSort(Request $request)
+	public function chooseSort(ChangeInventoryRequest $request)
 	{
 		$sortSchemeId = $request->sort;
 		$user_id = Auth::user()->id;

@@ -13,7 +13,7 @@ class SortSchemeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class SortSchemeRequest extends FormRequest
     public function rules()
     {
         return [
-		'sortSchemeId' => 'digits:1|max:2|min:1',
+           'sort' => 'required|numeric|digits:1|max:2|min:1', 
         ];
     }
 }

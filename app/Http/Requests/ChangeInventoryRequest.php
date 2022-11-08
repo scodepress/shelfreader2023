@@ -13,7 +13,7 @@ class ChangeInventoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class ChangeInventoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+
+           'sort' => 'required|numeric|digits:1|max:1|min:1', 
         ];
     }
 }

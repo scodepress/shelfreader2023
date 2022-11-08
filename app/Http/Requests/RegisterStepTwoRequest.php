@@ -13,7 +13,7 @@ class RegisterStepTwoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class RegisterStepTwoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+           'libraryId' => 'required|numeric|digits:2', 
+           'lcc' => 'nullable|alpha|max:2|min:2', 
+           'maps' => 'nullable|alpha|max:2|min:2' 
         ];
     }
 }
