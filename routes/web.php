@@ -80,10 +80,9 @@ Route::post('/reset-password', function (Request $request) {
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update'); 
 	
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-	return Inertia::render('Dashboard');
-})->name('dashboard');
-	Route::group(['auth:sanctum'], function() {
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard','DashboardController@show')->name('dashboard');
+
+Route::group(['auth:sanctum'], function() {
 
 		Route::group(['middleware'=>['is_local_admin']], function() {
 
@@ -172,6 +171,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 		Route::get('load.alerts', 'UpdateController@loadAlerts')->name('load.alerts');
 		Route::get('load.ems', 'UpdateController@getEmsItems')->name('load.ems');
 		Route::get('load.engineering', 'UpdateController@getEngineeringItems')->name('load.engineering');
+		Route::get('load.corrections', 'UpdateController@loadCorrectionsTable')->name('load.corrections');
 		Route::get('create.map.user', 'UpdateController@createMapUsers')->name('create.map.user');
 		Route::get('load.shelves.table', 'UpdateController@fillShelvesTable')->name('load.shelves.table');
 

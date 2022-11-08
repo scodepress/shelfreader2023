@@ -31,6 +31,14 @@ class UpdateController extends Controller
 			->get();
 	
 	}
+	public function getShelfErrorsTable()
+	{
+		return DB::connection('mysql2')
+			->table('shelf_errors')
+			->select('*')
+			->get();
+	
+	}
 	public function loadUsersTable()
 	{
 		$oldUsers = $this->getUsersTable();
@@ -60,6 +68,25 @@ class UpdateController extends Controller
 		DB::table('users')->insert($newUsers);
 	}
 
+	public function loadCorrectionsTable()
+	{
+		$shelfErrors = $this->getShelfErrorsTable();
+
+		foreach($shelfErrors as $o)
+		{
+			$serrors[] = [
+
+				'id' => $o->id,
+				'user_id' => $o->user_id,
+				'library_id' => 0,
+				'barcode' => $o->barcode,
+				'created_at' => $o->created_at,
+				'updated_at' => $o->updated_at,
+			];
+		}
+
+		DB::table('corrections')->insert($serrors);
+	}
 	public function getAlerts()
 	{
 

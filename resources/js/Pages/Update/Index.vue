@@ -20,6 +20,9 @@
     <div class="mt-4">
     	<Link href="/load.shelves.table">Load Shelves Table</Link>
     </div>
+    <div class="mt-4">
+    	<Link href="/load.corrections">Load Corrections Table</Link>
+    </div>
     </div>
 </template>
 
