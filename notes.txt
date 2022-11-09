@@ -1,18 +1,13 @@
 To  Do
 
-1. Add Form Requests to all forms
+
 2. Make all inventory searches based on library id only?
-3. List of forms - 
-	a. barcode form - shelf and maps pages
-	b. change sort scheme form - alerts page, inventory page, shelf page, maps page
-	c. impersonate form - super admin page
-	d. search parameter form - inventory page
-	
 4. Update Instructions page.
 5. Thoroughly test inventory search and everything else for that matter. 
 6. Add total items on scan page
 7. Test registration forms and add validation. (Working, add validation)
 8. Something on Dashboard page?
 9. Add direction arrow with moves to main page.
+8. Admin page add sort scheme to user?
 
 Form requests and scripts.

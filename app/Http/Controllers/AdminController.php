@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Mail\MembershipRequest;
@@ -37,6 +38,7 @@ class AdminController extends Controller
 		}
 
 		$hasAuthenticationKey = FolioAuthenticationToken::where('institution_id',$institution->id)->get();
+
 		//dd($hasAuthenticationKey);
 		if($hasAuthenticationKey->first() && $user->service_id == 3)	
 		{
