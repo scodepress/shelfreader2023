@@ -3,7 +3,7 @@
 <layout></layout>
 </div>
 <div v-if="masterShelf">
-<h1 class="ml-16 text-3xl font-bold">Inventory List</h1>
+<h1 class="ml-16 mt-4 text-3xl font-bold">Inventory List</h1>
 <div style="width: 100%; height: 100%;">
         <header class="ml-2 mr-2 rounded-lg">
             <div class="items-center justify-start w-full px-4 py-3 ml-6 mr-6 md:flex">
@@ -12,7 +12,7 @@
 		<div class="flex">
 			
                 	<div class="mt-2 mb-2 text-2xl font-semibold"> Set Search Parameters
-			<span class="ml-6 text-xl">Change Inventory View:</span>
+			<span  v-if="countOfSortSchemes > 1" class="ml-6 text-xl">Change Inventory View:</span>
 				</div>
 				<div class="w-1/3 mt-2 ml-6 text-xl" v-if="countOfSortSchemes>1">
 					
