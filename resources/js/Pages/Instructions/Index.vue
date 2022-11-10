@@ -5,17 +5,11 @@
     	<div class="text-2xl">About ShelfReader</div>
     <p class="text-xl">
     	ShelfReader is a tool designed to assist in finding and correcting shelving errors in Library shelves. ShelfReader currently works with
-	LCC call numbers, and has a development version for the Dewey Decimal System and GPS Maps. It currently works with items
-	in the Penn State library system and also in libraries using the Folio API. It alerts the user to items that are out of order and 
+	LCC call numbers and GPS Maps. It alerts the user to items that are out of order and 
 	instructs the user in correcting the shelf. It also alerts the user when scanned items are not expected on the shelf, such as those that
-	are designated "checked out" or "missing" by the system. It can also save scans generated at a given library to create a shelf list of 
-	items, ordered by call number, that is searchable by date range or call number range. The result can then be downloaded as an excel or csv 
-	file.
-	<div class="mt-2 text-xl">
- 	In libraries using Folio, it has some additional functionality;
-	it is capable of generating a list of missing items, that is items expected withing a certain range of scanned items that did not appear
-	(were not scanned).     
-	</div>
+	are designated "checked out" or "missing" by the system. It also saves items to an inventory list, ordered by call number, that is searchable 
+	by date range or call number range. The the result can then be downloaded as an excel or csv file.
+	
 		</p>
     	<div class="mt-10 text-2xl">Basic Work Flow:</div>
 	<p class="text-xl">
@@ -79,20 +73,8 @@
 		<p class="mt-4 text-xl">
 			Along with the title and call number, ShelfReader also accesses information about the status of each item scanned. 
 			As a result it is able to alert the user to items that require attention - for example items that are designated "Checked Out"  
-			or "Missing" by the sytem. The user will be alerted to these items by a red banner and message above the virtual shelf.
+			or "Missing" by the sytem. These items will appear as alerts when the user clicks on the "View Alerts" link.
 
-		</p>
-	
-    	<div class="mt-10 text-2xl">Missing Items Report:</div>
-
-		<p class="mt-4 text-xl">
-			For libraries using the Folio API, it is possible to generate a list of missing items at the completion of a shelf reading session.
-			This must be done before the "virtual shelf" is cleared. To create the list, click on the "Missing Items" link in the main navigation
-			menu. 
-			<br>
-			<br>
-			ShelfReader creates this list by comparing the set of items contained in the shelf to the total list of items expected on the shelf according
-			to the API inventory. 
 		</p>
 	
     	<div class="mt-10 text-2xl">The Inventory List</div>
