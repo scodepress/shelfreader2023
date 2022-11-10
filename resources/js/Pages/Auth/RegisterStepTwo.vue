@@ -30,8 +30,9 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <template #logo>
-                            <div class="flex items-center flex-shrink-0">
-				<div class="mt-2 ml-2 text-2xl font-bold text-navy-800">
+                            <div class="flex-shrink-0">
+			    	<img class="mx-auto" width="300" src="/assets/images/logo2.png" />
+				<div class="flex justify-center mt-2 ml-2 text-2xl font-bold text-navy-800">
 				We need a little more information...
 				</div>
 

@@ -24,7 +24,7 @@ class RegisterStepTwoRequest extends FormRequest
     public function rules()
     {
         return [
-           'libraryId' => 'required|numeric|max:4|min:1', 
+           'libraryId' => 'required|numeric|min:1', 
            'lcc' => 'nullable|alpha|max:2|min:2', 
            'maps' => 'nullable|alpha|max:2|min:2' 
         ];

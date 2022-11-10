@@ -10,7 +10,7 @@
                         <div class="flex justify-start text-2xl">
                             <!-- Logo -->
                             <div class="flex items-center flex-shrink-0">
-			    	<img src="/assets/images/Penn_State.png" />
+			    	<img width="200" height="175" src="/assets/images/logo3.png" />
 
                             </div>
 
