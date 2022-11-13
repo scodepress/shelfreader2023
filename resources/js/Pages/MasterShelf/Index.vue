@@ -3,7 +3,7 @@
 <layout></layout>
 </div>
 <div v-if="masterShelf">
-<h1 class="ml-16 mt-4 text-3xl font-bold">Inventory List</h1>
+<h1 class="mt-4 ml-16 text-3xl font-bold">Inventory List</h1>
 <div style="width: 100%; height: 100%;">
         <header class="ml-2 mr-2 rounded-lg">
             <div class="items-center justify-start w-full px-4 py-3 ml-6 mr-6 md:flex">

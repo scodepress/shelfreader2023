@@ -21,7 +21,7 @@ class ShelfCorrectionController extends Controller
     	
         $mpos = $this->mpos($user_id);
 	$itemInfo = Shelf::where('user_id',$user_id)->where('barcode',$barcode)->get();
-	$call_number = $itemInfo[0]->call_number;
+	$call_number = $itemInfo[0]->callnumber;
 	$title = $itemInfo[0]->title;
 	$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
 	$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
@@ -50,6 +50,7 @@ class ShelfCorrectionController extends Controller
 			$correction = new Correction; 
 			$correction->user_id = $user_id;
 			$correction->library_id = $libraryId;
+			$correction->sort_scheme_id = $sortSchemeId;
 			$correction->barcode = $barcode;
 			$correction->call_number = $call_number;
 			$correction->title = $title;

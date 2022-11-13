@@ -17,7 +17,7 @@ class CheckIsApprovedUser
      */
     public function handle(Request $request, Closure $next)
     {
-	    if($request->user()->privs === 3 && $request->user()->approved === 0)
+	    if($request->user()->approved === 0)
 	    { 
 		return redirect()->route('register.step2'); 
 

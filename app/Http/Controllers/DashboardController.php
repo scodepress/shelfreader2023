@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alert;
 use App\Models\Correction;
+use App\Models\UsageCount;
 use App\Models\MasterShelfLcc;
 use App\Models\MasterShelfMap;
 use App\Models\User;
@@ -21,8 +22,18 @@ class DashboardController extends Controller
 		$alertCount = Alert::where('user_id',$user_id)->count();
 		$mapsCount = MasterShelfMap::where('user_id',$user_id)->count();
 		$lccCount = MasterShelfLcc::where('user_id',$user_id)->count();
-		$total = $alertCount + $mapsCount + $lccCount;
 		$corrections = Correction::where('user_id',$user_id)->count();
+		$oldUsageCount = UsageCount::where('user_id',$user_id)->get();
+
+		if($oldUsageCount->first()) 
+		{
+			$addedUsageCount = UsageCount::where('user_id',$user_id)->pluck('count')[0];
+		} else {
+
+			$addedUsageCount = 0;
+
+		}
+		$total = $alertCount + $mapsCount + $lccCount + $addedUsageCount;
 
 		return Inertia::render('Dashboard',[
 

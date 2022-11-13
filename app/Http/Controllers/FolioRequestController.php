@@ -65,6 +65,7 @@ class FolioRequestController extends Controller
 			$alert = new Alert;
 			$alert->user_id = $user_id;
 			$alert->library_id = $libraryId;
+			$alert->sort_scheme_id = $sortSchemeId;
 			$alert->barcode = $barcode;
 			$alert->call_number = 'None returned';
 			$alert->title = 'None returned';

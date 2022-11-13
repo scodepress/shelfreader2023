@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id'); // Auto incrementing primary key
             $table->integer('user_id');
             $table->bigInteger('library_id');
+            $table->integer('sort_scheme_id');
             $table->string('barcode', 30)->nullable();
             $table->string('call_number')->nullable();
             $table->text('title')->nullable();

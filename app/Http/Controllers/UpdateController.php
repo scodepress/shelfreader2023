@@ -156,6 +156,7 @@ class UpdateController extends Controller
 			$palerts[] = [
 				'user_id' => $p->user_id,
 				'library_id' => $library_id,			
+				'sort_scheme_id' => 1,			
 				'barcode' => $p->barcode,
 				'call_number' => $p->callnum,
 				'title' => $p->title,
@@ -180,6 +181,7 @@ class UpdateController extends Controller
 			$ralerts[] = [
 				'user_id' => $p->user_id,
 				'library_id' => $library_id,			
+				'sort_scheme_id' => 1,			
 				'barcode' => $p->barcode,
 				'call_number' => $p->callnum,
 				'title' => $p->title,
@@ -202,6 +204,7 @@ class UpdateController extends Controller
 			$ialerts[] = [
 				'user_id' => $p->user_id,
 				'library_id' => $library_id,			
+				'sort_scheme_id' => 1,			
 				'barcode' => $p->barcode,
 				'call_number' => $p->call_number,
 				'title' => $p->title,
@@ -225,6 +228,7 @@ class UpdateController extends Controller
 			$salerts[] = [
 				'user_id' => $p->user_id,
 				'library_id' => $library_id,			
+				'sort_scheme_id' => 1,			
 				'barcode' => $p->barcode,
 				'alert' => 'SHADOW',
 				'created_at' => $p->created_at,
