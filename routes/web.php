@@ -95,6 +95,19 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 			Route::get('super.admin/impersonate/destroy', 'Admin\ImpersonateController@destroy');
 			Route::post('/users.impersonate', 'UsersController@impersonate')->name('users.impersonate');
 
+			Route::get('update', 'UpdateController@show')->name('update');
+
+
+			Route::get('update.users', 'UpdateController@loadUsersTable')->name('update.users');
+			Route::get('load.ias', 'UpdateController@loadLccInstitutionApiServices')->name('load.ias');
+			Route::get('load.alerts', 'UpdateController@loadAlerts')->name('load.alerts');
+			Route::get('load.ems', 'UpdateController@getEmsItems')->name('load.ems');
+			Route::get('load.engineering', 'UpdateController@getEngineeringItems')->name('load.engineering');
+			Route::get('load.corrections', 'UpdateController@loadCorrectionsTable')->name('load.corrections');
+			Route::get('create.map.user', 'UpdateController@createMapUsers')->name('create.map.user');
+			Route::get('load.shelves.table', 'UpdateController@fillShelvesTable')->name('load.shelves.table');
+
+
 		});
 
 		Route::group(['middleware' => ['auth:sanctum','verified']],function(){
@@ -157,18 +170,7 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 			Route::get('alerts', 'AlertController@show')->name('alerts');
 			Route::get('library', 'LibraryController@show')->name('library');
 
-			Route::get('update', 'UpdateController@show')->name('update');
-
-
-			Route::get('update.users', 'UpdateController@loadUsersTable')->name('update.users');
-			Route::get('load.ias', 'UpdateController@loadLccInstitutionApiServices')->name('load.ias');
-			Route::get('load.alerts', 'UpdateController@loadAlerts')->name('load.alerts');
-			Route::get('load.ems', 'UpdateController@getEmsItems')->name('load.ems');
-			Route::get('load.engineering', 'UpdateController@getEngineeringItems')->name('load.engineering');
-			Route::get('load.corrections', 'UpdateController@loadCorrectionsTable')->name('load.corrections');
-			Route::get('create.map.user', 'UpdateController@createMapUsers')->name('create.map.user');
-			Route::get('load.shelves.table', 'UpdateController@fillShelvesTable')->name('load.shelves.table');
-
+			
 		});
 });
 

@@ -140,12 +140,24 @@
 		
 		<div v-for="error in errors">
 			<span class="text-3xl text-red-700">{{ error }}</span>
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
 		</div>
 	</div>
 	
 	<div class="flex justify-center mt-6" v-if="$page.props.flash.message">
 		<span class="text-3xl text-red-700">{{$page.props.flash.message}}</span>
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
 	</div>
+<div class="flex justify-center mt-6" v-if="status != 'Available'">
+        <span class="text-3xl text-red-700">{{ statusAlert }}</span>
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
+    </div>
 <div v-if="masterShelf">
 <table class="w-11/12 mt-4">
 <tr class="text-xl font-semibold">

@@ -102,6 +102,9 @@
         </audio>
         <div v-for="error in errors">
             <span class="text-3xl text-red-700">{{ error }}</span>
+        <audio autoplay>
+            <source src="/assets/beep-02.wav" type="audio/wav" />
+        </audio>
         </div>
     </div>
     <div class="flex justify-center mt-6" v-if="status != 'Available'">
