@@ -190,6 +190,7 @@ class UpdateController extends Controller
 				];
 
 		}
+
 		DB::table('alerts')->insert($ralerts);
 
 

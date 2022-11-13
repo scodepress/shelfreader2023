@@ -153,6 +153,30 @@ class MasterShelfController extends Controller
 		$beginningBarcode = $request->beginningBarcode;
 		$endingBarcode = $request->endingBarcode;
 
+		if($beginningBarcode && !$endingBarcode) {
+
+			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
+				There is no barcode in the second form field');
+		}
+
+		if(!$beginningBarcode && $endingBarcode) {
+		
+			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
+				There is no barcode in the first form field.');
+		}
+
+		if($beginningDate && !$endingDate) {
+		  
+			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
+				There is no date in the second date field.');
+		}
+
+		if(!$beginningDate && $endingDate) {
+		
+			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
+				There is no date in the first date field.');
+		}
+
 		if($beginningBarcode) {
 			$beginningCallNumber = $this->msi->getCallNumberFromBarcode($beginningBarcode);
 			$endingCallNumber = $this->msi->getCallNumberFromBarcode($endingBarcode);
