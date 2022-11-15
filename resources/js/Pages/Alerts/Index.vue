@@ -7,7 +7,7 @@
 	    <div>
 	    </div>
 	    <div class="ml-10 text-xl">Total: {{alerts.data.length}}  
-	Showing Items	{{ alerts.from }} to {{ alerts.to }} (Ordered by date).
+	Showing Items	{{ alerts.from }} to {{ alerts.to }}, ordered by date and title.
 	</div>
             <div class="flex justify-center w-full">
                 <table class="w-11/12 mt-10">
@@ -16,7 +16,7 @@
                         <td class="ml-10">Barcode</td>
                         <td class="ml-10">Title</td>
                         <td class="ml-10">Call Number</td>
-                        <td class="ml-10">Alert</td>
+                        <td class="ml-10">Item Status</td>
                         <td class="ml-10">Date</td>
                     </tr>
                     <tr

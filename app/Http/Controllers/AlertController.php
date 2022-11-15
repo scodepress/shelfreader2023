@@ -14,7 +14,7 @@ class AlertController extends Controller
 	{
 		$user_id=Auth::user()->id;
 		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
-		$alerts=Alert::where('user_id',$user_id)->orderBy('created_at')->paginate(20);
+		$alerts=Alert::where('user_id',$user_id)->orderBy('created_at')->orderBy('title')->paginate(20);
 
 		return Inertia('Alerts/Index', [
 			'alerts' => $alerts,

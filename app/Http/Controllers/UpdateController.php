@@ -79,6 +79,7 @@ class UpdateController extends Controller
 				'id' => $o->id,
 				'user_id' => $o->user_id,
 				'library_id' => 0,
+				'sort_scheme_id' => 1,
 				'barcode' => $o->barcode,
 				'created_at' => $o->created_at,
 				'updated_at' => $o->updated_at,
@@ -312,7 +313,7 @@ class UpdateController extends Controller
 			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
 			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
 			'pcd2','part1','created_at')
-			->chunk(1000, function($master_keys)
+			->chunk(10000, function($master_keys)
 			{
 		foreach($master_keys as $key=>$o) {	
 
@@ -373,7 +374,7 @@ class UpdateController extends Controller
 			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
 			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
 			'pcd2','part1','created_at')
-			->chunk(1000, function($master_keys)
+			->chunk(10000, function($master_keys)
 			{
 				$lid = User::orderByDesc('id')->pluck('id')[0];
 		foreach($master_keys as $o) {	

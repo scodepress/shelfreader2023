@@ -9,13 +9,13 @@ interface MasterShelfInterface  {
 
 	public function getNewItemsWithKeys($userId,$libraryId);
 	
-	public function getSortedItemsFromMasterShelf($userId);
+	public function getSortedItemsFromMasterShelf($userId,$libraryId);
 
-	public function getSortedItemsByCallNumber($userId,$beginningCallNumber,$endingCallNumber);
+	public function getSortedItemsByCallNumber($userId,$libraryId,$beginningCallNumber,$endingCallNumber);
 
-	public function getSortedItemsByDateRange($userId,$beginningDate,$endingDate);
+	public function getSortedItemsByDateRange($userId,$libraryId,$beginningDate,$endingDate);
 	
-	public function getSortedItemsByCallNumberAndDateRange($userId,$beginningCallNumber,$endingCallNumber,$beginningDate
+	public function getSortedItemsByCallNumberAndDateRange($userId,$libraryId,$beginningCallNumber,$endingCallNumber,$beginningDate
 		,$endingDate);
 
 	public function insertSearchResultsForDisplay($userId,$libraryId);

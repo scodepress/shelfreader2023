@@ -107,7 +107,7 @@ class MasterShelfController extends Controller
 
 		if($param->first()) {
 			$this->msi->insertSearchResultsForDisplay($user_id,$libraryId);
-			$masterShelf = MasterShelfResult::where('user_id',$user_id)->where('library_id',$libraryId)->paginate(20);
+			$masterShelf = DB::table('master_shelf_results')->where('library_id',$libraryId)->orderBy('id')->paginate(20);
 			$beginningDate = $param[0]->beginningDate;
 			$endingDate = $param[0]->endingDate;
 			$beginningCallNumber = $param[0]->beginningCallNumber;
@@ -115,7 +115,7 @@ class MasterShelfController extends Controller
 		} else {
 			$this->msi->insertSearchResultsForDisplay($user_id,$libraryId);
 
-			$masterShelf = MasterShelfResult::where('user_id',$user_id)->paginate(20);
+			$masterShelf = DB::table('master_shelf_results')->where('library_id',$libraryId)->orderBy('id')->paginate(20);
 			$beginningDate = null;
 			$endingDate = null;
 			$beginningCallNumber = null;

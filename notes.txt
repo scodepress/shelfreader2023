@@ -6,8 +6,8 @@ To  Do
 4. Add usage_count table to manually loaded table -- or add the migration and just do insert statements.
 6. Make sure changes to library stats are complete and correct.
 7. Fix beeps?
-8. Redo installation.txt
-
+8. Make Maps Service jive with contract
+9. Why no dates in Engineers inventory search?
 
 Form requests and scripts.
 
