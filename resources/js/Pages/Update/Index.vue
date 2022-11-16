@@ -18,7 +18,7 @@
     	<Link href="/create.map.user">Add Maps User</Link>
     </div>
     <div class="mt-4">
-    	<Link href="/load.shelves.table">Load Shelves Table</Link>
+    	<Link href="/load.cm.inventory">Load CM Inventory</Link>
     </div>
     <div class="mt-4">
     	<Link href="/load.corrections">Load Corrections Table</Link>

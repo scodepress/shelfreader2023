@@ -253,28 +253,34 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 			// Insert all results
 
-			$shelf = $this->getSortedItemsFromMasterShelf($userId,$libraryId);
+			$this->getSortedItemsFromMasterShelf($userId,$libraryId);
 
-			return;
+			if(MasterShelfResult::where('library_id',$libraryId)->first())  {
+
+				return;
+
 			} else {
 				$sortSchemeId = Auth::user()->scheme_id;
 				Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear' => 1])
 					->with('message','There are no records in Inventory.');
 			}
 
+		}
+
 		if($sp->first()) {
-			if($sp[0]->beginningDate && !$sp[0]->beginningCallNumber) 		{
+			if($sp[0]->beginningDate && !$sp[0]->beginningCallNumber) 		
+			{
 
 				// Insert all results in a given date range
-				$items = $this->getSortedItemsByDateRange($userId,$libraryId,$sp[0]->beginningDate,$sp[0]->endingDate);
+				$this->getSortedItemsByDateRange($userId,$libraryId,$sp[0]->beginningDate,$sp[0]->endingDate);
 
-				return;
+				if(MasterShelfResult::where('library_id',$libraryId)->first()) {
+					return;
 				} else {
 					
 					$sortSchemeId = Auth::user()->scheme_id;
-					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>0])
+					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>1])
 					->with('message','There are no results in the date range you specified.');
-				
 				}
 			}
 
@@ -282,7 +288,6 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 			{
 				// Insert all results in the given call number range
 
-				
 				$shelf = $this->getSortedItemsFromMasterShelf($userId,$libraryId); 
 
 				// find id of call numbers in results table
@@ -291,10 +296,18 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 				$newShelf = $this->getRangeByItemIds($userId,$libraryId,$bcall,$ecall);
 
-				return;
+				if(MasterShelfResult::where('library_id',$libraryId)->first()) {
+					return;
+				} else {
+					
+					$sortSchemeId = Auth::user()->scheme_id;
+					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>1])
+					->with('message','There are no results in the date range you specified.');
+				}
 			}
 
-			if($sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		{
+			if($sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		
+			{
 
 				// Insert all results in date and call number range
 
@@ -304,11 +317,25 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				$bcall = $this->getIdOfFirstCallNumber($libraryId,$sp[0]->beginningCallNumber);
 				$ecall = $this->getIdOfLastCallNumber($libraryId,$sp[0]->endingCallNumber);
 
-				$newShelf = $this->getRangeByItemIds($userId,$libraryId,$bcall,$ecall);
+				$this->getRangeByItemIds($userId,$libraryId,$bcall,$ecall);
 
-				return;
+				MasterShelfResult::where('date','<',$sp[0]->beginningDate)->delete(); 
+				MasterShelfResult::where('date','>',$sp[0]->endingDate)->delete(); 
+
+				if(MasterShelfResult::where('library_id',$libraryId)->first()) {
+					return;
+				} else {
+					
+					$sortSchemeId = Auth::user()->scheme_id;
+					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>1])
+					->with('message','There are no results in the date range you specified.');
+				}
 			}
+
 		}
+
+		}
+
 
 	public function getDefaultBeginningCallNumber($libraryId)
 	{
@@ -387,7 +414,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 		return DB::table('master_shelf_lcc')
 			->where('library_id',$libraryId)
 			->groupBy('date')
-			->orderByDesc('date')
+			->orderBy('date')
 			->pluck('date');	
 	}
 

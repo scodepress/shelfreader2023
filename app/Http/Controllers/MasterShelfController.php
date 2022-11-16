@@ -176,6 +176,11 @@ class MasterShelfController extends Controller
 			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
 				There is no date in the first date field.');
 		}
+		if($beginningDate > $endingDate) {
+		
+			return Redirect::route('master.shelf', ['sortSchemeId'=>$sortSchemeId,'clear'=>1])->with('message','The search was not successful. 
+				The beginning date is greater than the ending date.');
+		}
 
 		if($beginningBarcode) {
 			$beginningCallNumber = $this->msi->getCallNumberFromBarcode($beginningBarcode);

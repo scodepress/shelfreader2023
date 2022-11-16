@@ -106,6 +106,7 @@ Route::group(['middleware'=>['is_approved_user']], function() {
 			Route::get('load.corrections', 'UpdateController@loadCorrectionsTable')->name('load.corrections');
 			Route::get('create.map.user', 'UpdateController@createMapUsers')->name('create.map.user');
 			Route::get('load.shelves.table', 'UpdateController@fillShelvesTable')->name('load.shelves.table');
+			Route::get('load.cm.inventory', 'UpdateController@getCollectionsMaintenance')->name('load.cm.inventory');
 
 
 		});

@@ -66,6 +66,7 @@ class UpdateController extends Controller
 		}
 
 		DB::table('users')->insert($newUsers);
+
 	}
 
 	public function loadCorrectionsTable()
@@ -299,12 +300,72 @@ class UpdateController extends Controller
 
 	}
 
-	public function getEngineeringItems()
+	public function getCollectionsMaintenance()
 	{
 	
+		DB::table('master_keys')
+			->where('user_id',116)
+			->select('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')
+			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
+			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
+			'pcd2','part1','created_at')
+			->chunk(1000, function($master_keys)
+			{
+				$eng = null;
+		foreach($master_keys as $key=>$o) {	
 
+		$eng[] = [
 
-		$rows = null;
+				'user_id' => 116,
+				'library_id' => 1,
+				'barcode' => $o->barcode,
+				'title' => $o->title,
+				'call_number' => $o->callno,
+				'date' => substr($o->created_at,0,10),
+				'prefix' => $o->prefix,
+				'tp1' => $o->tp1,
+				'tp2' => $o->tp2,
+				'pre_date' => $o->pre_date,
+				'pvn' => $o->pvn,
+				'pvl' => $o->pvl,
+				'cutter' => $o->cutter,
+				'pcd' => $o->pcd,
+				'cutter_date' => $o->cutter_date,
+				'inline_cutter' => $o->inline_cutter,
+				'inline_cutter_decimal' => $o->inline_cutter_decimal,
+				'cutter_date2' => $o->cutter_date2,
+				'cutter2' => $o->cutter2,
+				'pcd2' => $o->pcd2,
+				'part1' => $o->part1,
+				'created_at' => $o->created_at,
+		];
+			
+		}
+
+		DB::table('master_shelf_lcc')->insert($eng);
+
+		});
+
+		// Update user approved and library_id$i = new InstitutionApiService;
+		
+
+				$i = new InstitutionApiService;
+				$i->user_id = 116;
+				$i->institution_id = 1;
+				$i->library_id = 1;
+				$i->api_service_id = 1;
+				$i->loaded = 1;
+				$i->sort_scheme_id = 1;
+				$i->sort_scheme_name = 'LCC';
+
+				$i->save();
+
+		User::where('id',116)->update(['approved' => 1,'library_id' =>1]);
+	}
+	public function getEngineeringItems()
+	{
 		DB::table('master_keys')
 			->where('library_id',9)
 			->select('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
@@ -313,7 +374,7 @@ class UpdateController extends Controller
 			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
 			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
 			'pcd2','part1','created_at')
-			->chunk(10000, function($master_keys)
+			->chunk(1000, function($master_keys)
 			{
 		foreach($master_keys as $key=>$o) {	
 
@@ -348,6 +409,18 @@ class UpdateController extends Controller
 		DB::table('master_shelf_lcc')->insert($eng);
 
 		});
+				$i = new InstitutionApiService;
+				$i->user_id = 107;
+				$i->institution_id = 1;
+				$i->library_id = 7;
+				$i->api_service_id = 1;
+				$i->loaded = 1;
+				$i->sort_scheme_id = 1;
+				$i->sort_scheme_name = 'LCC';
+
+				$i->save();
+
+		User::where('id',107)->update(['approved' => 1,'library_id' =>7]);
 	}
 
 	public function getEmsItems()
@@ -364,6 +437,7 @@ class UpdateController extends Controller
 		$u->approved = 1;
 		$u->password = '$2y$10$2X6IjirOiTWbx3x1wIkz3ezIgfBREwxXMXMCWIDAAj8sqKGoJPW92';
 		$u->save();
+		$lidd = $u->id;
 
 
 		$rows = null;
@@ -374,7 +448,7 @@ class UpdateController extends Controller
 			->orderByDesc('user_id','library_id','title','barcode','callno','prefix','tp1','tp2','pre_date','pvn',
 			'pvl','cutter','pcd','cutter_date','inline_cutter','inline_cutter_decimal','cutter_date2','cutter2',
 			'pcd2','part1','created_at')
-			->chunk(10000, function($master_keys)
+			->chunk(1000, function($master_keys)
 			{
 				$lid = User::orderByDesc('id')->pluck('id')[0];
 		foreach($master_keys as $o) {	
@@ -408,6 +482,17 @@ class UpdateController extends Controller
 			
 			
 			});
+				$i = new InstitutionApiService;
+				$i->user_id = $lidd;
+				$i->institution_id = 1;
+				$i->library_id = 5;
+				$i->api_service_id = 1;
+				$i->loaded = 1;
+				$i->sort_scheme_id = 1;
+				$i->sort_scheme_name = 'LCC';
+
+				$i->save();
+
 	}
 
 
