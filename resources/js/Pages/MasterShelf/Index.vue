@@ -159,7 +159,7 @@
         </audio>
     </div>
 <div v-if="masterShelf">
-<table class="w-11/12 mt-4">
+<table class="w-11/12">
 <tr class="text-xl font-semibold">
 <td class="w-12"></td>
 <td class="w-96">Title</td>
@@ -196,7 +196,7 @@
 	</div>
 </div>
 </div>
-<div class="mt-4 ml-12">
+<div class="mt-4 mb-6 ml-12">
 	<template v-for="link in masterShelf.links"> 
 	<Link
 		v-if="link.url"

@@ -31037,7 +31037,7 @@ var _hoisted_60 = {
   key: 4
 };
 
-var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<table class=\"w-11/12 mt-4\"><tr class=\"text-xl font-semibold\"><td class=\"w-12\"></td><td class=\"w-96\">Title</td><td class=\"w-48\">Barcode</td><td class=\"w-64\">Call Number</td><td class=\"w-48\">Date</td></tr></table>", 1);
+var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<table class=\"w-11/12\"><tr class=\"text-xl font-semibold\"><td class=\"w-12\"></td><td class=\"w-96\">Title</td><td class=\"w-48\">Barcode</td><td class=\"w-64\">Call Number</td><td class=\"w-48\">Date</td></tr></table>", 1);
 
 var _hoisted_62 = {
   "class": "w-11/12"
@@ -31070,7 +31070,7 @@ var _hoisted_71 = {
   "class": "even:bg-white odd:bg-blue-100"
 };
 var _hoisted_72 = {
-  "class": "mt-4 ml-12"
+  "class": "mt-4 mb-6 ml-12"
 };
 var _hoisted_73 = ["innerHTML"];
 var _hoisted_74 = {
