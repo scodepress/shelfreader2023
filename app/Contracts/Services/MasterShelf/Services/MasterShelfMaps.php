@@ -63,7 +63,7 @@ class MasterShelfMaps implements MasterShelfInterface {
 	public function getSortedItemsFromMasterShelf($userId,$libraryId)
 	{
 
-		$libraryId = User::where('id',$userId)->pluck('library_id')[0];
+		MasterShelfResult::where('user_id',$userId)->delete();
 
 		return DB::table('master_shelf_maps')
 			->select('title','call_number','date','barcode')
@@ -84,9 +84,9 @@ class MasterShelfMaps implements MasterShelfInterface {
 			->orderBy("year_of_reproduction")
 			->orderBy('created_at')
 			->where('library_id',$libraryId)
-			->chunk(10000, function($master_shelf_lcc) use($userId,$libraryId) { 
+			->chunk(10000, function($master_shelf_maps) use($userId,$libraryId) { 
 
-			foreach($master_shelf_lcc as $s)
+			foreach($master_shelf_maps as $s)
 			{
 				$items[] = [
 					'user_id' => $userId,
@@ -157,8 +157,8 @@ class MasterShelfMaps implements MasterShelfInterface {
 			->where('library_id',$libraryId)
 			->where('date','>=',$beginningDate)
 			->where('date','<=',$endingDate)
-			->chunk(10000, function($master_shelf_lcc) use($userId,$libraryId) { 
-			foreach($master_shelf_lcc as $s)
+			->chunk(10000, function($master_shelf_maps) use($userId,$libraryId) { 
+			foreach($master_shelf_maps as $s)
 			{
 				$items[] = [
 					'user_id' => $userId,
@@ -215,8 +215,8 @@ class MasterShelfMaps implements MasterShelfInterface {
 			->orderBy('title')
 			->orderBy('call_number')
 			->orderBy('date')
-			->chunk(10000, function($master_shelf_lcc) use($userId,$libraryId) { 
-			foreach($master_shelf_lcc as $s)
+			->chunk(10000, function($master_shelf_results) use($userId,$libraryId) { 
+			foreach($master_shelf_results as $s)
 			{
 				$items[] = [
 					'user_id' => $userId,
