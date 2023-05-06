@@ -3,7 +3,7 @@
 <layout></layout>
 </div>
 <div v-if="masterShelf">
-<h1 class="mt-4 ml-16 text-3xl font-bold">Inventory List<span class="ml-6 text-2xl font-semibold">(Sorted By Call Number)</span></h1>
+<h1 class="mt-4 ml-12 text-3xl font-bold">{{ libraryName }} Inventory List<span class="ml-6 text-2xl font-semibold">(Sorted By Call Number)</span></h1>
 <div style="width: 100%; height: 100%;">
         <header class="ml-2 mr-2 rounded-lg">
             <div class="items-center justify-start w-full px-4 py-3 ml-6 mr-6 md:flex">
@@ -134,7 +134,7 @@
 </div>
 
 <div class="ml-6 text-xl">
-	Showing Items	{{ masterShelf.from }} to {{ masterShelf.to }}.
+	Showing Items	{{ masterShelf.from }} to {{ masterShelf.to }}. Total Items: {{masterShelf.total}}
 </div>
     	<div class="flex justify-center mt-6">
 		
@@ -240,6 +240,7 @@ sortSchemeId: Number,
 errors: Object,
 countOfSortSchemes: Number,
 unloadedService: Object,
+libraryName: Object,
 
 },
        data() {

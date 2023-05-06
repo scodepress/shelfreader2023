@@ -288,7 +288,7 @@ public static function makeKey($callno)
         $inline_cutter = 0;
         $inline_cutter_decimal = 0;
         $cutter_date = "";
-        $cutter_date2 = "";
+        $cutter_date2=0;
         $cutter2 = 0;
         $cutter2_decimal = 0;
         
@@ -795,7 +795,7 @@ public static function subclass($amask,$calla)
             if($key > $start_point)
             {
                 if($a == '_') {break;}
-                if($a == 'A') 
+                if($a == 'A' || $a == 'a') 
                     {
                         $icutter .= $calla[$key];
                     }
@@ -1004,14 +1004,14 @@ public static function subclass($amask,$calla)
             if($a !== 'I' AND $a !== 'A' AND $a !== 'a') { continue; }
 
             if($a == 'I') {  $atype = 1; }
-            if($a == 'A') {  $atype = 2; }
+            if($a == 'A' || $a == 'a') {  $atype = 2; }
 
             if(isset($btype) AND $btype != $atype) {$spec[]='*';}
 
                 $spec[] = $calla[$key];
 
             if($a == 'I') {  $btype = 1; }
-            if($a == 'A') { $btype = 2; }
+            if($a == 'A' || $a == 'a') { $btype = 2; }
             
 
         }
@@ -1038,7 +1038,8 @@ public static function subclass($amask,$calla)
             {
                $specification .= $s; 
             }
-        }
+	}
+
 	if($specification === "Suppl")
 	{
 		return "0000001";

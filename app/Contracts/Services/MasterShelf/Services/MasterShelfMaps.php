@@ -136,6 +136,8 @@ class MasterShelfMaps implements MasterShelfInterface {
 
 		$libraryId = User::where('id',$userId)->pluck('library_id')[0];
 
+		MasterShelfResult::where('user_id',$userId)->delete();
+
 		return DB::table('master_shelf_maps')
 			->select('barcode','title','call_number','date')
 			->orderBy('class_letter')
@@ -170,7 +172,6 @@ class MasterShelfMaps implements MasterShelfInterface {
 				];
 
 			}
-				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 			});
 	}
@@ -206,6 +207,8 @@ class MasterShelfMaps implements MasterShelfInterface {
 
 	public function getRangeByItemIds($userId,$libraryId,$beginningItemId,$endingItemId)
 	{
+		MasterShelfResult::where('user_id',$userId)->delete();
+
 		return DB::table('master_shelf_results')
 			->select('barcode','title','call_number','date')
 			->where('library_id',$libraryId)
@@ -228,7 +231,6 @@ class MasterShelfMaps implements MasterShelfInterface {
 				];
 
 			}
-				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 			});
 	}

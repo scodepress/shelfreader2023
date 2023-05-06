@@ -134,6 +134,8 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 	{
 		$libraryId = User::where('id',$userId)->pluck('library_id')[0];
 
+		MasterShelfResult::where('user_id',$userId)->delete();
+
 		 DB::table('master_shelf_lcc')
 			->select('barcode','title','call_number','date')
 			->orderBy('prefix')
@@ -168,7 +170,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				];
 
 			}
-				MasterShelfResult::where('user_id',$userId)->delete();
+
 				DB::table('master_shelf_results')->insert($items);
 			});
 	}
@@ -205,6 +207,8 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 	public function getRangeByItemIds($userId,$libraryId,$beginningItemId,$endingItemId)
 	{
+		//MasterShelfResult::where('user_id',$userId)->delete();
+		
 		 DB::table('master_shelf_results')
 			->select('barcode','title','call_number','date')
 			->where('library_id',$libraryId)
@@ -227,7 +231,6 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				];
 
 			}
-				MasterShelfResult::where('user_id',$userId)->delete();
 				DB::table('master_shelf_results')->insert($items);
 			});
 	}
@@ -286,6 +289,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 			if(!$sp[0]->beginningDate && $sp[0]->beginningCallNumber) 		
 			{
+				MasterShelfResult::where('library_id',$libraryId)->delete();
 				// Insert all results in the given call number range
 
 				$shelf = $this->getSortedItemsFromMasterShelf($userId,$libraryId); 
@@ -294,7 +298,8 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 				$bcall = $this->getIdOfFirstCallNumber($libraryId,$sp[0]->beginningCallNumber);
 				$ecall = $this->getIdOfLastCallNumber($libraryId,$sp[0]->endingCallNumber);
 
-				$newShelf = $this->getRangeByItemIds($userId,$libraryId,$bcall,$ecall);
+				MasterShelfResult::where('id','<',$bcall)->delete(); 
+				MasterShelfResult::where('id','>',$ecall)->delete();
 
 				if(MasterShelfResult::where('library_id',$libraryId)->first()) {
 					return;
@@ -302,7 +307,7 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 					
 					$sortSchemeId = Auth::user()->scheme_id;
 					Redirect::route('master.shelf',['sortSchemeId' =>$sortSchemeId,'clear'=>1])
-					->with('message','There are no results in the date range you specified.');
+					->with('message','There are no results in the range you specified.');
 				}
 			}
 
@@ -321,6 +326,9 @@ class MasterShelfServiceLcc implements MasterShelfInterface {
 
 				MasterShelfResult::where('date','<',$sp[0]->beginningDate)->delete(); 
 				MasterShelfResult::where('date','>',$sp[0]->endingDate)->delete(); 
+
+				MasterShelfResult::where('id','<',$bcall)->delete(); 
+				MasterShelfResult::where('id','>',$ecall)->delete();
 
 				if(MasterShelfResult::where('library_id',$libraryId)->first()) {
 					return;

@@ -17,6 +17,7 @@ use App\Http\Requests\ChangeInventoryRequest;
 use App\Http\Requests\InventorySearchParameterRequest;
 use App\Models\MasterShelfResult;
 use App\Models\InstitutionApiService;
+use App\Models\Library;
 use App\Models\OnlineInventoryItem;
 use App\Models\SearchParameter;
 use App\Models\Shelf;
@@ -94,6 +95,7 @@ class MasterShelfController extends Controller
 		$user_id = Auth::user()->id;
 
 		$libraryId = User::where('id',$user_id)->pluck('library_id')[0];
+		$libraryName = Library::where('id',$libraryId)->pluck('library_name')[0];
 		$param = SearchParameter::where('user_id',$user_id)->get();
 		$allDates = $this->msi->getAllDates($libraryId);
 		$sortSchemeId = User::where('id',$user_id)->pluck('scheme_id')[0];
@@ -139,6 +141,7 @@ class MasterShelfController extends Controller
 			'sortSchemeId' => $sortSchemeId,
 			'countOfSortSchemes' => $countOfSortSchemes,
 			'unloadedService' => $unloadedService,
+			'libraryName' => $libraryName,
 		]);
 	}
 

@@ -73,7 +73,7 @@ class Sirsi extends Model
 		$num = $response['TitleInfo'][0]['numberOfCallNumbers']-1;
 		$ids = array();
 		$ids = array('LOST-ASSUM','CHECKEDOUT','MISSING','LOST','LOST-CLAIM','Z-MISSING','WITHDRAWN','CANCELED',
-			'Z-REMOVED','INTRANSIT','DISCARD','PALCI','SHADOW');
+			'Z-REMOVED','INTRANSIT','DISCARD','PALCI','SHADOW','ZREMOVED/WITHDRAWN','LOST-ASSUM');
 
 		foreach ($response as $key => $r)
 		{
@@ -82,7 +82,6 @@ class Sirsi extends Model
 				$num_copies = $r[0]['CallInfo'][$i]['numberOfCopies']-1;
 				for($v=0; $v <= $num_copies; $v++)
 				{
-
 
 					if($r[0]['CallInfo'][$i]['ItemInfo'][$v]['itemID'] == $barcode)
 					{
@@ -106,8 +105,18 @@ class Sirsi extends Model
 
 						}
 
+							return ['callNumber'=>$call_number, 'title'=>$title, 'status' =>$status,'effectiveShelvingOrder'=>0, 
+							'effectiveLocationId'=>$effectiveLocationId,'effectiveLocationName'=>0];
+					} else {
 
-					}
+						$call_number = $r[0]['CallInfo'][$i]['callNumber'];
+						$current_location_id = $r[0]['CallInfo'][$i]['ItemInfo'][$v]['currentLocationID'];
+						$status = 'Item Not Found';
+						$effectiveLocationId = 'Item Not Found';
+
+
+						
+					} 
 				}
 
 			}
