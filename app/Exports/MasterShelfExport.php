@@ -14,7 +14,8 @@ class MasterShelfExport implements FromCollection
 		return MasterShelfResult::
 			select('barcode','title','call_number','date')
 			->where('user_id', Auth::user()->id)
-			->groupBy('barcode','title','call_number','date')
+			->groupBy('barcode','title','call_number','date','id')
+			->orderBy('id')
 			->get();
 	}
 }

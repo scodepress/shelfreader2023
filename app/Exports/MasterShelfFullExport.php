@@ -22,17 +22,19 @@ class MasterShelfFullExport implements FromCollection
 	{
 		if($this->sortSchemeId == 1)
 		{
-			return DB::table('master_shelf_lcc')
+			return DB::table('master_shelf_results')
 				->select('barcode','title','call_number','date')
 				->where('user_id',Auth::user()->id)
-				->groupBy('barcode','title','call_number','date')
+				->groupBy('barcode','title','call_number','date','id')
+				->orderBy('id')
 				->get();
 		} else {
 			
-			return DB::table('master_shelf_maps')
+			return DB::table('master_shelf_results')
 				->select('barcode','title','call_number','date')
 				->where('user_id',Auth::user()->id)
-				->groupBy('barcode','title','call_number','date')
+				->groupBy('barcode','title','call_number','date','id')
+				->orderBy('id')
 				->get();
 
 
