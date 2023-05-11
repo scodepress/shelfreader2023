@@ -24,7 +24,7 @@ class MasterShelfFullExport implements FromCollection
 		{
 			return DB::table('master_shelf_results')
 				->select('barcode','title','call_number','date')
-				->where('user_id',Auth::user()->id)
+				->where('library_id',Auth::user()->library_id)
 				->groupBy('barcode','title','call_number','date','id')
 				->orderBy('id')
 				->get();
@@ -32,7 +32,7 @@ class MasterShelfFullExport implements FromCollection
 			
 			return DB::table('master_shelf_results')
 				->select('barcode','title','call_number','date')
-				->where('user_id',Auth::user()->id)
+				->where('library_id',Auth::user()->library_id)
 				->groupBy('barcode','title','call_number','date','id')
 				->orderBy('id')
 				->get();
